@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rhythia Map Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<header>
+  <div class="logo">
+    <span class="logo-icon">◈</span>
+    <span>RHYTHIA</span>
+    <span class="logo-sub">MAP GEN</span>
+  </div>
+  <div class="header-tag">v1.0</div>
+</header>
+
+<main>
+  <section class="hero">
+    <h1>
+      <span class="hero-line1">GENERATE</span>
+      <span class="hero-line2">YOUR MAP</span>
+    </h1>
+    <p class="hero-desc">Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.</p>
+  </section>
+
+  <div class="generator-layout">
+
+    <div class="panel panel-left">
+
+      <div class="step-label"><span class="step-num">01</span> FICHIER AUDIO</div>
+      <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+        <input type="file" id="fileInput" accept=".mp3,audio/mpeg">
+        <div class="drop-inner" id="dropInner">
+          <div class="drop-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+            </svg>
+          </div>
+          <div class="drop-text">Glisse ton MP3 ici</div>
+          <div class="drop-hint">ou clique pour sélectionner</div>
+        </div>
+        <div class="drop-ready" id="dropReady" style="display:none">
+          <div class="file-icon">♪</div>
+          <div class="file-name" id="fileName"></div>
+          <div class="file-size" id="fileSize"></div>
+        </div>
+      </div>
+
+      <div class="step-label" style="margin-top:2rem"><span class="step-num">02</span> INFOS DE LA MAP</div>
+      <div class="fields">
+        <div class="field-group">
+          <label>TITRE</label>
+          <input type="text" id="titleInput" placeholder="Ex: Ronnie Kray">
+        </div>
+        <div class="field-group">
+          <label>ARTISTE</label>
+          <input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola">
+        </div>
+        <div class="field-group">
+          <label>MAPPER (ton pseudo)</label>
+          <input type="text" id="mapperInput" placeholder="Ex: kvn4real">
+        </div>
+      </div>
+
+      <details class="advanced">
+        <summary>⚙ Paramètres avancés</summary>
+        <div class="adv-grid">
+          <div class="field-group">
+            <label>APPROACH DISTANCE</label>
+            <input type="number" id="approachDist" value="50" min="10" max="200">
+          </div>
+          <div class="field-group">
+            <label>APPROACH TIME</label>
+            <input type="number" id="approachTime" value="1" min="0.1" max="5" step="0.1">
+          </div>
+        </div>
+      </details>
+
+    </div>
+
+    <div class="panel panel-right">
+
+      <div class="preview-area" id="previewArea">
+        <div class="preview-idle" id="previewIdle">
+          <div class="idle-icon">◈</div>
+          <div class="idle-text">En attente de génération...</div>
+        </div>
+        <div class="preview-stats" id="previewStats" style="display:none">
+          <div class="stat-card">
+            <div class="stat-val" id="sBpm">—</div>
+            <div class="stat-lbl">BPM ESTIMÉ</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" id="sNotes">—</div>
+            <div class="stat-lbl">NOTES</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val" id="sDur">—</div>
+            <div class="stat-lbl">DURÉE (s)</div>
+          </div>
+        </div>
+
+        <div class="note-preview" id="notePreview" style="display:none">
+          <div class="np-label">APERÇU DES NOTES</div>
+          <canvas id="noteCanvas" width="300" height="160"></canvas>
+        </div>
+      </div>
+
+      <div class="progress-area" id="progressArea" style="display:none">
+        <div class="progress-label" id="progressLabel">Analyse en cours...</div>
+        <div class="progress-track">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="btn-generate" id="genBtn" disabled onclick="generate()">
+          <span class="btn-text">GÉNÉRER LA MAP</span>
+          <span class="btn-arrow">→</span>
+        </button>
+        <button class="btn-download" id="dlBtn" style="display:none" onclick="downloadZip()">
+          <span class="btn-text">TÉLÉCHARGER LE ZIP</span>
+          <span class="btn-arrow">↓</span>
+        </button>
+      </div>
+
+      <div class="discord-status" id="discordStatus" style="display:none">
+        <div class="ds-icon">◆</div>
+        <div class="ds-text" id="dsText">Map envoyée sur Discord !</div>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <span>RHYTHIA MAP GENERATOR</span>
+  <span class="footer-sep">·</span>
+  <span>Powered by Web Audio API</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
