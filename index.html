@@ -4,283 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rhythia Map Generator</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#0a0a0f;
-  --panel:#12121e;
-  --panel2:#1a1a2e;
-  --border:rgba(120,80,255,0.18);
-  --border2:rgba(120,80,255,0.35);
-  --accent:#7c5aff;
-  --accent2:#a47fff;
-  --accent-glow:rgba(124,90,255,0.25);
-  --green:#1de99b;
-  --green-glow:rgba(29,233,155,0.2);
-  --text:#f0eeff;
-  --text2:#9990c0;
-  --text3:#5a5475;
-  --mono:'Space Mono',monospace;
-  --display:'Syne',sans-serif;
+  --bg:#0a0a0f;--panel:#12121e;--panel2:#1a1a2e;
+  --border:rgba(120,80,255,0.18);--border2:rgba(120,80,255,0.35);
+  --accent:#7c5aff;--accent2:#a47fff;--accent-glow:rgba(124,90,255,0.25);
+  --green:#1de99b;--green-glow:rgba(29,233,155,0.2);
+  --text:#f0eeff;--text2:#9990c0;--text3:#5a5475;
+  --mono:'Space Mono',monospace;--display:'Syne',sans-serif;
 }
-html,body{scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--display);
-  min-height:100vh;
-  overflow-x:hidden;
-}
-.bg-grid{
-  position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(rgba(124,90,255,0.05) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(124,90,255,0.05) 1px,transparent 1px);
-  background-size:40px 40px;
-}
-.bg-glow{
-  position:fixed;top:-200px;left:50%;transform:translateX(-50%);
-  width:800px;height:500px;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse,rgba(124,90,255,0.12) 0%,transparent 70%);
-}
-header{
-  position:relative;z-index:10;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1.5rem 3rem;
-  border-bottom:1px solid var(--border);
-  background:rgba(10,10,15,0.92);
-}
-.logo{
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--display);font-size:18px;font-weight:800;
-  letter-spacing:0.15em;color:var(--text);text-decoration:none;
-}
+body{background:var(--bg);color:var(--text);font-family:var(--display);min-height:100vh;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(124,90,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,90,255,0.05) 1px,transparent 1px);background-size:40px 40px}
+.bg-glow{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;pointer-events:none;z-index:0;background:radial-gradient(ellipse,rgba(124,90,255,0.12) 0%,transparent 70%)}
+header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.92)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:0.15em;color:var(--text)}
 .logo-icon{color:var(--accent);font-size:22px}
-.logo-sub{
-  font-size:10px;font-weight:600;letter-spacing:0.2em;
-  color:var(--text3);border:1px solid var(--border2);
-  padding:2px 7px;border-radius:3px;
-}
-.header-tag{
-  font-family:var(--mono);font-size:11px;color:var(--text3);
-  border:1px solid var(--border);padding:3px 8px;border-radius:2px;
-}
-main{
-  position:relative;z-index:1;
-  max-width:1100px;margin:0 auto;padding:3rem 2rem 4rem;
-}
+.logo-sub{font-size:10px;font-weight:600;letter-spacing:0.2em;color:var(--text3);border:1px solid var(--border2);padding:2px 7px;border-radius:3px}
+.header-tag{font-family:var(--mono);font-size:11px;color:var(--text3);border:1px solid var(--border);padding:3px 8px;border-radius:2px}
+main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:3rem 2rem 4rem}
 .hero{margin-bottom:3.5rem}
 h1{font-family:var(--display);font-weight:800;line-height:0.9;letter-spacing:-0.02em}
-.hero-line1{
-  display:block;font-size:clamp(52px,8vw,96px);
-  color:transparent;
-  -webkit-text-stroke:1.5px var(--accent2);
-}
-.hero-line2{
-  display:block;font-size:clamp(52px,8vw,96px);
-  color:var(--text);
-}
-.hero-desc{
-  margin-top:1rem;font-size:15px;color:var(--text2);
-  font-family:var(--mono);max-width:520px;line-height:1.7;
-}
-.generator-layout{
-  display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;
-}
-@media(max-width:768px){
-  .generator-layout{grid-template-columns:1fr}
-  header{padding:1rem 1.25rem}
-  main{padding:2rem 1.25rem}
-  .hero-line1,.hero-line2{font-size:clamp(40px,12vw,72px)}
-}
-.panel{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:1.75rem;
-}
-.step-label{
-  display:flex;align-items:center;gap:10px;
-  font-size:11px;font-weight:600;letter-spacing:0.2em;
-  color:var(--text3);margin-bottom:1rem;
-  font-family:var(--mono);
-}
-.step-num{
-  background:var(--accent);color:#fff;
-  font-family:var(--mono);font-size:10px;
-  padding:2px 7px;border-radius:2px;
-  font-weight:700;
-}
-.drop-zone{
-  border:1.5px dashed var(--border2);border-radius:8px;
-  cursor:pointer;
-  transition:border-color .2s,background .2s;
-  background:var(--panel2);
-  min-height:130px;
-  display:flex;align-items:center;justify-content:center;
-}
-.drop-zone:hover,.drop-zone.drag{
-  border-color:var(--accent);
-  background:rgba(124,90,255,0.06);
-}
-.drop-zone input{display:none}
-.drop-inner{text-align:center;padding:1.5rem}
+.hero-line1{display:block;font-size:clamp(52px,8vw,96px);color:transparent;-webkit-text-stroke:1.5px var(--accent2)}
+.hero-line2{display:block;font-size:clamp(52px,8vw,96px);color:var(--text)}
+.hero-desc{margin-top:1rem;font-size:15px;color:var(--text2);font-family:var(--mono);max-width:520px;line-height:1.7}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:768px){.layout{grid-template-columns:1fr}header{padding:1rem 1.25rem}main{padding:2rem 1.25rem}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
+.step{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:0.2em;color:var(--text3);margin-bottom:1rem;font-family:var(--mono)}
+.step-n{background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:2px;font-weight:700}
+
+/* DROP ZONE */
+.drop-zone{border:1.5px dashed var(--border2);border-radius:8px;background:var(--panel2);min-height:130px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,background .2s;user-select:none}
+.drop-zone:hover{border-color:var(--accent);background:rgba(124,90,255,0.06)}
+.drop-zone.drag{border-color:var(--accent);background:rgba(124,90,255,0.1)}
+.drop-inner{text-align:center;padding:1.5rem;pointer-events:none}
 .drop-icon{color:var(--accent);margin-bottom:.75rem}
 .drop-text{font-size:14px;font-weight:600;color:var(--text2)}
 .drop-hint{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:4px}
-.drop-ready{text-align:center;padding:1.5rem;width:100%}
+.drop-ready{text-align:center;padding:1.5rem;pointer-events:none}
 .file-icon{font-size:28px;color:var(--green);margin-bottom:.5rem}
 .file-name{font-size:13px;font-weight:600;color:var(--text);word-break:break-all;margin-top:4px}
 .file-size{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:4px}
-.fields{display:flex;flex-direction:column;gap:.75rem}
-.field-group{display:flex;flex-direction:column;gap:5px}
-label{
-  font-family:var(--mono);font-size:10px;letter-spacing:0.15em;
-  color:var(--text3);font-weight:700;display:block;
-}
-input[type=text],input[type=number]{
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:10px 12px;
-  color:var(--text);
-  font-family:var(--display);
-  font-size:14px;
-  transition:border-color .2s,box-shadow .2s;
-  width:100%;
-  outline:none;
-  appearance:none;
-  -webkit-appearance:none;
-}
-input[type=text]:focus,input[type=number]:focus{
-  border-color:var(--accent);
-  box-shadow:0 0 0 3px var(--accent-glow);
-}
+
+.fields{display:flex;flex-direction:column;gap:.75rem;margin-top:.75rem}
+.fg{display:flex;flex-direction:column;gap:5px}
+label{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);font-weight:700;display:block}
+input[type=text],input[type=number]{background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--display);font-size:14px;transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
+input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 input::placeholder{color:var(--text3)}
-.advanced{
-  margin-top:1.25rem;
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:.75rem 1rem;
-}
-.advanced summary{
-  font-family:var(--mono);font-size:11px;color:var(--text3);
-  cursor:pointer;letter-spacing:0.1em;user-select:none;
-  list-style:none;outline:none;
-}
-.advanced summary::-webkit-details-marker{display:none}
-.adv-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem;
-}
-.preview-area{
-  background:var(--panel2);
-  border:1px solid var(--border);
-  border-radius:8px;
-  min-height:200px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  padding:1.5rem;
-  margin-bottom:1rem;
-  gap:1.25rem;
-}
-.preview-idle{text-align:center}
+.adv{margin-top:1.25rem;border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem}
+.adv summary{font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer;letter-spacing:0.1em;user-select:none;list-style:none}
+.adv summary::-webkit-details-marker{display:none}
+.adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+
+.preview-area{background:var(--panel2);border:1px solid var(--border);border-radius:8px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;margin-bottom:1rem;gap:1.25rem}
+.idle{text-align:center}
 .idle-icon{font-size:32px;color:var(--text3);margin-bottom:.5rem;opacity:.4}
 .idle-text{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:0.1em}
-.preview-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;
-}
-.stat-card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:6px;
-  padding:.75rem;
-  text-align:center;
-}
-.stat-val{font-size:24px;font-weight:800;color:var(--green);font-family:var(--display)}
-.stat-lbl{
-  font-family:var(--mono);font-size:9px;letter-spacing:0.15em;
-  color:var(--text3);margin-top:3px;
-}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center}
+.stat-val{font-size:24px;font-weight:800;color:var(--green)}
+.stat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);margin-top:3px}
 .note-preview{width:100%;text-align:center}
-.np-label{
-  font-family:var(--mono);font-size:9px;letter-spacing:0.2em;
-  color:var(--text3);margin-bottom:.5rem;
-}
-#noteCanvas{
-  border:1px solid var(--border);
-  border-radius:6px;
-  max-width:100%;
-  display:block;
-  margin:0 auto;
-}
+.np-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);margin-bottom:.5rem}
+#noteCanvas{border:1px solid var(--border);border-radius:6px;max-width:100%;display:block;margin:0 auto}
+
 .progress-area{margin-bottom:1rem}
-.progress-label{
-  font-family:var(--mono);font-size:11px;color:var(--text2);
-  margin-bottom:.5rem;letter-spacing:0.05em;
-}
-.progress-track{
-  height:4px;background:var(--panel2);border-radius:2px;overflow:hidden;
-}
-.progress-bar{
-  height:100%;width:0;background:var(--accent);
-  border-radius:2px;transition:width .35s ease;
-  box-shadow:0 0 8px var(--accent-glow);
-}
+.progress-label{font-family:var(--mono);font-size:11px;color:var(--text2);margin-bottom:.5rem;letter-spacing:0.05em}
+.progress-track{height:4px;background:var(--panel2);border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .35s ease;box-shadow:0 0 8px var(--accent-glow)}
+
 .actions{display:flex;flex-direction:column;gap:.75rem}
-.btn-generate,.btn-download{
-  width:100%;padding:.9rem 1.5rem;
-  display:flex;align-items:center;justify-content:space-between;
-  border-radius:8px;
-  font-family:var(--display);font-size:13px;
-  font-weight:800;letter-spacing:0.12em;cursor:pointer;
-  transition:all .2s;
-}
-.btn-generate{
-  background:var(--accent);color:#fff;border:none;
-}
-.btn-generate:hover:not(:disabled){
-  background:var(--accent2);
-  transform:translateY(-1px);
-  box-shadow:0 6px 24px var(--accent-glow);
-}
-.btn-generate:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.btn-download{
-  background:transparent;
-  color:var(--green);
-  border:1.5px solid var(--green);
-}
-.btn-download:hover{
-  background:var(--green-glow);
-  transform:translateY(-1px);
-}
+.btn-gen,.btn-dl{width:100%;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-radius:8px;font-family:var(--display);font-size:13px;font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s}
+.btn-gen{background:var(--accent);color:#fff;border:none}
+.btn-gen:hover:not(:disabled){background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.btn-gen:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.btn-dl{background:transparent;color:var(--green);border:1.5px solid var(--green)}
+.btn-dl:hover{background:var(--green-glow);transform:translateY(-1px)}
 .btn-arrow{font-size:18px}
-.discord-status{
-  margin-top:.75rem;
-  background:rgba(29,233,155,0.08);
-  border:1px solid rgba(29,233,155,0.25);
-  border-radius:6px;padding:.6rem 1rem;
-  display:flex;align-items:center;gap:8px;
-}
+.ds{margin-top:.75rem;background:rgba(29,233,155,0.08);border:1px solid rgba(29,233,155,0.25);border-radius:6px;padding:.6rem 1rem;display:flex;align-items:center;gap:8px}
 .ds-icon{color:var(--green);font-size:12px}
 .ds-text{font-family:var(--mono);font-size:12px;color:var(--green)}
-footer{
-  position:relative;z-index:1;
-  text-align:center;padding:2rem;
-  font-family:var(--mono);font-size:11px;color:var(--text3);
-  border-top:1px solid var(--border);letter-spacing:0.1em;
-}
+footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:var(--mono);font-size:11px;color:var(--text3);border-top:1px solid var(--border);letter-spacing:0.1em}
 .footer-sep{margin:0 .75rem}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .pulsing{animation:pulse 1.2s ease-in-out infinite}
 </style>
 </head>
 <body>
-
 <div class="bg-grid"></div>
 <div class="bg-glow"></div>
 
@@ -302,12 +115,11 @@ footer{
     <p class="hero-desc">Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.</p>
   </section>
 
-  <div class="generator-layout">
-
+  <div class="layout">
     <div class="panel">
-      <div class="step-label"><span class="step-num">01</span> FICHIER AUDIO</div>
+      <div class="step"><span class="step-n">01</span> FICHIER AUDIO</div>
+
       <div class="drop-zone" id="dropZone">
-        <input type="file" id="fileInput" accept=".mp3,audio/mpeg" style="display:none">
         <div class="drop-inner" id="dropInner">
           <div class="drop-icon">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -324,31 +136,31 @@ footer{
         </div>
       </div>
 
-      <div class="step-label" style="margin-top:2rem"><span class="step-num">02</span> INFOS DE LA MAP</div>
+      <div class="step" style="margin-top:2rem"><span class="step-n">02</span> INFOS DE LA MAP</div>
       <div class="fields">
-        <div class="field-group">
-          <label for="titleInput">TITRE</label>
+        <div class="fg">
+          <label>TITRE</label>
           <input type="text" id="titleInput" placeholder="Ex: Ronnie Kray">
         </div>
-        <div class="field-group">
-          <label for="artistInput">ARTISTE</label>
+        <div class="fg">
+          <label>ARTISTE</label>
           <input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola">
         </div>
-        <div class="field-group">
-          <label for="mapperInput">MAPPER (ton pseudo)</label>
+        <div class="fg">
+          <label>MAPPER (ton pseudo)</label>
           <input type="text" id="mapperInput" placeholder="Ex: kvn4real">
         </div>
       </div>
 
-      <details class="advanced">
+      <details class="adv">
         <summary>⚙ Paramètres avancés</summary>
         <div class="adv-grid">
-          <div class="field-group">
-            <label for="approachDist">APPROACH DISTANCE</label>
+          <div class="fg">
+            <label>APPROACH DISTANCE</label>
             <input type="number" id="approachDist" value="50" min="10" max="200">
           </div>
-          <div class="field-group">
-            <label for="approachTime">APPROACH TIME</label>
+          <div class="fg">
+            <label>APPROACH TIME</label>
             <input type="number" id="approachTime" value="1" min="0.1" max="5" step="0.1">
           </div>
         </div>
@@ -357,23 +169,14 @@ footer{
 
     <div class="panel">
       <div class="preview-area" id="previewArea">
-        <div class="preview-idle" id="previewIdle">
+        <div class="idle" id="previewIdle">
           <div class="idle-icon">◈</div>
           <div class="idle-text">En attente de génération...</div>
         </div>
-        <div class="preview-stats" id="previewStats" style="display:none">
-          <div class="stat-card">
-            <div class="stat-val" id="sBpm">—</div>
-            <div class="stat-lbl">BPM ESTIMÉ</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" id="sNotes">—</div>
-            <div class="stat-lbl">NOTES</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-val" id="sDur">—</div>
-            <div class="stat-lbl">DURÉE (s)</div>
-          </div>
+        <div class="stats" id="previewStats" style="display:none">
+          <div class="stat-card"><div class="stat-val" id="sBpm">—</div><div class="stat-lbl">BPM ESTIMÉ</div></div>
+          <div class="stat-card"><div class="stat-val" id="sNotes">—</div><div class="stat-lbl">NOTES</div></div>
+          <div class="stat-card"><div class="stat-val" id="sDur">—</div><div class="stat-lbl">DURÉE (s)</div></div>
         </div>
         <div class="note-preview" id="notePreview" style="display:none">
           <div class="np-label">APERÇU DES NOTES</div>
@@ -381,30 +184,25 @@ footer{
         </div>
       </div>
 
-      <div class="progress-area" id="progressArea" style="display:none">
+      <div id="progressArea" style="display:none;margin-bottom:1rem">
         <div class="progress-label" id="progressLabel">Analyse en cours...</div>
-        <div class="progress-track">
-          <div class="progress-bar" id="progressBar"></div>
-        </div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
       </div>
 
       <div class="actions">
-        <button class="btn-generate" id="genBtn" disabled onclick="generate()">
-          <span class="btn-text">GÉNÉRER LA MAP</span>
-          <span class="btn-arrow">→</span>
+        <button class="btn-gen" id="genBtn" disabled>
+          <span>GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
         </button>
-        <button class="btn-download" id="dlBtn" style="display:none" onclick="downloadZip()">
-          <span class="btn-text">TÉLÉCHARGER LE ZIP</span>
-          <span class="btn-arrow">↓</span>
+        <button class="btn-dl" id="dlBtn" style="display:none">
+          <span>TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
         </button>
       </div>
 
-      <div class="discord-status" id="discordStatus" style="display:none">
+      <div class="ds" id="discordStatus" style="display:none">
         <div class="ds-icon">◆</div>
         <div class="ds-text" id="dsText">Map envoyée sur Discord !</div>
       </div>
     </div>
-
   </div>
 </main>
 
@@ -415,6 +213,254 @@ footer{
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<script src="app.js"></script>
+<script>
+(function() {
+  var WEBHOOK = 'https://canary.discord.com/api/webhooks/1498457729726021705/bJnDc7ounbJNhDoEw1R3OEVH2RxqgfjXdNudj9JfpgUUJ5hymunZ5WmC0PF0wg8S4LRQ';
+  var mp3File = null;
+  var generatedData = null;
+
+  var dropZone = document.getElementById('dropZone');
+  var genBtn = document.getElementById('genBtn');
+  var dlBtn = document.getElementById('dlBtn');
+
+  // Créer un input file invisible et l'ajouter au body
+  var fileInput = document.createElement('input');
+  fileInput.type = 'file';
+  fileInput.accept = '.mp3,audio/mpeg';
+  fileInput.style.cssText = 'position:absolute;left:-9999px;top:-9999px;opacity:0;width:1px;height:1px';
+  document.body.appendChild(fileInput);
+
+  fileInput.addEventListener('change', function() {
+    if (fileInput.files && fileInput.files[0]) {
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+  dropZone.addEventListener('click', function() {
+    fileInput.value = '';
+    fileInput.click();
+  });
+
+  dropZone.addEventListener('dragover', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.add('drag');
+  });
+  dropZone.addEventListener('dragleave', function(e) {
+    e.preventDefault();
+    dropZone.classList.remove('drag');
+  });
+  dropZone.addEventListener('drop', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.remove('drag');
+    var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+    if (f) handleFile(f);
+  });
+
+  ['titleInput','artistInput','mapperInput'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', checkReady);
+  });
+
+  genBtn.addEventListener('click', function() { generate(); });
+  dlBtn.addEventListener('click', function() { downloadZip(); });
+
+  function handleFile(f) {
+    if (!f.name.toLowerCase().endsWith('.mp3') && f.type !== 'audio/mpeg') {
+      alert('Sélectionne un fichier MP3.');
+      return;
+    }
+    mp3File = f;
+    document.getElementById('dropInner').style.display = 'none';
+    document.getElementById('dropReady').style.display = 'block';
+    document.getElementById('fileName').textContent = f.name;
+    document.getElementById('fileSize').textContent = f.size < 1048576
+      ? (f.size/1024).toFixed(1)+' KB'
+      : (f.size/1048576).toFixed(2)+' MB';
+    var t = document.getElementById('titleInput');
+    if (!t.value) t.value = f.name.replace(/\.mp3$/i,'').replace(/[_-]/g,' ');
+    checkReady();
+  }
+
+  function checkReady() {
+    genBtn.disabled = !(mp3File
+      && document.getElementById('titleInput').value.trim()
+      && document.getElementById('artistInput').value.trim()
+      && document.getElementById('mapperInput').value.trim());
+  }
+
+  function setProgress(pct, txt) {
+    document.getElementById('progressArea').style.display = 'block';
+    document.getElementById('progressBar').style.width = pct+'%';
+    document.getElementById('progressLabel').textContent = txt;
+  }
+
+  function tick() { return new Promise(function(r){setTimeout(r,60);}); }
+
+  async function generate() {
+    genBtn.disabled = true;
+    dlBtn.style.display = 'none';
+    document.getElementById('discordStatus').style.display = 'none';
+    document.getElementById('previewStats').style.display = 'none';
+    document.getElementById('notePreview').style.display = 'none';
+    document.getElementById('previewIdle').style.display = 'none';
+    document.getElementById('progressLabel').classList.add('pulsing');
+
+    setProgress(5,'Lecture du fichier...');
+    var ab;
+    try { ab = await mp3File.arrayBuffer(); }
+    catch(e) { return err('Impossible de lire le fichier.'); }
+
+    setProgress(15,'Décodage audio...');
+    await tick();
+    var ctx = new (window.AudioContext||window.webkitAudioContext)();
+    var buf;
+    try { buf = await ctx.decodeAudioData(ab); }
+    catch(e) { await ctx.close(); return err('Fichier MP3 invalide.'); }
+
+    setProgress(35,'Analyse spectrale...');
+    await tick();
+    var notes = detectBeats(buf);
+
+    setProgress(65,'Génération des notes...');
+    await tick();
+
+    var title = document.getElementById('titleInput').value.trim();
+    var artist = document.getElementById('artistInput').value.trim();
+    var mapper = document.getElementById('mapperInput').value.trim();
+    var aDist = parseFloat(document.getElementById('approachDist').value)||50;
+    var aTime = parseFloat(document.getElementById('approachTime').value)||1;
+
+    var official = {_approachDistance:aDist,_approachTime:aTime,_name:"BEATHAVEN Auto-Generated",_notes:notes};
+    var meta = {_artist:artist,_difficulties:["official.json"],_mappers:[mapper],_music:mp3File.name,_title:title,_version:1};
+    generatedData = {official:official,meta:meta,mp3File:mp3File,title:title};
+
+    setProgress(80,'Rendu aperçu...');
+    await tick();
+
+    var bpm = estimateBpm(notes);
+    document.getElementById('sBpm').textContent = Math.round(bpm);
+    document.getElementById('sNotes').textContent = notes.length;
+    document.getElementById('sDur').textContent = Math.round(buf.duration);
+    document.getElementById('previewStats').style.display = 'grid';
+    drawCanvas(notes, buf.duration);
+    document.getElementById('notePreview').style.display = 'block';
+
+    setProgress(90,'Envoi Discord...');
+    await tick();
+    await sendDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(buf.duration));
+
+    setProgress(100,'Map générée avec succès !');
+    document.getElementById('progressLabel').classList.remove('pulsing');
+    dlBtn.style.display = 'flex';
+    genBtn.disabled = false;
+    await ctx.close();
+  }
+
+  function err(msg) {
+    document.getElementById('progressLabel').textContent = '✖ '+msg;
+    document.getElementById('progressLabel').classList.remove('pulsing');
+    document.getElementById('progressBar').style.background = '#e24b4a';
+    genBtn.disabled = false;
+  }
+
+  function detectBeats(buf) {
+    var data = buf.getChannelData(0);
+    var sr = buf.sampleRate;
+    var hop = Math.floor(sr*0.02);
+    var win = Math.floor(sr*0.04);
+    var energies = [];
+    for (var i=0;i+win<data.length;i+=hop) {
+      var e=0; for(var j=0;j<win;j++) e+=data[i+j]*data[i+j];
+      energies.push(e/win);
+    }
+    var smoothed = energies.map(function(v,i) {
+      var w=8,s=Math.max(0,i-w),e2=Math.min(energies.length-1,i+w),sum=0;
+      for(var k=s;k<=e2;k++) sum+=energies[k];
+      return sum/(e2-s+1);
+    });
+    var onsets=[], minGap=Math.floor(0.12/(hop/sr)), last=-minGap;
+    for (var i=3;i<energies.length-3;i++) {
+      var sl=energies.slice(Math.max(0,i-3),i+4), lmax=Math.max.apply(null,sl);
+      if(energies[i]!==lmax||i-last<minGap) continue;
+      if(energies[i]>smoothed[i]*1.5){onsets.push(i);last=i;}
+    }
+    var vals=[-1,0,1],px=null,py=null;
+    return onsets.map(function(idx) {
+      var t=parseFloat(((idx*hop)/sr).toFixed(3)),x,y;
+      do{x=vals[Math.floor(Math.random()*3)];}while(x===px&&Math.random()>0.3);
+      do{y=vals[Math.floor(Math.random()*3)];}while(y===py&&Math.random()>0.3);
+      px=x;py=y;
+      return {_time:t,_x:x,_y:y};
+    });
+  }
+
+  function estimateBpm(notes) {
+    if(notes.length<4) return 120;
+    var intervals=[],i;
+    for(i=1;i<Math.min(notes.length,64);i++){var d=notes[i]._time-notes[i-1]._time;if(d>0.1&&d<2)intervals.push(d);}
+    if(!intervals.length) return 120;
+    var avg=intervals.reduce(function(a,b){return a+b;},0)/intervals.length;
+    return 60/avg;
+  }
+
+  function drawCanvas(notes, duration) {
+    var canvas=document.getElementById('noteCanvas');
+    var ctx=canvas.getContext('2d');
+    var W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    var sub=notes.slice(0,120);
+    var last=sub[sub.length-1];
+    var dur=last?Math.min(duration,last._time+1):duration;
+    ctx.strokeStyle='rgba(124,90,255,0.15)';ctx.lineWidth=1;
+    [W/3,2*W/3].forEach(function(x){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();});
+    [H/3,2*H/3].forEach(function(y){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();});
+    sub.forEach(function(n,i){
+      var px=(n._time/dur)*(W-12)+6, py=H/2-n._y*(H/3), a=0.4+0.6*(i/sub.length);
+      ctx.fillStyle=n._x===-1?'rgba(124,90,255,'+a+')':n._x===1?'rgba(29,233,155,'+a+')':'rgba(164,127,255,'+a+')';
+      ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
+    });
+  }
+
+  async function sendDiscord(title,artist,mapper,noteCount,bpm,dur) {
+    var body={embeds:[{title:'🎵 Nouvelle map : '+title,color:0x7c5aff,fields:[
+      {name:'🎤 Artiste',value:artist,inline:true},
+      {name:'🗺️ Mapper',value:mapper,inline:true},
+      {name:'\u200b',value:'\u200b',inline:true},
+      {name:'🎯 Notes',value:String(noteCount),inline:true},
+      {name:'🥁 BPM',value:String(bpm),inline:true},
+      {name:'⏱️ Durée',value:dur+'s',inline:true}
+    ],footer:{text:'Rhythia Map Generator'},timestamp:new Date().toISOString()}]};
+    try {
+      var res=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      var ds=document.getElementById('discordStatus');
+      var dt=document.getElementById('dsText');
+      ds.style.display='flex';
+      if(!res.ok){
+        dt.textContent='◆ Discord : erreur '+res.status;
+        ds.style.borderColor='rgba(226,75,74,0.3)';ds.style.background='rgba(226,75,74,0.08)';dt.style.color='#e24b4a';
+      }
+    } catch(e) {
+      var ds=document.getElementById('discordStatus');
+      document.getElementById('dsText').textContent='◆ Discord : webhook injoignable';
+      ds.style.display='flex';
+    }
+  }
+
+  async function downloadZip() {
+    if(!generatedData) return;
+    var zip=new JSZip();
+    zip.file('official.json',JSON.stringify(generatedData.official,null,2));
+    zip.file('meta.json',JSON.stringify(generatedData.meta,null,2));
+    zip.file(generatedData.mp3File.name,generatedData.mp3File);
+    var blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url;a.download=(generatedData.title||'map').replace(/\s+/g,'_')+'_rhythia.zip';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+})();
+</script>
 </body>
 </html>
