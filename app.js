@@ -3,30 +3,59 @@ const DISCORD_WEBHOOK = 'https://canary.discord.com/api/webhooks/149845772972602
 let mp3File = null;
 let generatedData = null;
 
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
-const genBtn = document.getElementById('genBtn');
+window.addEventListener('DOMContentLoaded', function () {
+  var dropZone = document.getElementById('dropZone');
+  var fileInput = document.getElementById('fileInput');
+  var genBtn = document.getElementById('genBtn');
 
-fileInput.addEventListener('change', e => setFile(e.target.files[0]));
+  // Clic sur la zone → ouvre le sélecteur
+  dropZone.addEventListener('click', function (e) {
+    fileInput.click();
+  });
 
-dropZone.addEventListener('dragover', e => {
-  e.preventDefault();
-  dropZone.classList.add('drag');
-});
-dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
-dropZone.addEventListener('drop', e => {
-  e.preventDefault();
-  dropZone.classList.remove('drag');
-  const f = e.dataTransfer.files[0];
-  if (f) setFile(f);
+  // Changement de fichier via le sélecteur
+  fileInput.addEventListener('change', function () {
+    if (fileInput.files && fileInput.files.length > 0) {
+      setFile(fileInput.files[0]);
+    }
+  });
+
+  // Drag & drop
+  dropZone.addEventListener('dragover', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.add('drag');
+  });
+
+  dropZone.addEventListener('dragleave', function (e) {
+    e.preventDefault();
+    dropZone.classList.remove('drag');
+  });
+
+  dropZone.addEventListener('drop', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    dropZone.classList.remove('drag');
+    var files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      setFile(files[0]);
+    }
+  });
+
+  // Inputs texte
+  ['titleInput', 'artistInput', 'mapperInput'].forEach(function (id) {
+    document.getElementById(id).addEventListener('input', checkReady);
+  });
 });
 
 function setFile(f) {
   if (!f) return;
-  if (!f.type.includes('audio') && !f.name.toLowerCase().endsWith('.mp3')) {
+  var name = f.name.toLowerCase();
+  if (!name.endsWith('.mp3') && f.type !== 'audio/mpeg') {
     alert('Veuillez sélectionner un fichier MP3.');
     return;
   }
+
   mp3File = f;
 
   document.getElementById('dropInner').style.display = 'none';
@@ -34,10 +63,9 @@ function setFile(f) {
   document.getElementById('fileName').textContent = f.name;
   document.getElementById('fileSize').textContent = formatSize(f.size);
 
-  const base = f.name.replace(/\.mp3$/i, '').replace(/[_-]/g, ' ');
-  if (!document.getElementById('titleInput').value) {
-    document.getElementById('titleInput').value = base;
-  }
+  var base = f.name.replace(/\.mp3$/i, '').replace(/[_-]/g, ' ');
+  var titleInput = document.getElementById('titleInput');
+  if (!titleInput.value) titleInput.value = base;
 
   checkReady();
 }
@@ -47,12 +75,9 @@ function formatSize(bytes) {
   return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
 }
 
-['titleInput', 'artistInput', 'mapperInput'].forEach(id => {
-  document.getElementById(id).addEventListener('input', checkReady);
-});
-
 function checkReady() {
-  const ok = mp3File &&
+  var genBtn = document.getElementById('genBtn');
+  var ok = mp3File &&
     document.getElementById('titleInput').value.trim() &&
     document.getElementById('artistInput').value.trim() &&
     document.getElementById('mapperInput').value.trim();
@@ -65,7 +90,19 @@ function setProgress(pct, label) {
   document.getElementById('progressLabel').textContent = label;
 }
 
+function tick() {
+  return new Promise(function (r) { setTimeout(r, 60); });
+}
+
+function showError(msg) {
+  document.getElementById('progressLabel').textContent = '✖ ' + msg;
+  document.getElementById('progressLabel').classList.remove('pulsing');
+  document.getElementById('progressBar').style.background = '#e24b4a';
+  document.getElementById('genBtn').disabled = false;
+}
+
 async function generate() {
+  var genBtn = document.getElementById('genBtn');
   genBtn.disabled = true;
   document.getElementById('dlBtn').style.display = 'none';
   document.getElementById('discordStatus').style.display = 'none';
@@ -73,12 +110,12 @@ async function generate() {
   document.getElementById('notePreview').style.display = 'none';
   document.getElementById('previewIdle').style.display = 'none';
 
-  const progressLabel = document.getElementById('progressLabel');
+  var progressLabel = document.getElementById('progressLabel');
   progressLabel.classList.add('pulsing');
 
   setProgress(5, 'Lecture du fichier...');
 
-  let arrayBuffer;
+  var arrayBuffer;
   try {
     arrayBuffer = await mp3File.arrayBuffer();
   } catch (e) {
@@ -89,8 +126,9 @@ async function generate() {
   setProgress(15, 'Décodage audio...');
   await tick();
 
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  let audioBuffer;
+  var AudioCtx = window.AudioContext || window.webkitAudioContext;
+  var audioCtx = new AudioCtx();
+  var audioBuffer;
   try {
     audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
   } catch (e) {
@@ -102,25 +140,25 @@ async function generate() {
   setProgress(35, 'Analyse spectrale...');
   await tick();
 
-  const notes = detectBeats(audioBuffer);
+  var notes = detectBeats(audioBuffer);
 
   setProgress(65, 'Génération des notes...');
   await tick();
 
-  const title = document.getElementById('titleInput').value.trim();
-  const artist = document.getElementById('artistInput').value.trim();
-  const mapper = document.getElementById('mapperInput').value.trim();
-  const approachDist = parseFloat(document.getElementById('approachDist').value) || 50;
-  const approachTime = parseFloat(document.getElementById('approachTime').value) || 1;
+  var title = document.getElementById('titleInput').value.trim();
+  var artist = document.getElementById('artistInput').value.trim();
+  var mapper = document.getElementById('mapperInput').value.trim();
+  var approachDist = parseFloat(document.getElementById('approachDist').value) || 50;
+  var approachTime = parseFloat(document.getElementById('approachTime').value) || 1;
 
-  const official = {
+  var official = {
     _approachDistance: approachDist,
     _approachTime: approachTime,
     _name: "BEATHAVEN Auto-Generated",
     _notes: notes
   };
 
-  const meta = {
+  var meta = {
     _artist: artist,
     _difficulties: ["official.json"],
     _mappers: [mapper],
@@ -129,12 +167,12 @@ async function generate() {
     _version: 1
   };
 
-  generatedData = { official, meta, mp3File, title, artist, mapper };
+  generatedData = { official: official, meta: meta, mp3File: mp3File, title: title, artist: artist, mapper: mapper };
 
   setProgress(80, 'Rendu de l\'aperçu...');
   await tick();
 
-  const bpm = estimateBpm(notes);
+  var bpm = estimateBpm(notes);
   document.getElementById('sBpm').textContent = Math.round(bpm);
   document.getElementById('sNotes').textContent = notes.length;
   document.getElementById('sDur').textContent = Math.round(audioBuffer.duration);
@@ -157,59 +195,49 @@ async function generate() {
   await audioCtx.close();
 }
 
-function tick() {
-  return new Promise(r => setTimeout(r, 60));
-}
-
-function showError(msg) {
-  document.getElementById('progressLabel').textContent = '✖ ' + msg;
-  document.getElementById('progressLabel').classList.remove('pulsing');
-  document.getElementById('progressBar').style.background = '#e24b4a';
-  genBtn.disabled = false;
-}
-
 function detectBeats(audioBuffer) {
-  const data = audioBuffer.getChannelData(0);
-  const sampleRate = audioBuffer.sampleRate;
-  const hopSize = Math.floor(sampleRate * 0.02);
-  const windowSize = Math.floor(sampleRate * 0.04);
+  var data = audioBuffer.getChannelData(0);
+  var sampleRate = audioBuffer.sampleRate;
+  var hopSize = Math.floor(sampleRate * 0.02);
+  var windowSize = Math.floor(sampleRate * 0.04);
 
-  const energies = [];
-  for (let i = 0; i + windowSize < data.length; i += hopSize) {
-    let e = 0;
-    for (let j = 0; j < windowSize; j++) e += data[i + j] * data[i + j];
+  var energies = [];
+  for (var i = 0; i + windowSize < data.length; i += hopSize) {
+    var e = 0;
+    for (var j = 0; j < windowSize; j++) e += data[i + j] * data[i + j];
     energies.push(e / windowSize);
   }
 
-  const smoothed = energies.map((v, i) => {
-    const w = 8;
-    const start = Math.max(0, i - w);
-    const end = Math.min(energies.length - 1, i + w);
-    let s = 0;
-    for (let k = start; k <= end; k++) s += energies[k];
+  var smoothed = energies.map(function (v, i) {
+    var w = 8;
+    var start = Math.max(0, i - w);
+    var end = Math.min(energies.length - 1, i + w);
+    var s = 0;
+    for (var k = start; k <= end; k++) s += energies[k];
     return s / (end - start + 1);
   });
 
-  const onsets = [];
-  const minGap = Math.floor(0.12 / (hopSize / sampleRate));
-  let lastOnset = -minGap;
+  var onsets = [];
+  var minGap = Math.floor(0.12 / (hopSize / sampleRate));
+  var lastOnset = -minGap;
 
-  for (let i = 3; i < energies.length - 3; i++) {
-    const localMax = Math.max(...energies.slice(Math.max(0, i - 3), i + 4));
+  for (var i = 3; i < energies.length - 3; i++) {
+    var slice = energies.slice(Math.max(0, i - 3), i + 4);
+    var localMax = Math.max.apply(null, slice);
     if (energies[i] !== localMax) continue;
     if (i - lastOnset < minGap) continue;
-    const threshold = smoothed[i] * 1.5;
+    var threshold = smoothed[i] * 1.5;
     if (energies[i] > threshold) {
       onsets.push(i);
       lastOnset = i;
     }
   }
 
-  const vals = [-1, 0, 1];
-  let prevX = null, prevY = null;
-  return onsets.map(idx => {
-    const t = parseFloat(((idx * hopSize) / sampleRate).toFixed(3));
-    let x, y;
+  var vals = [-1, 0, 1];
+  var prevX = null, prevY = null;
+  return onsets.map(function (idx) {
+    var t = parseFloat(((idx * hopSize) / sampleRate).toFixed(3));
+    var x, y;
     do { x = vals[Math.floor(Math.random() * 3)]; } while (x === prevX && Math.random() > 0.3);
     do { y = vals[Math.floor(Math.random() * 3)]; } while (y === prevY && Math.random() > 0.3);
     prevX = x; prevY = y;
@@ -219,44 +247,43 @@ function detectBeats(audioBuffer) {
 
 function estimateBpm(notes) {
   if (notes.length < 4) return 120;
-  const intervals = [];
-  for (let i = 1; i < Math.min(notes.length, 64); i++) {
-    const d = notes[i]._time - notes[i - 1]._time;
+  var intervals = [];
+  for (var i = 1; i < Math.min(notes.length, 64); i++) {
+    var d = notes[i]._time - notes[i - 1]._time;
     if (d > 0.1 && d < 2) intervals.push(d);
   }
   if (!intervals.length) return 120;
-  const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+  var avg = intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length;
   return 60 / avg;
 }
 
 function drawNotePreview(notes, duration) {
-  const canvas = document.getElementById('noteCanvas');
-  const ctx = canvas.getContext('2d');
-  const W = canvas.width, H = canvas.height;
+  var canvas = document.getElementById('noteCanvas');
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
 
-  const maxNotes = 120;
-  const subset = notes.slice(0, maxNotes);
-  const dur = Math.min(duration, notes[Math.min(notes.length - 1, maxNotes - 1)]?._time + 1 || duration);
+  var maxNotes = 120;
+  var subset = notes.slice(0, maxNotes);
+  var lastNote = subset[subset.length - 1];
+  var dur = lastNote ? Math.min(duration, lastNote._time + 1) : duration;
 
   ctx.strokeStyle = 'rgba(124,90,255,0.15)';
   ctx.lineWidth = 1;
-  for (let x = 0; x <= W; x += W / 3) {
+  [W / 3, 2 * W / 3].forEach(function (x) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  }
-  for (let y = 0; y <= H; y += H / 3) {
+  });
+  [H / 3, 2 * H / 3].forEach(function (y) {
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  }
+  });
 
-  subset.forEach((note, i) => {
-    const px = (note._time / dur) * (W - 12) + 6;
-    const py = H / 2 - note._y * (H / 3);
-    const alpha = 0.4 + 0.6 * (i / subset.length);
-
-    if (note._x === -1) ctx.fillStyle = `rgba(124,90,255,${alpha})`;
-    else if (note._x === 1) ctx.fillStyle = `rgba(29,233,155,${alpha})`;
-    else ctx.fillStyle = `rgba(164,127,255,${alpha})`;
-
+  subset.forEach(function (note, i) {
+    var px = (note._time / dur) * (W - 12) + 6;
+    var py = H / 2 - note._y * (H / 3);
+    var alpha = 0.4 + 0.6 * (i / subset.length);
+    if (note._x === -1) ctx.fillStyle = 'rgba(124,90,255,' + alpha + ')';
+    else if (note._x === 1) ctx.fillStyle = 'rgba(29,233,155,' + alpha + ')';
+    else ctx.fillStyle = 'rgba(164,127,255,' + alpha + ')';
     ctx.beginPath();
     ctx.arc(px, py, 3, 0, Math.PI * 2);
     ctx.fill();
@@ -264,50 +291,45 @@ function drawNotePreview(notes, duration) {
 }
 
 async function sendToDiscord(title, artist, mapper, noteCount, bpm, duration) {
-  const now = new Date();
-  const timestamp = now.toISOString();
-
-  const embed = {
+  var embed = {
     embeds: [{
-      title: `🎵 Nouvelle map générée : ${title}`,
+      title: '🎵 Nouvelle map générée : ' + title,
       color: 0x7c5aff,
       fields: [
         { name: '🎤 Artiste', value: artist, inline: true },
         { name: '🗺️ Mapper', value: mapper, inline: true },
         { name: '\u200b', value: '\u200b', inline: true },
-        { name: '🎯 Notes', value: `${noteCount}`, inline: true },
-        { name: '🥁 BPM estimé', value: `${bpm}`, inline: true },
-        { name: '⏱️ Durée', value: `${duration}s`, inline: true },
+        { name: '🎯 Notes', value: String(noteCount), inline: true },
+        { name: '🥁 BPM estimé', value: String(bpm), inline: true },
+        { name: '⏱️ Durée', value: duration + 's', inline: true }
       ],
-      footer: {
-        text: 'Rhythia Map Generator'
-      },
-      timestamp: timestamp
+      footer: { text: 'Rhythia Map Generator' },
+      timestamp: new Date().toISOString()
     }]
   };
 
   try {
-    const res = await fetch(DISCORD_WEBHOOK, {
+    var res = await fetch(DISCORD_WEBHOOK, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(embed)
     });
 
-    const dsStatus = document.getElementById('discordStatus');
-    const dsText = document.getElementById('dsText');
+    var dsStatus = document.getElementById('discordStatus');
+    var dsText = document.getElementById('dsText');
 
     if (res.ok) {
       dsText.textContent = '◆ Map envoyée sur Discord !';
       dsStatus.style.display = 'flex';
     } else {
-      dsText.textContent = '◆ Discord : envoi échoué (code ' + res.status + ')';
+      dsText.textContent = '◆ Discord : erreur ' + res.status;
       dsStatus.style.display = 'flex';
       dsStatus.style.borderColor = 'rgba(226,75,74,0.3)';
       dsStatus.style.background = 'rgba(226,75,74,0.08)';
       dsText.style.color = '#e24b4a';
     }
   } catch (e) {
-    const dsStatus = document.getElementById('discordStatus');
+    var dsStatus = document.getElementById('discordStatus');
     document.getElementById('dsText').textContent = '◆ Discord : impossible de joindre le webhook';
     dsStatus.style.display = 'flex';
   }
@@ -316,14 +338,14 @@ async function sendToDiscord(title, artist, mapper, noteCount, bpm, duration) {
 async function downloadZip() {
   if (!generatedData) return;
 
-  const zip = new JSZip();
+  var zip = new JSZip();
   zip.file('official.json', JSON.stringify(generatedData.official, null, 2));
   zip.file('meta.json', JSON.stringify(generatedData.meta, null, 2));
   zip.file(generatedData.mp3File.name, generatedData.mp3File);
 
-  const blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  var blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
   a.href = url;
   a.download = (generatedData.title || 'map').replace(/\s+/g, '_') + '_rhythia.zip';
   document.body.appendChild(a);
