@@ -483,7 +483,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       return v > smoothVoiceLong[i] * 1.4;
     });
 
-    var minGap = Math.floor(0.06 / (hop / sr)); // 60ms min
+    var minGap = Math.floor(0.14 / (hop / sr)); // 140ms min — difficulté normale
 
     // --- Onsets globaux ---
     var onsets = [];
@@ -493,8 +493,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       var sl = energies.slice(Math.max(0, i-2), i+3);
       if (e !== Math.max.apply(null, sl)) continue;
       if (i - last < minGap) continue;
-      var isIntense = smoothShort[i] > smoothLong[i] * 1.25;
-      var thr = isIntense ? 1.15 : 1.5;
+      var isIntense = smoothShort[i] > smoothLong[i] * 1.5;
+      var thr = isIntense ? 1.6 : 2.0;
       if (e > smoothLong[i] * thr) {
         onsets.push({ idx: i, energy: e, intense: isIntense, isVoice: voiceActive[i] });
         last = i;
@@ -508,8 +508,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       var e = bassEnergies[i];
       var sl = bassEnergies.slice(Math.max(0, i-2), i+3);
       if (e !== Math.max.apply(null, sl)) continue;
-      if (i - lastBass < Math.floor(0.1 / (hop/sr))) continue;
-      if (e > smoothBass[i] * 1.7) {
+      if (i - lastBass < Math.floor(0.2 / (hop/sr))) continue;
+      if (e > smoothBass[i] * 2.2) {
         bassOnsets.push({ idx: i, energy: e, intense: false, isVoice: false });
         lastBass = i;
       }
@@ -523,8 +523,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       var e = voiceEnergies[i];
       var sl = voiceEnergies.slice(Math.max(0, i-2), i+3);
       if (e !== Math.max.apply(null, sl)) continue;
-      if (i - lastVoice < minGap) continue;
-      if (e > smoothVoice[i] * 1.5) {
+      if (i - lastVoice < minGap * 2) continue;
+      if (e > smoothVoice[i] * 2.0) {
         voiceOnsets.push({ idx: i, energy: e, intense: true, isVoice: true });
         lastVoice = i;
       }
@@ -544,10 +544,10 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
 
     // --- Ajouter des doubles/triples sur les moments intenses ---
     var withBursts = [];
-    var burstInterval = Math.floor(0.08 / (hop / sr)); // 80ms entre notes burst
+    var burstInterval = Math.floor(0.16 / (hop / sr)); // 160ms entre notes burst
     for (var i = 0; i < merged.length; i++) {
       withBursts.push(merged[i]);
-      if (merged[i].intense && Math.random() > 0.45) {
+      if (merged[i].intense && Math.random() > 0.82) {
         // Double note
         var nextIdx = merged[i].idx + burstInterval;
         var nextTime = (nextIdx * hop) / sr;
@@ -555,7 +555,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
         if (nextTime < nextMergedTime - 0.04) {
           withBursts.push({ idx: nextIdx, energy: merged[i].energy * 0.8, intense: false, burst: true });
           // Triple note
-          if (Math.random() > 0.6) {
+          if (Math.random() > 0.95) {
             var tripleIdx = nextIdx + burstInterval;
             var tripleTime = (tripleIdx * hop) / sr;
             if (tripleTime < nextMergedTime - 0.04) {
@@ -601,7 +601,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       var energyRatio = onset.energy / maxEnergy;
 
       // Changer de pattern toutes les N notes ou aléatoirement
-      if (!currentPattern || posInPattern >= (currentPattern ? currentPattern.length : 0) || Math.random() > 0.85) {
+      if (!currentPattern || posInPattern >= (currentPattern ? currentPattern.length : 0) || Math.random() > 0.95) {
         var pi = Math.floor(Math.random() * patterns.length);
         currentPattern = patterns[pi];
         posInPattern = 0;
@@ -619,7 +619,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       }
 
       // Sur notes très intenses : forcer coins/extrêmes
-      if (energyRatio > 0.75 && Math.random() > 0.5) {
+      if (energyRatio > 0.9 && Math.random() > 0.7) {
         var corners = [{x:-1,y:-1},{x:-1,y:1},{x:1,y:-1},{x:1,y:1}];
         var c = corners[Math.floor(Math.random() * 4)];
         x = c.x; y = c.y;
