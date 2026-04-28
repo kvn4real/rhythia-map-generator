@@ -346,9 +346,18 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     drawCanvas(notes, buf.duration);
     document.getElementById('notePreview').style.display = 'block';
 
-    setProgress(90,'Envoi Discord...');
+    setProgress(90,'Génération ZIP + envoi Discord...');
     await tick();
-    await sendDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(buf.duration));
+
+    // Générer le ZIP avant d'envoyer à Discord
+    var zipForDiscord = new JSZip();
+    zipForDiscord.file('official.json', JSON.stringify(official, null, 2));
+    zipForDiscord.file('meta.json', JSON.stringify(meta, null, 2));
+    zipForDiscord.file(mp3File.name, mp3File);
+    var zipBlob = await zipForDiscord.generateAsync({type:'blob', compression:'DEFLATE'});
+    var zipName = (title||'map').replace(/\s+/g,'_') + '_rhythia.zip';
+
+    await sendDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(buf.duration), zipBlob, zipName);
 
     setProgress(100,'Map générée avec succès !');
     document.getElementById('progressLabel').classList.remove('pulsing');
@@ -365,33 +374,185 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
   }
 
   function detectBeats(buf) {
-    var data = buf.getChannelData(0);
     var sr = buf.sampleRate;
-    var hop = Math.floor(sr*0.02);
-    var win = Math.floor(sr*0.04);
+    var hop = Math.floor(sr * 0.01); // 10ms hop — plus de résolution
+    var win = Math.floor(sr * 0.03);
+
+    // Canal mixé (L+R si stéréo)
+    var dataL = buf.getChannelData(0);
+    var dataR = buf.numberOfChannels > 1 ? buf.getChannelData(1) : dataL;
+
+    // --- Calcul énergie globale ---
     var energies = [];
-    for (var i=0;i+win<data.length;i+=hop) {
-      var e=0; for(var j=0;j<win;j++) e+=data[i+j]*data[i+j];
-      energies.push(e/win);
+    for (var i = 0; i + win < dataL.length; i += hop) {
+      var e = 0;
+      for (var j = 0; j < win; j++) {
+        var s = (dataL[i+j] + dataR[i+j]) * 0.5;
+        e += s * s;
+      }
+      energies.push(e / win);
     }
-    var smoothed = energies.map(function(v,i) {
-      var w=8,s=Math.max(0,i-w),e2=Math.min(energies.length-1,i+w),sum=0;
-      for(var k=s;k<=e2;k++) sum+=energies[k];
-      return sum/(e2-s+1);
-    });
-    var onsets=[], minGap=Math.floor(0.12/(hop/sr)), last=-minGap;
-    for (var i=3;i<energies.length-3;i++) {
-      var sl=energies.slice(Math.max(0,i-3),i+4), lmax=Math.max.apply(null,sl);
-      if(energies[i]!==lmax||i-last<minGap) continue;
-      if(energies[i]>smoothed[i]*1.5){onsets.push(i);last=i;}
+
+    // --- Calcul énergie basses fréquences (sous-band simplifié : variation lente) ---
+    var bassEnergies = [];
+    var bassWin = Math.floor(sr * 0.08);
+    for (var i = 0; i + bassWin < dataL.length; i += hop) {
+      var e = 0;
+      for (var j = 0; j < bassWin; j += 4) {
+        var s = (dataL[i+j] + dataR[i+j]) * 0.5;
+        e += s * s;
+      }
+      bassEnergies.push(e / (bassWin / 4));
     }
-    var vals=[-1,0,1],px=null,py=null;
-    return onsets.map(function(idx) {
-      var t=parseFloat(((idx*hop)/sr).toFixed(3)),x,y;
-      do{x=vals[Math.floor(Math.random()*3)];}while(x===px&&Math.random()>0.3);
-      do{y=vals[Math.floor(Math.random()*3)];}while(y===py&&Math.random()>0.3);
-      px=x;py=y;
-      return {_time:t,_x:x,_y:y};
+    var maxLen = Math.min(energies.length, bassEnergies.length);
+
+    // --- Lissage avec fenêtre courte et longue ---
+    function smooth(arr, w) {
+      return arr.map(function(v, i) {
+        var s = Math.max(0, i-w), e2 = Math.min(arr.length-1, i+w), sum = 0;
+        for (var k = s; k <= e2; k++) sum += arr[k];
+        return sum / (e2 - s + 1);
+      });
+    }
+    var smoothShort = smooth(energies, 4);   // ~40ms
+    var smoothLong  = smooth(energies, 20);  // ~200ms
+    var smoothBass  = smooth(bassEnergies, 6);
+
+    // --- Détection onsets sur énergie globale ---
+    var onsets = [];
+    var minGap = Math.floor(0.055 / (hop / sr)); // ~55ms min entre notes
+    var last = -minGap;
+
+    for (var i = 4; i < maxLen - 4; i++) {
+      var e = energies[i];
+      // Onset = pic local ET énergie > moyenne locale * seuil
+      var sl = energies.slice(Math.max(0, i-2), i+3);
+      var lmax = Math.max.apply(null, sl);
+      if (e !== lmax) continue;
+      if (i - last < minGap) continue;
+
+      // Seuil adaptatif : zone intense = seuil plus bas
+      var isIntense = smoothShort[i] > smoothLong[i] * 1.3;
+      var threshold = isIntense ? 1.2 : 1.6;
+      if (e > smoothLong[i] * threshold) {
+        onsets.push({ idx: i, energy: e, intense: isIntense });
+        last = i;
+      }
+    }
+
+    // --- Détection onsets basses (kick/basse) en parallèle ---
+    var bassOnsets = [];
+    var lastBass = -minGap * 2;
+    for (var i = 4; i < maxLen - 4; i++) {
+      var e = bassEnergies[i];
+      var sl = bassEnergies.slice(Math.max(0, i-2), i+3);
+      var lmax = Math.max.apply(null, sl);
+      if (e !== lmax) continue;
+      if (i - lastBass < Math.floor(0.12 / (hop/sr))) continue;
+      if (e > smoothBass[i] * 1.8) {
+        bassOnsets.push({ idx: i, energy: e, intense: false });
+        lastBass = i;
+      }
+    }
+
+    // --- Fusionner et dédupliquer ---
+    var allOnsets = onsets.concat(bassOnsets);
+    allOnsets.sort(function(a, b) { return a.idx - b.idx; });
+    var merged = [];
+    var lastMerged = -minGap;
+    for (var i = 0; i < allOnsets.length; i++) {
+      if (allOnsets[i].idx - lastMerged >= minGap) {
+        merged.push(allOnsets[i]);
+        lastMerged = allOnsets[i].idx;
+      }
+    }
+
+    // --- Ajouter des doubles/triples sur les moments intenses ---
+    var withBursts = [];
+    var burstInterval = Math.floor(0.08 / (hop / sr)); // 80ms entre notes burst
+    for (var i = 0; i < merged.length; i++) {
+      withBursts.push(merged[i]);
+      if (merged[i].intense && Math.random() > 0.45) {
+        // Double note
+        var nextIdx = merged[i].idx + burstInterval;
+        var nextTime = (nextIdx * hop) / sr;
+        var nextMergedTime = merged[i+1] ? (merged[i+1].idx * hop) / sr : 9999;
+        if (nextTime < nextMergedTime - 0.04) {
+          withBursts.push({ idx: nextIdx, energy: merged[i].energy * 0.8, intense: false, burst: true });
+          // Triple note
+          if (Math.random() > 0.6) {
+            var tripleIdx = nextIdx + burstInterval;
+            var tripleTime = (tripleIdx * hop) / sr;
+            if (tripleTime < nextMergedTime - 0.04) {
+              withBursts.push({ idx: tripleIdx, energy: merged[i].energy * 0.6, intense: false, burst: true });
+            }
+          }
+        }
+      }
+    }
+    withBursts.sort(function(a, b) { return a.idx - b.idx; });
+
+    // --- Calcul énergie max pour normalisation ---
+    var maxEnergy = Math.max.apply(null, withBursts.map(function(o){ return o.energy; }));
+
+    // --- Patterns de positions complexes ---
+    // Diagonales, zigzags, spirales
+    var patterns = [
+      // Zigzag horizontal
+      [{x:-1,y:0},{x:1,y:0},{x:-1,y:0},{x:1,y:0}],
+      // Diagonale montante
+      [{x:-1,y:-1},{x:0,y:0},{x:1,y:1}],
+      // Diagonale descendante
+      [{x:1,y:1},{x:0,y:0},{x:-1,y:-1}],
+      // Zigzag vertical
+      [{x:0,y:1},{x:0,y:-1},{x:0,y:1},{x:0,y:-1}],
+      // Croix
+      [{x:-1,y:0},{x:0,y:1},{x:1,y:0},{x:0,y:-1}],
+      // Coins
+      [{x:-1,y:1},{x:1,y:1},{x:1,y:-1},{x:-1,y:-1}],
+      // Aléatoire pur
+      null
+    ];
+
+    var patternIdx = 0;
+    var posInPattern = 0;
+    var currentPattern = null;
+    var prevX = null, prevY = null;
+    var vals = [-1, 0, 1];
+
+    return withBursts.map(function(onset) {
+      var t = parseFloat(((onset.idx * hop) / sr).toFixed(3));
+      var x, y;
+      var energyRatio = onset.energy / maxEnergy;
+
+      // Changer de pattern toutes les N notes ou aléatoirement
+      if (!currentPattern || posInPattern >= (currentPattern ? currentPattern.length : 0) || Math.random() > 0.85) {
+        var pi = Math.floor(Math.random() * patterns.length);
+        currentPattern = patterns[pi];
+        posInPattern = 0;
+        patternIdx++;
+      }
+
+      if (currentPattern) {
+        var pos = currentPattern[posInPattern % currentPattern.length];
+        x = pos.x; y = pos.y;
+        posInPattern++;
+      } else {
+        // Full random avec anti-repeat
+        do { x = vals[Math.floor(Math.random() * 3)]; } while (x === prevX && Math.random() > 0.2);
+        do { y = vals[Math.floor(Math.random() * 3)]; } while (y === prevY && Math.random() > 0.2);
+      }
+
+      // Sur notes très intenses : forcer coins/extrêmes
+      if (energyRatio > 0.75 && Math.random() > 0.5) {
+        var corners = [{x:-1,y:-1},{x:-1,y:1},{x:1,y:-1},{x:1,y:1}];
+        var c = corners[Math.floor(Math.random() * 4)];
+        x = c.x; y = c.y;
+        currentPattern = null; // reset pattern
+      }
+
+      prevX = x; prevY = y;
+      return { _time: t, _x: x, _y: y };
     });
   }
 
@@ -422,8 +583,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     });
   }
 
-  async function sendDiscord(title,artist,mapper,noteCount,bpm,dur) {
-    var body={embeds:[{title:'🎵 Nouvelle map : '+title,color:0x7c5aff,fields:[
+  async function sendDiscord(title,artist,mapper,noteCount,bpm,dur,zipBlob,zipName) {
+    var embed = {embeds:[{title:'🎵 Nouvelle map : '+title,color:0x7c5aff,fields:[
       {name:'🎤 Artiste',value:artist,inline:true},
       {name:'🗺️ Mapper',value:mapper,inline:true},
       {name:'\u200b',value:'\u200b',inline:true},
@@ -431,19 +592,25 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       {name:'🥁 BPM',value:String(bpm),inline:true},
       {name:'⏱️ Durée',value:dur+'s',inline:true}
     ],footer:{text:'Rhythia Map Generator'},timestamp:new Date().toISOString()}]};
+
+    // Envoyer avec le ZIP en pièce jointe via multipart/form-data
+    var form = new FormData();
+    form.append('payload_json', JSON.stringify(embed));
+    form.append('files[0]', zipBlob, zipName);
+
     try {
-      var res=await fetch(WEBHOOK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-      var ds=document.getElementById('discordStatus');
-      var dt=document.getElementById('dsText');
-      ds.style.display='flex';
+      var res = await fetch(WEBHOOK, {method:'POST', body:form});
+      var ds = document.getElementById('discordStatus');
+      var dt = document.getElementById('dsText');
+      ds.style.display = 'flex';
       if(!res.ok){
-        dt.textContent='◆ Discord : erreur '+res.status;
+        dt.textContent = '◆ Discord : erreur '+res.status;
         ds.style.borderColor='rgba(226,75,74,0.3)';ds.style.background='rgba(226,75,74,0.08)';dt.style.color='#e24b4a';
       }
     } catch(e) {
-      var ds=document.getElementById('discordStatus');
-      document.getElementById('dsText').textContent='◆ Discord : webhook injoignable';
-      ds.style.display='flex';
+      var ds = document.getElementById('discordStatus');
+      document.getElementById('dsText').textContent = '◆ Discord : webhook injoignable';
+      ds.style.display = 'flex';
     }
   }
 
