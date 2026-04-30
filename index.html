@@ -91,6 +91,29 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
 .footer-sep{margin:0 .75rem}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .pulsing{animation:pulse 1.2s ease-in-out infinite}
+
+/* LANG SWITCHER */
+.header-right{display:flex;align-items:center;gap:.75rem}
+.lang-switcher{display:flex;border:1px solid var(--border2);border-radius:6px;overflow:hidden}
+.lang-btn{background:transparent;border:none;color:var(--text3);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.1em;padding:5px 10px;cursor:pointer;transition:background .15s,color .15s}
+.lang-btn.active{background:var(--accent);color:#fff}
+.lang-btn:hover:not(.active){background:rgba(124,90,255,0.15);color:var(--text)}
+
+/* RESET BTN */
+.btn-reset{width:100%;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-radius:8px;font-family:var(--display);font-size:12px;font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);border:1px solid var(--border)}
+.btn-reset:hover{border-color:var(--border2);color:var(--text2);background:rgba(120,80,255,0.05)}
+
+/* COMING SOON PANEL */
+.panel-soon{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin-top:1.5rem;opacity:.7}
+.soon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.soon-badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.15em;color:var(--accent2);background:rgba(124,90,255,0.12);border:1px solid var(--border2);padding:3px 10px;border-radius:20px}
+.soon-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+@media(max-width:768px){.soon-grid{grid-template-columns:1fr}}
+.soon-item{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:1rem;display:flex;align-items:flex-start;gap:.75rem;opacity:.6}
+.soon-icon{font-size:20px;flex-shrink:0}
+.soon-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:3px}
+.soon-desc{font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.5}
+.soon-lock{font-size:10px;color:var(--text3);margin-left:auto;opacity:.5}
 </style>
 </head>
 <body>
@@ -103,7 +126,13 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     <span>RHYTHIA</span>
     <span class="logo-sub">MAP GEN</span>
   </div>
-  <div class="header-tag">v1.0</div>
+  <div class="header-right">
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btnFR" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+    </div>
+    <div class="header-tag">v1.0</div>
+  </div>
 </header>
 
 <main>
@@ -112,12 +141,12 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
       <span class="hero-line1">GENERATE</span>
       <span class="hero-line2">YOUR MAP</span>
     </h1>
-    <p class="hero-desc">Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.</p>
+    <p class="hero-desc" data-i18n="heroDesc">Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.</p>
   </section>
 
   <div class="layout">
     <div class="panel">
-      <div class="step"><span class="step-n">01</span> FICHIER AUDIO</div>
+      <div class="step"><span class="step-n">01</span> <span data-i18n="step1">FICHIER AUDIO</span></div>
 
       <div class="drop-zone" id="dropZone">
         <div class="drop-inner" id="dropInner">
@@ -126,8 +155,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
               <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
             </svg>
           </div>
-          <div class="drop-text">Glisse ton MP3 ici</div>
-          <div class="drop-hint">ou clique pour sélectionner</div>
+          <div class="drop-text" data-i18n="dropText">Glisse ton MP3 ici</div>
+          <div class="drop-hint" data-i18n="dropHint">ou clique pour sélectionner</div>
         </div>
         <div class="drop-ready" id="dropReady" style="display:none">
           <div class="file-icon">♪</div>
@@ -136,18 +165,18 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
         </div>
       </div>
 
-      <div class="step" style="margin-top:2rem"><span class="step-n">02</span> INFOS DE LA MAP</div>
+      <div class="step" style="margin-top:2rem"><span class="step-n">02</span> <span data-i18n="step2">INFOS DE LA MAP</span></div>
       <div class="fields">
         <div class="fg">
-          <label>TITRE</label>
+          <label data-i18n="labelTitle">TITRE</label>
           <input type="text" id="titleInput" placeholder="Ex: Ronnie Kray">
         </div>
         <div class="fg">
-          <label>ARTISTE</label>
+          <label data-i18n="labelArtist">ARTISTE</label>
           <input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola">
         </div>
         <div class="fg">
-          <label>MAPPER (ton pseudo)</label>
+          <label data-i18n="labelMapper">MAPPER (ton pseudo)</label>
           <input type="text" id="mapperInput" placeholder="Ex: kvn4real">
         </div>
       </div>
@@ -191,25 +220,73 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
 
       <div class="actions">
         <button class="btn-gen" id="genBtn" disabled>
-          <span>GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
+          <span data-i18n="btnGenerate">GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
         </button>
         <button class="btn-dl" id="dlBtn" style="display:none">
-          <span>TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
+          <span data-i18n="btnDownload">TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
         </button>
       </div>
 
       <div class="ds" id="discordStatus" style="display:none">
         <div class="ds-icon">◆</div>
-        <div class="ds-text" id="dsText">Map envoyée sur Discord !</div>
+        <div class="ds-text" id="dsText"></div>
+      </div>
+
+      <button class="btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">
+        <span data-i18n="btnReset">NOUVELLE MAP</span>
+        <span>↺</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- COMING SOON -->
+  <div class="panel-soon">
+    <div class="soon-header">
+      <div class="step"><span class="step-n">03</span> <span data-i18n="step3">PERSONNALISATION RHYTHIA</span></div>
+      <span class="soon-badge" data-i18n="comingSoon">À VENIR</span>
+    </div>
+    <div class="soon-grid">
+      <div class="soon-item">
+        <div class="soon-icon">🎨</div>
+        <div>
+          <div class="soon-title" data-i18n="cs1Title">Thème visuel</div>
+          <div class="soon-desc" data-i18n="cs1Desc">Couleurs, effets de particules, fond du jeu</div>
+        </div>
+        <div class="soon-lock">🔒</div>
+      </div>
+      <div class="soon-item">
+        <div class="soon-icon">⚡</div>
+        <div>
+          <div class="soon-title" data-i18n="cs2Title">Vitesse & difficulté</div>
+          <div class="soon-desc" data-i18n="cs2Desc">Ajustement manuel du BPM et de la densité</div>
+        </div>
+        <div class="soon-lock">🔒</div>
+      </div>
+      <div class="soon-item">
+        <div class="soon-icon">🔊</div>
+        <div>
+          <div class="soon-title" data-i18n="cs3Title">Sons de jeu</div>
+          <div class="soon-desc" data-i18n="cs3Desc">Son de frappe, musique de fond personnalisée</div>
+        </div>
+        <div class="soon-lock">🔒</div>
+      </div>
+      <div class="soon-item">
+        <div class="soon-icon">📊</div>
+        <div>
+          <div class="soon-title" data-i18n="cs4Title">Statistiques</div>
+          <div class="soon-desc" data-i18n="cs4Desc">Historique des maps générées, leaderboard</div>
+        </div>
+        <div class="soon-lock">🔒</div>
       </div>
     </div>
   </div>
+
 </main>
 
 <footer>
   <span>RHYTHIA MAP GENERATOR</span>
   <span class="footer-sep">·</span>
-  <span>Powered by Web Audio API</span>
+  <span data-i18n="footerPowered">Powered by Web Audio API</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -306,23 +383,24 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     document.getElementById('previewIdle').style.display = 'none';
     document.getElementById('progressLabel').classList.add('pulsing');
 
-    setProgress(5,'Lecture du fichier...');
+    var T = translations[window._getLang ? window._getLang() : 'fr'];
+    setProgress(5, T.prog1);
     var ab;
     try { ab = await mp3File.arrayBuffer(); }
-    catch(e) { return err('Impossible de lire le fichier.'); }
+    catch(e) { return err(T.errRead); }
 
-    setProgress(15,'Décodage audio...');
+    setProgress(15, T.prog2);
     await tick();
     var ctx = new (window.AudioContext||window.webkitAudioContext)();
     var buf;
     try { buf = await ctx.decodeAudioData(ab); }
-    catch(e) { await ctx.close(); return err('Fichier MP3 invalide.'); }
+    catch(e) { await ctx.close(); return err(T.errDecode); }
 
-    setProgress(35,'Analyse spectrale...');
+    setProgress(35, T.prog3);
     await tick();
     var notes = detectBeats(buf);
 
-    setProgress(65,'Génération des notes...');
+    setProgress(65, T.prog4);
     await tick();
 
     var title = document.getElementById('titleInput').value.trim();
@@ -346,7 +424,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     drawCanvas(notes, buf.duration);
     document.getElementById('notePreview').style.display = 'block';
 
-    setProgress(90,'Génération ZIP + envoi Discord...');
+    setProgress(90, T.prog6);
     await tick();
 
     // Générer le ZIP avant d'envoyer à Discord
@@ -359,9 +437,10 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
 
     await sendDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(buf.duration), zipBlob, zipName);
 
-    setProgress(100,'Map générée avec succès !');
+    setProgress(100, T.prog7);
     document.getElementById('progressLabel').classList.remove('pulsing');
     dlBtn.style.display = 'flex';
+    document.getElementById('resetBtn').style.display = 'flex';
     genBtn.disabled = false;
     await ctx.close();
   }
@@ -691,7 +770,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
         dt.textContent = '◆ Discord : erreur ' + res.status;
         ds.style.borderColor='rgba(226,75,74,0.3)';ds.style.background='rgba(226,75,74,0.08)';dt.style.color='#e24b4a';
       } else {
-        dt.textContent = '◆ Map + ZIP envoyés sur Discord !';
+        dt.textContent = translations[currentLang].discordOk;
       }
     } catch(e) {
       var ds = document.getElementById('discordStatus');
@@ -713,6 +792,265 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     document.body.appendChild(a);a.click();document.body.removeChild(a);
     URL.revokeObjectURL(url);
   }
+
+  // ============================================================
+  // RESET
+  // ============================================================
+  function resetAll() {
+    mp3File = null;
+    generatedData = null;
+    fileInput.value = '';
+    document.getElementById('dropInner').style.display = 'block';
+    document.getElementById('dropReady').style.display = 'none';
+    document.getElementById('fileName').textContent = '';
+    document.getElementById('fileSize').textContent = '';
+    document.getElementById('titleInput').value = '';
+    document.getElementById('artistInput').value = '';
+    document.getElementById('mapperInput').value = '';
+    document.getElementById('progressArea').style.display = 'none';
+    document.getElementById('progressBar').style.width = '0';
+    document.getElementById('progressBar').style.background = 'var(--accent)';
+    document.getElementById('previewStats').style.display = 'none';
+    document.getElementById('notePreview').style.display = 'none';
+    document.getElementById('previewIdle').style.display = 'block';
+    document.getElementById('discordStatus').style.display = 'none';
+    document.getElementById('dlBtn').style.display = 'none';
+    document.getElementById('resetBtn').style.display = 'none';
+    document.getElementById('genBtn').disabled = true;
+  }
+
+  // ============================================================
+  // I18N
+  // ============================================================
+  var translations = {
+    fr: {
+      heroDesc: "Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.",
+      step1: 'FICHIER AUDIO', step2: 'INFOS DE LA MAP', step3: 'PERSONNALISATION RHYTHIA',
+      dropText: 'Glisse ton MP3 ici', dropHint: 'ou clique pour sélectionner',
+      labelTitle: 'TITRE', labelArtist: 'ARTISTE', labelMapper: 'MAPPER (ton pseudo)',
+      btnGenerate: 'GÉNÉRER LA MAP', btnDownload: 'TÉLÉCHARGER LE ZIP', btnReset: 'NOUVELLE MAP',
+      comingSoon: 'À VENIR',
+      cs1Title: 'Thème visuel', cs1Desc: 'Couleurs, effets de particules, fond du jeu',
+      cs2Title: 'Vitesse & difficulté', cs2Desc: 'Ajustement manuel du BPM et de la densité',
+      cs3Title: 'Sons de jeu', cs3Desc: 'Son de frappe, musique de fond personnalisée',
+      cs4Title: 'Statistiques', cs4Desc: 'Historique des maps générées, leaderboard',
+      footerPowered: 'Powered by Web Audio API',
+      idle: 'En attente de génération...',
+      discordOk: '◆ Map + ZIP envoyés sur Discord !',
+      advTitle: '⚙ Paramètres avancés',
+      labelApDist: 'APPROACH DISTANCE', labelApTime: 'APPROACH TIME',
+      pTitle: 'Ex: Ronnie Kray', pArtist: 'Ex: Landy ft. Tiakola', pMapper: 'Ex: kvn4real'
+    },
+    en: {
+      heroDesc: "Import your MP3 — the AI analyzes the rhythm and generates your Rhythia map in seconds.",
+      step1: 'AUDIO FILE', step2: 'MAP INFO', step3: 'RHYTHIA CUSTOMIZATION',
+      dropText: 'Drop your MP3 here', dropHint: 'or click to select',
+      labelTitle: 'TITLE', labelArtist: 'ARTIST', labelMapper: 'MAPPER (your username)',
+      btnGenerate: 'GENERATE MAP', btnDownload: 'DOWNLOAD ZIP', btnReset: 'NEW MAP',
+      comingSoon: 'COMING SOON',
+      cs1Title: 'Visual theme', cs1Desc: 'Colors, particle effects, game background',
+      cs2Title: 'Speed & difficulty', cs2Desc: 'Manual BPM and density adjustment',
+      cs3Title: 'Game sounds', cs3Desc: 'Hit sound, custom background music',
+      cs4Title: 'Statistics', cs4Desc: 'Map history, leaderboard',
+      footerPowered: 'Powered by Web Audio API',
+      idle: 'Waiting for generation...',
+      discordOk: '◆ Map + ZIP sent to Discord!',
+      advTitle: '⚙ Advanced settings',
+      labelApDist: 'APPROACH DISTANCE', labelApTime: 'APPROACH TIME',
+      pTitle: 'Ex: Song title', pArtist: 'Ex: Artist name', pMapper: 'Ex: your_username'
+    }
+  };
+
+  var currentLang = 'fr';
+
+  function setLang(lang) {
+    currentLang = lang;
+    var t = translations[lang];
+    // Boutons lang
+    document.getElementById('btnFR').className = 'lang-btn' + (lang === 'fr' ? ' active' : '');
+    document.getElementById('btnEN').className = 'lang-btn' + (lang === 'en' ? ' active' : '');
+    // data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (t[key]) el.textContent = t[key];
+    });
+    // Placeholders
+    document.getElementById('titleInput').placeholder = t.pTitle;
+    document.getElementById('artistInput').placeholder = t.pArtist;
+    document.getElementById('mapperInput').placeholder = t.pMapper;
+    // Idle text
+    document.querySelector('.idle-text').textContent = t.idle;
+    // Advanced summary
+    var advSum = document.querySelector('.adv summary');
+    if (advSum) advSum.textContent = t.advTitle;
+    // Labels avancés
+    var advLabels = document.querySelectorAll('.adv-grid label');
+    if (advLabels[0]) advLabels[0].textContent = t.labelApDist;
+    if (advLabels[1]) advLabels[1].textContent = t.labelApTime;
+    // html lang
+    document.documentElement.lang = lang;
+  }
+
+  // Appliquer FR par défaut au load
+  setLang('fr');
+
+  // ---- RESET ----
+  window.resetAll = function() {
+    mp3File = null;
+    generatedData = null;
+    fileInput.value = '';
+    document.getElementById('dropInner').style.display = 'block';
+    document.getElementById('dropReady').style.display = 'none';
+    document.getElementById('fileName').textContent = '';
+    document.getElementById('fileSize').textContent = '';
+    document.getElementById('titleInput').value = '';
+    document.getElementById('artistInput').value = '';
+    document.getElementById('mapperInput').value = '';
+    document.getElementById('progressArea').style.display = 'none';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('progressLabel').textContent = '';
+    document.getElementById('progressLabel').classList.remove('pulsing');
+    document.getElementById('progressBar').style.background = 'var(--accent)';
+    document.getElementById('previewStats').style.display = 'none';
+    document.getElementById('notePreview').style.display = 'none';
+    document.getElementById('previewIdle').style.display = 'block';
+    document.getElementById('dlBtn').style.display = 'none';
+    document.getElementById('resetBtn').style.display = 'none';
+    document.getElementById('discordStatus').style.display = 'none';
+    genBtn.disabled = true;
+  };
+
+  // Afficher reset après génération réussie
+  var origGenerate = generate;
+  // On hook l'affichage du dlBtn pour aussi montrer resetBtn
+  var origDlShow = function() {
+    dlBtn.style.display = 'flex';
+    document.getElementById('resetBtn').style.display = 'flex';
+  };
+
+  // ---- i18n ----
+  var translations = {
+    fr: {
+      pageTitle: 'Rhythia Map Generator',
+      heroLine1: 'GÉNÉRER',
+      heroLine2: 'TA MAP',
+      heroDesc: "Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.",
+      step1: 'FICHIER AUDIO',
+      step2: 'INFOS DE LA MAP',
+      step3: 'PERSONNALISATION RHYTHIA',
+      dropText: 'Glisse ton MP3 ici',
+      dropHint: 'ou clique pour sélectionner',
+      labelTitle: 'TITRE',
+      labelArtist: 'ARTISTE',
+      labelMapper: 'MAPPER (ton pseudo)',
+      btnGenerate: 'GÉNÉRER LA MAP',
+      btnDownload: 'TÉLÉCHARGER LE ZIP',
+      btnReset: 'NOUVELLE MAP',
+      idleText: 'En attente de génération...',
+      comingSoon: 'À VENIR',
+      cs1Title: 'Thème visuel',
+      cs1Desc: 'Couleurs, effets de particules, fond du jeu',
+      cs2Title: 'Vitesse & difficulté',
+      cs2Desc: 'Ajustement manuel du BPM et de la densité',
+      cs3Title: 'Sons de jeu',
+      cs3Desc: 'Son de frappe, musique de fond personnalisée',
+      cs4Title: 'Statistiques',
+      cs4Desc: 'Historique des maps générées, leaderboard',
+      footerPowered: 'Powered by Web Audio API',
+      advTitle: '⚙ Paramètres avancés',
+      bpmLabel: 'BPM ESTIMÉ',
+      notesLabel: 'NOTES',
+      durLabel: 'DURÉE (s)',
+      npLabel: 'APERÇU DES NOTES',
+      discordOk: '◆ Map + ZIP envoyés sur Discord !',
+      discordErr: '◆ Discord : erreur ',
+      discordFail: '◆ Discord : webhook injoignable',
+      alertMp3: 'Sélectionne un fichier MP3.',
+      errRead: 'Impossible de lire le fichier.',
+      errDecode: 'Fichier MP3 invalide.',
+      prog1: 'Lecture du fichier...', prog2: 'Décodage audio...', prog3: 'Analyse spectrale...',
+      prog4: 'Génération des notes...', prog5: "Rendu de l'aperçu...",
+      prog6: 'Génération ZIP + envoi Discord...', prog7: 'Map générée avec succès !'
+    },
+    en: {
+      pageTitle: 'Rhythia Map Generator',
+      heroLine1: 'GENERATE',
+      heroLine2: 'YOUR MAP',
+      heroDesc: 'Import your MP3 — AI analyzes the rhythm and generates your Rhythia map in seconds.',
+      step1: 'AUDIO FILE',
+      step2: 'MAP INFO',
+      step3: 'RHYTHIA CUSTOMIZATION',
+      dropText: 'Drop your MP3 here',
+      dropHint: 'or click to select',
+      labelTitle: 'TITLE',
+      labelArtist: 'ARTIST',
+      labelMapper: 'MAPPER (your username)',
+      btnGenerate: 'GENERATE MAP',
+      btnDownload: 'DOWNLOAD ZIP',
+      btnReset: 'NEW MAP',
+      idleText: 'Waiting for generation...',
+      comingSoon: 'COMING SOON',
+      cs1Title: 'Visual theme',
+      cs1Desc: 'Colors, particle effects, game background',
+      cs2Title: 'Speed & difficulty',
+      cs2Desc: 'Manual BPM and note density adjustment',
+      cs3Title: 'Game sounds',
+      cs3Desc: 'Hit sound, custom background music',
+      cs4Title: 'Statistics',
+      cs4Desc: 'Generated maps history, leaderboard',
+      footerPowered: 'Powered by Web Audio API',
+      advTitle: '⚙ Advanced settings',
+      bpmLabel: 'EST. BPM',
+      notesLabel: 'NOTES',
+      durLabel: 'DURATION (s)',
+      npLabel: 'NOTES PREVIEW',
+      discordOk: '◆ Map + ZIP sent to Discord!',
+      discordErr: '◆ Discord: error ',
+      discordFail: '◆ Discord: webhook unreachable',
+      alertMp3: 'Please select an MP3 file.',
+      errRead: 'Cannot read the file.',
+      errDecode: 'Invalid MP3 file.',
+      prog1: 'Reading file...', prog2: 'Decoding audio...', prog3: 'Spectral analysis...',
+      prog4: 'Generating notes...', prog5: 'Rendering preview...',
+      prog6: 'Generating ZIP + sending to Discord...', prog7: 'Map generated successfully!'
+    }
+  };
+
+  var currentLang = 'fr';
+
+  window.setLang = function(lang) {
+    currentLang = lang;
+    var t = translations[lang];
+    document.title = t.pageTitle;
+    document.getElementById('btnFR').classList.toggle('active', lang === 'fr');
+    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
+
+    // Mettre à jour tous les éléments data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(function(el) {
+      var key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.textContent = t[key];
+    });
+
+    // Hero spécial
+    document.querySelector('.hero-line1').textContent = t.heroLine1;
+    document.querySelector('.hero-line2').textContent = t.heroLine2;
+    document.querySelector('.hero-desc').textContent = t.heroDesc;
+
+    // Stats labels
+    document.querySelector('#sBpm').closest('.stat-card').querySelector('.stat-lbl').textContent = t.bpmLabel;
+    document.querySelector('#sNotes').closest('.stat-card').querySelector('.stat-lbl').textContent = t.notesLabel;
+    document.querySelector('#sDur').closest('.stat-card').querySelector('.stat-lbl').textContent = t.durLabel;
+    document.querySelector('.np-label').textContent = t.npLabel;
+    document.querySelector('.idle-text').textContent = t.idleText;
+    document.querySelector('.adv summary').textContent = t.advTitle;
+
+    // Placeholder mapper
+    document.getElementById('mapperInput').placeholder = lang === 'fr' ? 'Ex: kvn4real' : 'Ex: kvn4real';
+  };
+
+  // Exposer currentLang pour les fonctions internes
+  window._getLang = function() { return currentLang; };
+
 })();
 </script>
 </body>
