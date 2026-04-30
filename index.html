@@ -16,272 +16,374 @@
   --mono:'Space Mono',monospace;--display:'Syne',sans-serif;
 }
 body{background:var(--bg);color:var(--text);font-family:var(--display);min-height:100vh;overflow-x:hidden}
-.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(124,90,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,90,255,0.05) 1px,transparent 1px);background-size:40px 40px}
-.bg-glow{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;pointer-events:none;z-index:0;background:radial-gradient(ellipse,rgba(124,90,255,0.12) 0%,transparent 70%)}
-header{position:relative;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.92)}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:18px;font-weight:800;letter-spacing:0.15em;color:var(--text)}
-.logo-icon{color:var(--accent);font-size:22px}
-.logo-sub{font-size:10px;font-weight:600;letter-spacing:0.2em;color:var(--text3);border:1px solid var(--border2);padding:2px 7px;border-radius:3px}
-.header-tag{font-family:var(--mono);font-size:11px;color:var(--text3);border:1px solid var(--border);padding:3px 8px;border-radius:2px}
-main{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:3rem 2rem 4rem}
-.hero{margin-bottom:3.5rem}
-h1{font-family:var(--display);font-weight:800;line-height:0.9;letter-spacing:-0.02em}
-.hero-line1{display:block;font-size:clamp(52px,8vw,96px);color:transparent;-webkit-text-stroke:1.5px var(--accent2)}
-.hero-line2{display:block;font-size:clamp(52px,8vw,96px);color:var(--text)}
-.hero-desc{margin-top:1rem;font-size:15px;color:var(--text2);font-family:var(--mono);max-width:520px;line-height:1.7}
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
-@media(max-width:768px){.layout{grid-template-columns:1fr}header{padding:1rem 1.25rem}main{padding:2rem 1.25rem}}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
-.step{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;letter-spacing:0.2em;color:var(--text3);margin-bottom:1rem;font-family:var(--mono)}
-.step-n{background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;padding:2px 7px;border-radius:2px;font-weight:700}
+.bg-grid{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(124,90,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(124,90,255,0.05) 1px,transparent 1px);
+  background-size:40px 40px}
+.bg-glow{position:fixed;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:500px;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse,rgba(124,90,255,0.12) 0%,transparent 70%)}
 
-/* DROP ZONE */
-.drop-zone{border:1.5px dashed var(--border2);border-radius:8px;background:var(--panel2);min-height:130px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s,background .2s;user-select:none}
-.drop-zone:hover{border-color:var(--accent);background:rgba(124,90,255,0.06)}
-.drop-zone.drag{border-color:var(--accent);background:rgba(124,90,255,0.1)}
-.drop-inner{text-align:center;padding:1.5rem;pointer-events:none}
+/* ── HEADER ── */
+header{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.95);
+  backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:17px;font-weight:800;
+  letter-spacing:0.15em;color:var(--text);cursor:pointer;text-decoration:none}
+.logo-icon{color:var(--accent);font-size:20px}
+.logo-sub{font-size:9px;font-weight:600;letter-spacing:0.2em;color:var(--text3);
+  border:1px solid var(--border2);padding:2px 6px;border-radius:3px}
+nav{display:flex;align-items:center;gap:6px}
+.nav-btn{background:transparent;border:1px solid transparent;border-radius:6px;
+  color:var(--text3);font-family:var(--mono);font-size:11px;padding:5px 14px;
+  cursor:pointer;transition:all .15s;letter-spacing:0.08em;white-space:nowrap}
+.nav-btn:hover{color:var(--text);border-color:var(--border2)}
+.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.header-right{display:flex;align-items:center;gap:8px}
+.lang-switcher{display:flex;gap:3px}
+.lang-btn{background:transparent;border:1px solid var(--border);border-radius:4px;
+  color:var(--text3);font-family:var(--mono);font-size:10px;padding:3px 8px;
+  cursor:pointer;transition:all .15s}
+.lang-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.lang-btn:hover:not(.active){border-color:var(--accent2);color:var(--text)}
+
+/* ── PAGES ── */
+.page{display:none;min-height:100vh;padding-top:72px}
+.page.active{display:block}
+
+/* ── PAGE HOME ── */
+.home-wrap{max-width:1100px;margin:0 auto;padding:5rem 2rem 4rem;position:relative;z-index:1}
+.home-hero{text-align:center;margin-bottom:5rem}
+.home-hero h1{font-family:var(--display);font-weight:800;line-height:0.88;letter-spacing:-0.02em;margin-bottom:1.5rem}
+.home-line1{display:block;font-size:clamp(56px,9vw,110px);color:transparent;-webkit-text-stroke:1.5px var(--accent2)}
+.home-line2{display:block;font-size:clamp(56px,9vw,110px);color:var(--text)}
+.home-desc{font-family:var(--mono);font-size:14px;color:var(--text2);max-width:480px;margin:0 auto;line-height:1.8}
+.home-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:900px;margin:0 auto}
+@media(max-width:640px){.home-cards{grid-template-columns:1fr}}
+.home-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;
+  padding:2.5rem 2rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.home-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;
+  background:radial-gradient(ellipse at 50% 0%,rgba(124,90,255,0.1) 0%,transparent 70%)}
+.home-card:hover{border-color:var(--accent2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(124,90,255,0.15)}
+.home-card:hover::before{opacity:1}
+.home-card.soon{cursor:default}
+.home-card.soon:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.home-card.soon:hover::before{opacity:0}
+.card-icon{font-size:36px;margin-bottom:1.25rem}
+.card-title{font-size:20px;font-weight:800;letter-spacing:0.05em;margin-bottom:.5rem}
+.card-desc{font-family:var(--mono);font-size:12px;color:var(--text2);line-height:1.7}
+.card-badge{display:inline-flex;align-items:center;gap:6px;margin-top:1.25rem;
+  background:rgba(124,90,255,0.15);border:1px solid var(--accent);
+  border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;
+  font-weight:700;letter-spacing:0.15em;color:var(--accent2)}
+.card-badge-soon{background:rgba(90,84,117,0.2);border-color:var(--text3);color:var(--text3)}
+.card-arrow{font-size:20px;color:var(--accent);margin-top:1rem;display:block}
+.home-stats{display:flex;justify-content:center;gap:4rem;margin-top:4rem;
+  padding-top:3rem;border-top:1px solid var(--border)}
+.hs-item{text-align:center}
+.hs-val{font-size:32px;font-weight:800;color:var(--green)}
+.hs-lbl{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.15em;margin-top:4px}
+
+/* ── PAGE GENERATOR ── */
+.gen-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;position:relative;z-index:1}
+.page-header{margin-bottom:2rem}
+.page-title{font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1}
+.page-title span{color:var(--accent2)}
+.page-sub{font-family:var(--mono);font-size:13px;color:var(--text2);margin-top:.5rem}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:768px){.layout{grid-template-columns:1fr}header{padding:.85rem 1.25rem}.home-wrap,.gen-wrap,.custom-wrap{padding-left:1.25rem;padding-right:1.25rem}}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
+.step{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;
+  letter-spacing:0.2em;color:var(--text3);margin-bottom:1rem;font-family:var(--mono)}
+.step-n{background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;
+  padding:2px 7px;border-radius:2px;font-weight:700}
+.drop-zone{border:1.5px dashed var(--border2);border-radius:8px;background:var(--panel2);
+  min-height:130px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:border-color .2s,background .2s;user-select:none}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--accent);background:rgba(124,90,255,0.06)}
+.drop-inner,.drop-ready{text-align:center;padding:1.5rem;pointer-events:none}
 .drop-icon{color:var(--accent);margin-bottom:.75rem}
 .drop-text{font-size:14px;font-weight:600;color:var(--text2)}
 .drop-hint{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:4px}
-.drop-ready{text-align:center;padding:1.5rem;pointer-events:none}
 .file-icon{font-size:28px;color:var(--green);margin-bottom:.5rem}
 .file-name{font-size:13px;font-weight:600;color:var(--text);word-break:break-all;margin-top:4px}
 .file-size{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:4px}
-
 .fields{display:flex;flex-direction:column;gap:.75rem;margin-top:.75rem}
 .fg{display:flex;flex-direction:column;gap:5px}
 label{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);font-weight:700;display:block}
-input[type=text],input[type=number]{background:var(--panel2);border:1px solid var(--border);border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--display);font-size:14px;transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
+input[type=text],input[type=number]{background:var(--panel2);border:1px solid var(--border);
+  border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--display);font-size:14px;
+  transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
 input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 input::placeholder{color:var(--text3)}
 .adv{margin-top:1.25rem;border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem}
-.adv summary{font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer;letter-spacing:0.1em;user-select:none;list-style:none}
+.adv summary{font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer;
+  letter-spacing:0.1em;user-select:none;list-style:none}
 .adv summary::-webkit-details-marker{display:none}
 .adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
-
-.preview-area{background:var(--panel2);border:1px solid var(--border);border-radius:8px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;margin-bottom:1rem;gap:1.25rem}
+.preview-area{background:var(--panel2);border:1px solid var(--border);border-radius:8px;
+  min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:1.5rem;margin-bottom:1rem;gap:1.25rem}
 .idle{text-align:center}
 .idle-icon{font-size:32px;color:var(--text3);margin-bottom:.5rem;opacity:.4}
 .idle-text{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:0.1em}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
 .stat-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center}
 .stat-val{font-size:24px;font-weight:800;color:var(--green)}
 .stat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);margin-top:3px}
 .note-preview{width:100%;text-align:center}
 .np-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);margin-bottom:.5rem}
 #noteCanvas{border:1px solid var(--border);border-radius:6px;max-width:100%;display:block;margin:0 auto}
-
 .progress-area{margin-bottom:1rem}
 .progress-label{font-family:var(--mono);font-size:11px;color:var(--text2);margin-bottom:.5rem;letter-spacing:0.05em}
 .progress-track{height:4px;background:var(--panel2);border-radius:2px;overflow:hidden}
 .progress-bar{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .35s ease;box-shadow:0 0 8px var(--accent-glow)}
-
 .actions{display:flex;flex-direction:column;gap:.75rem}
-.btn-gen,.btn-dl{width:100%;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-radius:8px;font-family:var(--display);font-size:13px;font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s}
+.btn-gen,.btn-dl,.btn-reset{width:100%;padding:.9rem 1.5rem;display:flex;align-items:center;
+  justify-content:space-between;border-radius:8px;font-family:var(--display);font-size:13px;
+  font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s}
 .btn-gen{background:var(--accent);color:#fff;border:none}
 .btn-gen:hover:not(:disabled){background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
 .btn-gen:disabled{opacity:.35;cursor:not-allowed;transform:none}
 .btn-dl{background:transparent;color:var(--green);border:1.5px solid var(--green)}
 .btn-dl:hover{background:var(--green-glow);transform:translateY(-1px)}
+.btn-reset{background:transparent;color:var(--text3);border:1px solid var(--border)}
+.btn-reset:hover{border-color:var(--text3);color:var(--text);background:rgba(255,255,255,0.04)}
 .btn-arrow{font-size:18px}
-.ds{margin-top:.75rem;background:rgba(29,233,155,0.08);border:1px solid rgba(29,233,155,0.25);border-radius:6px;padding:.6rem 1rem;display:flex;align-items:center;gap:8px}
+.ds{margin-top:.75rem;background:rgba(29,233,155,0.08);border:1px solid rgba(29,233,155,0.25);
+  border-radius:6px;padding:.6rem 1rem;display:flex;align-items:center;gap:8px}
 .ds-icon{color:var(--green);font-size:12px}
 .ds-text{font-family:var(--mono);font-size:12px;color:var(--green)}
-footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:var(--mono);font-size:11px;color:var(--text3);border-top:1px solid var(--border);letter-spacing:0.1em}
+
+/* ── PAGE CUSTOMIZE ── */
+.custom-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;position:relative;z-index:1}
+.cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2rem}
+@media(max-width:640px){.cs-grid{grid-template-columns:1fr}}
+.cs-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;display:flex;align-items:flex-start;gap:1rem;position:relative;overflow:hidden}
+.cs-card::after{content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,0.04) 8px,rgba(0,0,0,0.04) 16px)}
+.cs-icon{font-size:28px;flex-shrink:0;opacity:.6}
+.cs-body{flex:1}
+.cs-title{font-size:15px;font-weight:700;color:var(--text2);margin-bottom:4px}
+.cs-desc{font-family:var(--mono);font-size:11px;color:var(--text3);line-height:1.6}
+.cs-lock{font-size:16px;opacity:.3;flex-shrink:0}
+.soon-banner{background:rgba(124,90,255,0.08);border:1px solid var(--accent);
+  border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:2rem;
+  display:flex;align-items:center;gap:1rem}
+.soon-banner-icon{font-size:24px}
+.soon-banner-text{font-family:var(--mono);font-size:12px;color:var(--accent2);line-height:1.7}
+.soon-banner-badge{margin-left:auto;background:var(--accent);color:#fff;
+  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.15em;
+  padding:4px 12px;border-radius:20px;white-space:nowrap}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;text-align:center;padding:2rem;
+  font-family:var(--mono);font-size:11px;color:var(--text3);
+  border-top:1px solid var(--border);letter-spacing:0.1em}
 .footer-sep{margin:0 .75rem}
+
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .pulsing{animation:pulse 1.2s ease-in-out infinite}
-
-/* LANG SWITCHER */
-.header-right{display:flex;align-items:center;gap:.75rem}
-.lang-switcher{display:flex;border:1px solid var(--border2);border-radius:6px;overflow:hidden}
-.lang-btn{background:transparent;border:none;color:var(--text3);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.1em;padding:5px 10px;cursor:pointer;transition:background .15s,color .15s}
-.lang-btn.active{background:var(--accent);color:#fff}
-.lang-btn:hover:not(.active){background:rgba(124,90,255,0.15);color:var(--text)}
-
-/* RESET BTN */
-.btn-reset{width:100%;padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;border-radius:8px;font-family:var(--display);font-size:12px;font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);border:1px solid var(--border)}
-.btn-reset:hover{border-color:var(--border2);color:var(--text2);background:rgba(120,80,255,0.05)}
-
-/* COMING SOON PANEL */
-.panel-soon{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.75rem;margin-top:1.5rem;opacity:.7}
-.soon-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
-.soon-badge{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.15em;color:var(--accent2);background:rgba(124,90,255,0.12);border:1px solid var(--border2);padding:3px 10px;border-radius:20px}
-.soon-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-@media(max-width:768px){.soon-grid{grid-template-columns:1fr}}
-.soon-item{background:var(--panel2);border:1px solid var(--border);border-radius:8px;padding:1rem;display:flex;align-items:flex-start;gap:.75rem;opacity:.6}
-.soon-icon{font-size:20px;flex-shrink:0}
-.soon-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:3px}
-.soon-desc{font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.5}
-.soon-lock{font-size:10px;color:var(--text3);margin-left:auto;opacity:.5}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.page.active{animation:fadeIn .25s ease}
 </style>
 </head>
 <body>
 <div class="bg-grid"></div>
 <div class="bg-glow"></div>
 
+<!-- HEADER -->
 <header>
-  <div class="logo">
+  <div class="logo" onclick="goTo('home')">
     <span class="logo-icon">◈</span>
     <span>RHYTHIA</span>
     <span class="logo-sub">MAP GEN</span>
   </div>
+  <nav>
+    <button class="nav-btn active" id="nav-home"      onclick="goTo('home')"      data-i18n="navHome">ACCUEIL</button>
+    <button class="nav-btn"        id="nav-generator" onclick="goTo('generator')" data-i18n="navGen">GÉNÉRATEUR</button>
+    <button class="nav-btn"        id="nav-customize" onclick="goTo('customize')" data-i18n="navCustom">PERSONNALISATION</button>
+  </nav>
   <div class="header-right">
     <div class="lang-switcher">
       <button class="lang-btn active" id="btnFR" onclick="setLang('fr')">FR</button>
-      <button class="lang-btn" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="lang-btn"        id="btnEN" onclick="setLang('en')">EN</button>
     </div>
-    <div class="header-tag">v1.0</div>
   </div>
 </header>
 
-<main>
-  <section class="hero">
-    <h1>
-      <span class="hero-line1">GENERATE</span>
-      <span class="hero-line2">YOUR MAP</span>
-    </h1>
-    <p class="hero-desc" data-i18n="heroDesc">Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.</p>
-  </section>
-
-  <div class="layout">
-    <div class="panel">
-      <div class="step"><span class="step-n">01</span> <span data-i18n="step1">FICHIER AUDIO</span></div>
-
-      <div class="drop-zone" id="dropZone">
-        <div class="drop-inner" id="dropInner">
-          <div class="drop-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-            </svg>
-          </div>
-          <div class="drop-text" data-i18n="dropText">Glisse ton MP3 ici</div>
-          <div class="drop-hint" data-i18n="dropHint">ou clique pour sélectionner</div>
-        </div>
-        <div class="drop-ready" id="dropReady" style="display:none">
-          <div class="file-icon">♪</div>
-          <div class="file-name" id="fileName"></div>
-          <div class="file-size" id="fileSize"></div>
-        </div>
-      </div>
-
-      <div class="step" style="margin-top:2rem"><span class="step-n">02</span> <span data-i18n="step2">INFOS DE LA MAP</span></div>
-      <div class="fields">
-        <div class="fg">
-          <label data-i18n="labelTitle">TITRE</label>
-          <input type="text" id="titleInput" placeholder="Ex: Ronnie Kray">
-        </div>
-        <div class="fg">
-          <label data-i18n="labelArtist">ARTISTE</label>
-          <input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola">
-        </div>
-        <div class="fg">
-          <label data-i18n="labelMapper">MAPPER (ton pseudo)</label>
-          <input type="text" id="mapperInput" placeholder="Ex: kvn4real">
-        </div>
-      </div>
-
-      <details class="adv">
-        <summary>⚙ Paramètres avancés</summary>
-        <div class="adv-grid">
-          <div class="fg">
-            <label>APPROACH DISTANCE</label>
-            <input type="number" id="approachDist" value="50" min="10" max="200">
-          </div>
-          <div class="fg">
-            <label>APPROACH TIME</label>
-            <input type="number" id="approachTime" value="1" min="0.1" max="5" step="0.1">
-          </div>
-        </div>
-      </details>
+<!-- ══ PAGE HOME ══ -->
+<div class="page active" id="page-home">
+  <div class="home-wrap">
+    <div class="home-hero">
+      <h1>
+        <span class="home-line1" data-i18n="heroLine1">RHYTHIA</span>
+        <span class="home-line2" data-i18n="heroLine2">MAP GEN</span>
+      </h1>
+      <p class="home-desc" data-i18n="heroDesc">La plateforme pour créer et personnaliser tes maps Rhythia en quelques secondes grâce à l'IA.</p>
     </div>
 
-    <div class="panel">
-      <div class="preview-area" id="previewArea">
-        <div class="idle" id="previewIdle">
-          <div class="idle-icon">◈</div>
-          <div class="idle-text">En attente de génération...</div>
-        </div>
-        <div class="stats" id="previewStats" style="display:none">
-          <div class="stat-card"><div class="stat-val" id="sBpm">—</div><div class="stat-lbl">BPM ESTIMÉ</div></div>
-          <div class="stat-card"><div class="stat-val" id="sNotes">—</div><div class="stat-lbl">NOTES</div></div>
-          <div class="stat-card"><div class="stat-val" id="sDur">—</div><div class="stat-lbl">DURÉE (s)</div></div>
-        </div>
-        <div class="note-preview" id="notePreview" style="display:none">
-          <div class="np-label">APERÇU DES NOTES</div>
-          <canvas id="noteCanvas" width="300" height="160"></canvas>
-        </div>
+    <div class="home-cards">
+      <div class="home-card" onclick="goTo('generator')">
+        <div class="card-icon">🎵</div>
+        <div class="card-title" data-i18n="card1Title">GÉNÉRATEUR DE MAPS</div>
+        <div class="card-desc" data-i18n="card1Desc">Importe un MP3, l'IA analyse le rythme et génère automatiquement ta map avec synchronisation des paroles.</div>
+        <span class="card-badge" data-i18n="cardBadgeReady">✦ DISPONIBLE</span>
+        <span class="card-arrow">→</span>
       </div>
-
-      <div id="progressArea" style="display:none;margin-bottom:1rem">
-        <div class="progress-label" id="progressLabel">Analyse en cours...</div>
-        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+      <div class="home-card soon">
+        <div class="card-icon">🎨</div>
+        <div class="card-title" data-i18n="card2Title">PERSONNALISATION</div>
+        <div class="card-desc" data-i18n="card2Desc">Thème visuel, vitesse & difficulté, sons de frappe, statistiques et leaderboard. Tout pour rendre ton expérience unique.</div>
+        <span class="card-badge card-badge-soon" data-i18n="cardBadgeSoon">🔒 À VENIR</span>
       </div>
+    </div>
 
-      <div class="actions">
-        <button class="btn-gen" id="genBtn" disabled>
-          <span data-i18n="btnGenerate">GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
-        </button>
-        <button class="btn-dl" id="dlBtn" style="display:none">
-          <span data-i18n="btnDownload">TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
-        </button>
-      </div>
-
-      <div class="ds" id="discordStatus" style="display:none">
-        <div class="ds-icon">◆</div>
-        <div class="ds-text" id="dsText"></div>
-      </div>
-
-      <button class="btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">
-        <span data-i18n="btnReset">NOUVELLE MAP</span>
-        <span>↺</span>
-      </button>
+    <div class="home-stats">
+      <div class="hs-item"><div class="hs-val">∞</div><div class="hs-lbl" data-i18n="statMaps">MAPS POSSIBLES</div></div>
+      <div class="hs-item"><div class="hs-val">3</div><div class="hs-lbl" data-i18n="statBands">BANDES AUDIO</div></div>
+      <div class="hs-item"><div class="hs-val">0s</div><div class="hs-lbl" data-i18n="statSetup">SETUP REQUIS</div></div>
     </div>
   </div>
+</div>
 
-  <!-- COMING SOON -->
-  <div class="panel-soon">
-    <div class="soon-header">
-      <div class="step"><span class="step-n">03</span> <span data-i18n="step3">PERSONNALISATION RHYTHIA</span></div>
-      <span class="soon-badge" data-i18n="comingSoon">À VENIR</span>
+<!-- ══ PAGE GENERATOR ══ -->
+<div class="page" id="page-generator">
+  <div class="gen-wrap">
+    <div class="page-header">
+      <div class="page-title">GÉNÉR<span>ATEUR</span></div>
+      <div class="page-sub" data-i18n="genSub">Importe ton MP3 — l'IA analyse le rythme et génère ta map en quelques secondes.</div>
     </div>
-    <div class="soon-grid">
-      <div class="soon-item">
-        <div class="soon-icon">🎨</div>
-        <div>
-          <div class="soon-title" data-i18n="cs1Title">Thème visuel</div>
-          <div class="soon-desc" data-i18n="cs1Desc">Couleurs, effets de particules, fond du jeu</div>
+
+    <div class="layout">
+      <div class="panel">
+        <div class="step"><span class="step-n">01</span> <span data-i18n="step1">FICHIER AUDIO</span></div>
+        <div class="drop-zone" id="dropZone">
+          <div class="drop-inner" id="dropInner">
+            <div class="drop-icon">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+              </svg>
+            </div>
+            <div class="drop-text" data-i18n="dropText">Glisse ton MP3 ici</div>
+            <div class="drop-hint" data-i18n="dropHint">ou clique pour sélectionner</div>
+          </div>
+          <div class="drop-ready" id="dropReady" style="display:none">
+            <div class="file-icon">♪</div>
+            <div class="file-name" id="fileName"></div>
+            <div class="file-size" id="fileSize"></div>
+          </div>
         </div>
-        <div class="soon-lock">🔒</div>
+
+        <div class="step" style="margin-top:2rem"><span class="step-n">02</span> <span data-i18n="step2">INFOS DE LA MAP</span></div>
+        <div class="fields">
+          <div class="fg"><label data-i18n="labelTitle">TITRE</label><input type="text" id="titleInput" placeholder="Ex: Ronnie Kray"></div>
+          <div class="fg"><label data-i18n="labelArtist">ARTISTE</label><input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola"></div>
+          <div class="fg"><label data-i18n="labelMapper">MAPPER</label><input type="text" id="mapperInput" placeholder="Ex: kvn4real"></div>
+        </div>
+        <details class="adv">
+          <summary data-i18n="advTitle">⚙ Paramètres avancés</summary>
+          <div class="adv-grid">
+            <div class="fg"><label>APPROACH DISTANCE</label><input type="number" id="approachDist" value="50" min="10" max="200"></div>
+            <div class="fg"><label>APPROACH TIME</label><input type="number" id="approachTime" value="1" min="0.1" max="5" step="0.1"></div>
+          </div>
+        </details>
       </div>
-      <div class="soon-item">
-        <div class="soon-icon">⚡</div>
-        <div>
-          <div class="soon-title" data-i18n="cs2Title">Vitesse & difficulté</div>
-          <div class="soon-desc" data-i18n="cs2Desc">Ajustement manuel du BPM et de la densité</div>
+
+      <div class="panel">
+        <div class="preview-area" id="previewArea">
+          <div class="idle" id="previewIdle">
+            <div class="idle-icon">◈</div>
+            <div class="idle-text" data-i18n="idleText">En attente de génération...</div>
+          </div>
+          <div class="stats-grid" id="previewStats" style="display:none">
+            <div class="stat-card"><div class="stat-val" id="sBpm">—</div><div class="stat-lbl" data-i18n="bpmLabel">BPM ESTIMÉ</div></div>
+            <div class="stat-card"><div class="stat-val" id="sNotes">—</div><div class="stat-lbl" data-i18n="notesLabel">NOTES</div></div>
+            <div class="stat-card"><div class="stat-val" id="sDur">—</div><div class="stat-lbl" data-i18n="durLabel">DURÉE (s)</div></div>
+          </div>
+          <div class="note-preview" id="notePreview" style="display:none">
+            <div class="np-label" data-i18n="npLabel">APERÇU DES NOTES</div>
+            <canvas id="noteCanvas" width="300" height="160"></canvas>
+          </div>
         </div>
-        <div class="soon-lock">🔒</div>
-      </div>
-      <div class="soon-item">
-        <div class="soon-icon">🔊</div>
-        <div>
-          <div class="soon-title" data-i18n="cs3Title">Sons de jeu</div>
-          <div class="soon-desc" data-i18n="cs3Desc">Son de frappe, musique de fond personnalisée</div>
+
+        <div id="progressArea" style="display:none;margin-bottom:1rem">
+          <div class="progress-label" id="progressLabel"></div>
+          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
         </div>
-        <div class="soon-lock">🔒</div>
-      </div>
-      <div class="soon-item">
-        <div class="soon-icon">📊</div>
-        <div>
-          <div class="soon-title" data-i18n="cs4Title">Statistiques</div>
-          <div class="soon-desc" data-i18n="cs4Desc">Historique des maps générées, leaderboard</div>
+
+        <div class="actions">
+          <button class="btn-gen" id="genBtn" disabled>
+            <span data-i18n="btnGenerate">GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
+          </button>
+          <button class="btn-dl" id="dlBtn" style="display:none">
+            <span data-i18n="btnDownload">TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
+          </button>
+          <button class="btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">
+            <span data-i18n="btnReset">NOUVELLE MAP</span><span>↺</span>
+          </button>
         </div>
-        <div class="soon-lock">🔒</div>
+        <div class="ds" id="discordStatus" style="display:none">
+          <div class="ds-icon">◆</div><div class="ds-text" id="dsText"></div>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-</main>
+<!-- ══ PAGE CUSTOMIZE ══ -->
+<div class="page" id="page-customize">
+  <div class="custom-wrap">
+    <div class="page-header">
+      <div class="page-title">PERSON<span>NALISATION</span></div>
+      <div class="page-sub" data-i18n="customSub">Personnalise ton expérience Rhythia à ta façon.</div>
+    </div>
+
+    <div class="soon-banner">
+      <div class="soon-banner-icon">🚧</div>
+      <div class="soon-banner-text" data-i18n="soonBannerText">
+        Cette section est en cours de développement.<br>
+        Les fonctionnalités ci-dessous seront disponibles prochainement.
+      </div>
+      <div class="soon-banner-badge" data-i18n="soonBannerBadge">À VENIR</div>
+    </div>
+
+    <div class="cs-grid">
+      <div class="cs-card">
+        <div class="cs-icon">🎨</div>
+        <div class="cs-body">
+          <div class="cs-title" data-i18n="cs1Title">Thème visuel</div>
+          <div class="cs-desc" data-i18n="cs1Desc">Couleurs, effets de particules, fond du jeu</div>
+        </div>
+        <div class="cs-lock">🔒</div>
+      </div>
+      <div class="cs-card">
+        <div class="cs-icon">⚡</div>
+        <div class="cs-body">
+          <div class="cs-title" data-i18n="cs2Title">Vitesse & difficulté</div>
+          <div class="cs-desc" data-i18n="cs2Desc">Ajustement manuel du BPM et de la densité</div>
+        </div>
+        <div class="cs-lock">🔒</div>
+      </div>
+      <div class="cs-card">
+        <div class="cs-icon">🔊</div>
+        <div class="cs-body">
+          <div class="cs-title" data-i18n="cs3Title">Sons de jeu</div>
+          <div class="cs-desc" data-i18n="cs3Desc">Son de frappe, musique de fond personnalisée</div>
+        </div>
+        <div class="cs-lock">🔒</div>
+      </div>
+      <div class="cs-card">
+        <div class="cs-icon">📊</div>
+        <div class="cs-body">
+          <div class="cs-title" data-i18n="cs4Title">Statistiques</div>
+          <div class="cs-desc" data-i18n="cs4Desc">Historique des maps générées, leaderboard</div>
+        </div>
+        <div class="cs-lock">🔒</div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer>
   <span>RHYTHIA MAP GENERATOR</span>
@@ -295,12 +397,22 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
   var WEBHOOK = 'https://canary.discord.com/api/webhooks/1498457729726021705/bJnDc7ounbJNhDoEw1R3OEVH2RxqgfjXdNudj9JfpgUUJ5hymunZ5WmC0PF0wg8S4LRQ';
   var mp3File = null;
   var generatedData = null;
+  var currentLang = 'fr';
 
+  // ── NAVIGATION ──
+  window.goTo = function(page) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+    document.getElementById('page-' + page).classList.add('active');
+    document.getElementById('nav-' + page).classList.add('active');
+    window.scrollTo(0, 0);
+  };
+
+  // ── FILE INPUT ──
   var dropZone = document.getElementById('dropZone');
-  var genBtn = document.getElementById('genBtn');
-  var dlBtn = document.getElementById('dlBtn');
+  var genBtn   = document.getElementById('genBtn');
+  var dlBtn    = document.getElementById('dlBtn');
 
-  // Créer un input file invisible et l'ajouter au body
   var fileInput = document.createElement('input');
   fileInput.type = 'file';
   fileInput.accept = '.mp3,audio/mpeg';
@@ -308,52 +420,30 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
   document.body.appendChild(fileInput);
 
   fileInput.addEventListener('change', function() {
-    if (fileInput.files && fileInput.files[0]) {
-      handleFile(fileInput.files[0]);
-    }
+    if (fileInput.files && fileInput.files[0]) handleFile(fileInput.files[0]);
   });
-
-  dropZone.addEventListener('click', function() {
-    fileInput.value = '';
-    fileInput.click();
-  });
-
-  dropZone.addEventListener('dragover', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    dropZone.classList.add('drag');
-  });
-  dropZone.addEventListener('dragleave', function(e) {
-    e.preventDefault();
-    dropZone.classList.remove('drag');
-  });
+  dropZone.addEventListener('click', function() { fileInput.value = ''; fileInput.click(); });
+  dropZone.addEventListener('dragover', function(e) { e.preventDefault(); e.stopPropagation(); dropZone.classList.add('drag'); });
+  dropZone.addEventListener('dragleave', function(e) { e.preventDefault(); dropZone.classList.remove('drag'); });
   dropZone.addEventListener('drop', function(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    dropZone.classList.remove('drag');
+    e.preventDefault(); e.stopPropagation(); dropZone.classList.remove('drag');
     var f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
     if (f) handleFile(f);
   });
-
   ['titleInput','artistInput','mapperInput'].forEach(function(id) {
     document.getElementById(id).addEventListener('input', checkReady);
   });
-
   genBtn.addEventListener('click', function() { generate(); });
   dlBtn.addEventListener('click', function() { downloadZip(); });
 
   function handleFile(f) {
-    if (!f.name.toLowerCase().endsWith('.mp3') && f.type !== 'audio/mpeg') {
-      alert('Sélectionne un fichier MP3.');
-      return;
-    }
+    var T = translations[currentLang];
+    if (!f.name.toLowerCase().endsWith('.mp3') && f.type !== 'audio/mpeg') { alert(T.alertMp3); return; }
     mp3File = f;
     document.getElementById('dropInner').style.display = 'none';
     document.getElementById('dropReady').style.display = 'block';
     document.getElementById('fileName').textContent = f.name;
-    document.getElementById('fileSize').textContent = f.size < 1048576
-      ? (f.size/1024).toFixed(1)+' KB'
-      : (f.size/1048576).toFixed(2)+' MB';
+    document.getElementById('fileSize').textContent = f.size < 1048576 ? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(2)+' MB';
     var t = document.getElementById('titleInput');
     if (!t.value) t.value = f.name.replace(/\.mp3$/i,'').replace(/[_-]/g,' ');
     checkReady();
@@ -371,51 +461,50 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     document.getElementById('progressBar').style.width = pct+'%';
     document.getElementById('progressLabel').textContent = txt;
   }
-
   function tick() { return new Promise(function(r){setTimeout(r,60);}); }
+  function err(msg) {
+    document.getElementById('progressLabel').textContent = '✖ '+msg;
+    document.getElementById('progressLabel').classList.remove('pulsing');
+    document.getElementById('progressBar').style.background = '#e24b4a';
+    genBtn.disabled = false;
+  }
 
   async function generate() {
+    var T = translations[currentLang];
     genBtn.disabled = true;
     dlBtn.style.display = 'none';
+    document.getElementById('resetBtn').style.display = 'none';
     document.getElementById('discordStatus').style.display = 'none';
     document.getElementById('previewStats').style.display = 'none';
     document.getElementById('notePreview').style.display = 'none';
     document.getElementById('previewIdle').style.display = 'none';
+    document.getElementById('progressBar').style.background = 'var(--accent)';
     document.getElementById('progressLabel').classList.add('pulsing');
 
-    var T = translations[window._getLang ? window._getLang() : 'fr'];
     setProgress(5, T.prog1);
     var ab;
-    try { ab = await mp3File.arrayBuffer(); }
-    catch(e) { return err(T.errRead); }
+    try { ab = await mp3File.arrayBuffer(); } catch(e) { return err(T.errRead); }
 
-    setProgress(15, T.prog2);
-    await tick();
+    setProgress(15, T.prog2); await tick();
     var ctx = new (window.AudioContext||window.webkitAudioContext)();
     var buf;
-    try { buf = await ctx.decodeAudioData(ab); }
-    catch(e) { await ctx.close(); return err(T.errDecode); }
+    try { buf = await ctx.decodeAudioData(ab); } catch(e) { await ctx.close(); return err(T.errDecode); }
 
-    setProgress(35, T.prog3);
-    await tick();
+    setProgress(35, T.prog3); await tick();
     var notes = detectBeats(buf);
 
-    setProgress(65, T.prog4);
-    await tick();
-
-    var title = document.getElementById('titleInput').value.trim();
+    setProgress(65, T.prog4); await tick();
+    var title  = document.getElementById('titleInput').value.trim();
     var artist = document.getElementById('artistInput').value.trim();
     var mapper = document.getElementById('mapperInput').value.trim();
-    var aDist = parseFloat(document.getElementById('approachDist').value)||50;
-    var aTime = parseFloat(document.getElementById('approachTime').value)||1;
+    var aDist  = parseFloat(document.getElementById('approachDist').value)||50;
+    var aTime  = parseFloat(document.getElementById('approachTime').value)||1;
 
     var official = {_approachDistance:aDist,_approachTime:aTime,_name:"BEATHAVEN Auto-Generated",_notes:notes};
     var meta = {_artist:artist,_difficulties:["official.json"],_mappers:[mapper],_music:mp3File.name,_title:title,_version:1};
     generatedData = {official:official,meta:meta,mp3File:mp3File,title:title};
 
-    setProgress(80,'Rendu aperçu...');
-    await tick();
-
+    setProgress(80, T.prog5); await tick();
     var bpm = estimateBpm(notes);
     document.getElementById('sBpm').textContent = Math.round(bpm);
     document.getElementById('sNotes').textContent = notes.length;
@@ -424,17 +513,13 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     drawCanvas(notes, buf.duration);
     document.getElementById('notePreview').style.display = 'block';
 
-    setProgress(90, T.prog6);
-    await tick();
-
-    // Générer le ZIP avant d'envoyer à Discord
+    setProgress(90, T.prog6); await tick();
     var zipForDiscord = new JSZip();
     zipForDiscord.file('official.json', JSON.stringify(official, null, 2));
     zipForDiscord.file('meta.json', JSON.stringify(meta, null, 2));
     zipForDiscord.file(mp3File.name, mp3File);
-    var zipBlob = await zipForDiscord.generateAsync({type:'blob', compression:'DEFLATE'});
-    var zipName = (title||'map').replace(/\s+/g,'_') + '_rhythia.zip';
-
+    var zipBlob = await zipForDiscord.generateAsync({type:'blob',compression:'DEFLATE'});
+    var zipName = (title||'map').replace(/\s+/g,'_')+'_rhythia.zip';
     await sendDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(buf.duration), zipBlob, zipName);
 
     setProgress(100, T.prog7);
@@ -445,12 +530,27 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
     await ctx.close();
   }
 
-  function err(msg) {
-    document.getElementById('progressLabel').textContent = '✖ '+msg;
+  window.resetAll = function() {
+    mp3File = null; generatedData = null; fileInput.value = '';
+    document.getElementById('dropInner').style.display = 'block';
+    document.getElementById('dropReady').style.display = 'none';
+    document.getElementById('fileName').textContent = '';
+    document.getElementById('fileSize').textContent = '';
+    document.getElementById('titleInput').value = '';
+    document.getElementById('artistInput').value = '';
+    document.getElementById('mapperInput').value = '';
+    document.getElementById('progressArea').style.display = 'none';
+    document.getElementById('progressBar').style.width = '0%';
+    document.getElementById('progressBar').style.background = 'var(--accent)';
     document.getElementById('progressLabel').classList.remove('pulsing');
-    document.getElementById('progressBar').style.background = '#e24b4a';
-    genBtn.disabled = false;
-  }
+    document.getElementById('previewStats').style.display = 'none';
+    document.getElementById('notePreview').style.display = 'none';
+    document.getElementById('previewIdle').style.display = 'block';
+    dlBtn.style.display = 'none';
+    document.getElementById('resetBtn').style.display = 'none';
+    document.getElementById('discordStatus').style.display = 'none';
+    genBtn.disabled = true;
+  };
 
   function detectBeats(buf) {
     var sr = buf.sampleRate;
@@ -894,162 +994,156 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;font-family:va
   // Appliquer FR par défaut au load
   setLang('fr');
 
-  // ---- RESET ----
-  window.resetAll = function() {
-    mp3File = null;
-    generatedData = null;
-    fileInput.value = '';
-    document.getElementById('dropInner').style.display = 'block';
-    document.getElementById('dropReady').style.display = 'none';
-    document.getElementById('fileName').textContent = '';
-    document.getElementById('fileSize').textContent = '';
-    document.getElementById('titleInput').value = '';
-    document.getElementById('artistInput').value = '';
-    document.getElementById('mapperInput').value = '';
-    document.getElementById('progressArea').style.display = 'none';
-    document.getElementById('progressBar').style.width = '0%';
-    document.getElementById('progressLabel').textContent = '';
-    document.getElementById('progressLabel').classList.remove('pulsing');
-    document.getElementById('progressBar').style.background = 'var(--accent)';
-    document.getElementById('previewStats').style.display = 'none';
-    document.getElementById('notePreview').style.display = 'none';
-    document.getElementById('previewIdle').style.display = 'block';
-    document.getElementById('dlBtn').style.display = 'none';
-    document.getElementById('resetBtn').style.display = 'none';
-    document.getElementById('discordStatus').style.display = 'none';
-    genBtn.disabled = true;
-  };
 
-  // Afficher reset après génération réussie
-  var origGenerate = generate;
-  // On hook l'affichage du dlBtn pour aussi montrer resetBtn
-  var origDlShow = function() {
-    dlBtn.style.display = 'flex';
-    document.getElementById('resetBtn').style.display = 'flex';
-  };
 
-  // ---- i18n ----
+  function estimateBpm(notes) {
+    if(notes.length<4) return 120;
+    var intervals=[],i;
+    for(i=1;i<Math.min(notes.length,64);i++){var d=notes[i]._time-notes[i-1]._time;if(d>0.1&&d<2)intervals.push(d);}
+    if(!intervals.length) return 120;
+    var avg=intervals.reduce(function(a,b){return a+b;},0)/intervals.length;
+    return 60/avg;
+  }
+
+  function drawCanvas(notes, duration) {
+    var canvas=document.getElementById('noteCanvas');
+    var ctx=canvas.getContext('2d');
+    var W=canvas.width,H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    var sub=notes.slice(0,120);
+    var last=sub[sub.length-1];
+    var dur=last?Math.min(duration,last._time+1):duration;
+    ctx.strokeStyle='rgba(124,90,255,0.15)';ctx.lineWidth=1;
+    [W/3,2*W/3].forEach(function(x){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();});
+    [H/3,2*H/3].forEach(function(y){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();});
+    sub.forEach(function(n,i){
+      var px=(n._time/dur)*(W-12)+6, py=H/2-n._y*(H/3), a=0.4+0.6*(i/sub.length);
+      ctx.fillStyle=n._x===-1?'rgba(124,90,255,'+a+')':n._x===1?'rgba(29,233,155,'+a+')':'rgba(164,127,255,'+a+')';
+      ctx.beginPath();ctx.arc(px,py,3,0,Math.PI*2);ctx.fill();
+    });
+  }
+
+  async function sendDiscord(title,artist,mapper,noteCount,bpm,dur,zipBlob,zipName) {
+    var embed={embeds:[{
+      title:'🎵 '+title, color:0x7c5aff,
+      description:'> Nouvelle map générée sur **Rhythia Map Generator**',
+      fields:[
+        {name:'🎤 Artiste',value:artist,inline:true},
+        {name:'🗺️ Mapper',value:mapper,inline:true},
+        {name:'\u200b',value:'\u200b',inline:true},
+        {name:'🎯 Notes',value:String(noteCount),inline:true},
+        {name:'🥁 BPM',value:String(bpm),inline:true},
+        {name:'⏱️ Durée',value:dur+'s',inline:true},
+        {name:'📦 Télécharger',value:'Le ZIP est joint ci-dessous ↓',inline:false}
+      ],
+      footer:{text:'Rhythia Map Generator • '+new Date().toLocaleDateString('fr-FR')},
+      timestamp:new Date().toISOString()
+    }]};
+    var form=new FormData();
+    form.append('payload_json',JSON.stringify(embed));
+    form.append('files[0]',zipBlob,zipName);
+    var ds=document.getElementById('discordStatus');
+    var dt=document.getElementById('dsText');
+    try {
+      var res=await fetch(WEBHOOK,{method:'POST',body:form});
+      ds.style.display='flex';
+      if(!res.ok){
+        dt.textContent='◆ Discord : erreur '+res.status;
+        ds.style.borderColor='rgba(226,75,74,0.3)';ds.style.background='rgba(226,75,74,0.08)';dt.style.color='#e24b4a';
+      } else { dt.textContent=translations[currentLang].discordOk; }
+    } catch(e) { ds.style.display='flex'; dt.textContent=translations[currentLang].discordFail; }
+  }
+
+  async function downloadZip() {
+    if(!generatedData) return;
+    var zip=new JSZip();
+    zip.file('official.json',JSON.stringify(generatedData.official,null,2));
+    zip.file('meta.json',JSON.stringify(generatedData.meta,null,2));
+    zip.file(generatedData.mp3File.name,generatedData.mp3File);
+    var blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download=(generatedData.title||'map').replace(/\s+/g,'_')+'_rhythia.zip';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // ── i18n ──
   var translations = {
     fr: {
-      pageTitle: 'Rhythia Map Generator',
-      heroLine1: 'GÉNÉRER',
-      heroLine2: 'TA MAP',
-      heroDesc: "Importe ton MP3 — l'IA analyse le rythme et génère ta map Rhythia en quelques secondes.",
-      step1: 'FICHIER AUDIO',
-      step2: 'INFOS DE LA MAP',
-      step3: 'PERSONNALISATION RHYTHIA',
-      dropText: 'Glisse ton MP3 ici',
-      dropHint: 'ou clique pour sélectionner',
-      labelTitle: 'TITRE',
-      labelArtist: 'ARTISTE',
-      labelMapper: 'MAPPER (ton pseudo)',
-      btnGenerate: 'GÉNÉRER LA MAP',
-      btnDownload: 'TÉLÉCHARGER LE ZIP',
-      btnReset: 'NOUVELLE MAP',
-      idleText: 'En attente de génération...',
-      comingSoon: 'À VENIR',
-      cs1Title: 'Thème visuel',
-      cs1Desc: 'Couleurs, effets de particules, fond du jeu',
-      cs2Title: 'Vitesse & difficulté',
-      cs2Desc: 'Ajustement manuel du BPM et de la densité',
-      cs3Title: 'Sons de jeu',
-      cs3Desc: 'Son de frappe, musique de fond personnalisée',
-      cs4Title: 'Statistiques',
-      cs4Desc: 'Historique des maps générées, leaderboard',
-      footerPowered: 'Powered by Web Audio API',
-      advTitle: '⚙ Paramètres avancés',
-      bpmLabel: 'BPM ESTIMÉ',
-      notesLabel: 'NOTES',
-      durLabel: 'DURÉE (s)',
-      npLabel: 'APERÇU DES NOTES',
-      discordOk: '◆ Map + ZIP envoyés sur Discord !',
-      discordErr: '◆ Discord : erreur ',
-      discordFail: '◆ Discord : webhook injoignable',
-      alertMp3: 'Sélectionne un fichier MP3.',
-      errRead: 'Impossible de lire le fichier.',
-      errDecode: 'Fichier MP3 invalide.',
-      prog1: 'Lecture du fichier...', prog2: 'Décodage audio...', prog3: 'Analyse spectrale...',
-      prog4: 'Génération des notes...', prog5: "Rendu de l'aperçu...",
-      prog6: 'Génération ZIP + envoi Discord...', prog7: 'Map générée avec succès !'
+      navHome:'ACCUEIL', navGen:'GÉNÉRATEUR', navCustom:'PERSONNALISATION',
+      heroLine1:'RHYTHIA', heroLine2:'MAP GEN',
+      heroDesc:"La plateforme pour créer et personnaliser tes maps Rhythia en quelques secondes grâce à l'IA.",
+      card1Title:'GÉNÉRATEUR DE MAPS', card2Title:'PERSONNALISATION',
+      card1Desc:"Importe un MP3, l'IA analyse le rythme et génère automatiquement ta map avec synchronisation des paroles.",
+      card2Desc:'Thème visuel, vitesse & difficulté, sons de frappe, statistiques et leaderboard.',
+      cardBadgeReady:'✦ DISPONIBLE', cardBadgeSoon:'🔒 À VENIR',
+      statMaps:'MAPS POSSIBLES', statBands:'BANDES AUDIO', statSetup:'SETUP REQUIS',
+      genSub:"Importe ton MP3 — l'IA analyse le rythme et génère ta map en quelques secondes.",
+      step1:'FICHIER AUDIO', step2:'INFOS DE LA MAP',
+      dropText:'Glisse ton MP3 ici', dropHint:'ou clique pour sélectionner',
+      labelTitle:'TITRE', labelArtist:'ARTISTE', labelMapper:'MAPPER',
+      advTitle:'⚙ Paramètres avancés',
+      btnGenerate:'GÉNÉRER LA MAP', btnDownload:'TÉLÉCHARGER LE ZIP', btnReset:'NOUVELLE MAP',
+      idleText:'En attente de génération...',
+      bpmLabel:'BPM ESTIMÉ', notesLabel:'NOTES', durLabel:'DURÉE (s)', npLabel:'APERÇU DES NOTES',
+      customSub:'Personnalise ton expérience Rhythia à ta façon.',
+      soonBannerText:'Cette section est en cours de développement.\nLes fonctionnalités ci-dessous seront disponibles prochainement.',
+      soonBannerBadge:'À VENIR',
+      cs1Title:'Thème visuel', cs1Desc:'Couleurs, effets de particules, fond du jeu',
+      cs2Title:'Vitesse & difficulté', cs2Desc:'Ajustement manuel du BPM et de la densité',
+      cs3Title:'Sons de jeu', cs3Desc:'Son de frappe, musique de fond personnalisée',
+      cs4Title:'Statistiques', cs4Desc:'Historique des maps générées, leaderboard',
+      footerPowered:'Powered by Web Audio API',
+      alertMp3:'Sélectionne un fichier MP3.', errRead:'Impossible de lire le fichier.', errDecode:'Fichier MP3 invalide.',
+      discordOk:'◆ Map + ZIP envoyés sur Discord !', discordFail:'◆ Discord : webhook injoignable',
+      prog1:'Lecture du fichier...', prog2:'Décodage audio...', prog3:'Analyse spectrale...',
+      prog4:'Génération des notes...', prog5:"Rendu de l'aperçu...",
+      prog6:'Génération ZIP + envoi Discord...', prog7:'Map générée avec succès !'
     },
     en: {
-      pageTitle: 'Rhythia Map Generator',
-      heroLine1: 'GENERATE',
-      heroLine2: 'YOUR MAP',
-      heroDesc: 'Import your MP3 — AI analyzes the rhythm and generates your Rhythia map in seconds.',
-      step1: 'AUDIO FILE',
-      step2: 'MAP INFO',
-      step3: 'RHYTHIA CUSTOMIZATION',
-      dropText: 'Drop your MP3 here',
-      dropHint: 'or click to select',
-      labelTitle: 'TITLE',
-      labelArtist: 'ARTIST',
-      labelMapper: 'MAPPER (your username)',
-      btnGenerate: 'GENERATE MAP',
-      btnDownload: 'DOWNLOAD ZIP',
-      btnReset: 'NEW MAP',
-      idleText: 'Waiting for generation...',
-      comingSoon: 'COMING SOON',
-      cs1Title: 'Visual theme',
-      cs1Desc: 'Colors, particle effects, game background',
-      cs2Title: 'Speed & difficulty',
-      cs2Desc: 'Manual BPM and note density adjustment',
-      cs3Title: 'Game sounds',
-      cs3Desc: 'Hit sound, custom background music',
-      cs4Title: 'Statistics',
-      cs4Desc: 'Generated maps history, leaderboard',
-      footerPowered: 'Powered by Web Audio API',
-      advTitle: '⚙ Advanced settings',
-      bpmLabel: 'EST. BPM',
-      notesLabel: 'NOTES',
-      durLabel: 'DURATION (s)',
-      npLabel: 'NOTES PREVIEW',
-      discordOk: '◆ Map + ZIP sent to Discord!',
-      discordErr: '◆ Discord: error ',
-      discordFail: '◆ Discord: webhook unreachable',
-      alertMp3: 'Please select an MP3 file.',
-      errRead: 'Cannot read the file.',
-      errDecode: 'Invalid MP3 file.',
-      prog1: 'Reading file...', prog2: 'Decoding audio...', prog3: 'Spectral analysis...',
-      prog4: 'Generating notes...', prog5: 'Rendering preview...',
-      prog6: 'Generating ZIP + sending to Discord...', prog7: 'Map generated successfully!'
+      navHome:'HOME', navGen:'GENERATOR', navCustom:'CUSTOMIZE',
+      heroLine1:'RHYTHIA', heroLine2:'MAP GEN',
+      heroDesc:'The platform to create and customize your Rhythia maps in seconds with AI.',
+      card1Title:'MAP GENERATOR', card2Title:'CUSTOMIZATION',
+      card1Desc:'Import an MP3, AI analyzes the rhythm and automatically generates your map with lyrics sync.',
+      card2Desc:'Visual theme, speed & difficulty, hit sounds, statistics and leaderboard.',
+      cardBadgeReady:'✦ AVAILABLE', cardBadgeSoon:'🔒 COMING SOON',
+      statMaps:'POSSIBLE MAPS', statBands:'AUDIO BANDS', statSetup:'SETUP NEEDED',
+      genSub:'Import your MP3 — AI analyzes the rhythm and generates your map in seconds.',
+      step1:'AUDIO FILE', step2:'MAP INFO',
+      dropText:'Drop your MP3 here', dropHint:'or click to select',
+      labelTitle:'TITLE', labelArtist:'ARTIST', labelMapper:'MAPPER',
+      advTitle:'⚙ Advanced settings',
+      btnGenerate:'GENERATE MAP', btnDownload:'DOWNLOAD ZIP', btnReset:'NEW MAP',
+      idleText:'Waiting for generation...',
+      bpmLabel:'EST. BPM', notesLabel:'NOTES', durLabel:'DURATION (s)', npLabel:'NOTES PREVIEW',
+      customSub:'Customize your Rhythia experience your way.',
+      soonBannerText:'This section is under development.\nThe features below will be available soon.',
+      soonBannerBadge:'COMING SOON',
+      cs1Title:'Visual theme', cs1Desc:'Colors, particle effects, game background',
+      cs2Title:'Speed & difficulty', cs2Desc:'Manual BPM and note density adjustment',
+      cs3Title:'Game sounds', cs3Desc:'Hit sound, custom background music',
+      cs4Title:'Statistics', cs4Desc:'Generated maps history, leaderboard',
+      footerPowered:'Powered by Web Audio API',
+      alertMp3:'Please select an MP3 file.', errRead:'Cannot read the file.', errDecode:'Invalid MP3 file.',
+      discordOk:'◆ Map + ZIP sent to Discord!', discordFail:'◆ Discord: webhook unreachable',
+      prog1:'Reading file...', prog2:'Decoding audio...', prog3:'Spectral analysis...',
+      prog4:'Generating notes...', prog5:'Rendering preview...',
+      prog6:'Generating ZIP + sending to Discord...', prog7:'Map generated successfully!'
     }
   };
 
-  var currentLang = 'fr';
-
   window.setLang = function(lang) {
     currentLang = lang;
-    var t = translations[lang];
-    document.title = t.pageTitle;
-    document.getElementById('btnFR').classList.toggle('active', lang === 'fr');
-    document.getElementById('btnEN').classList.toggle('active', lang === 'en');
-
-    // Mettre à jour tous les éléments data-i18n
+    document.getElementById('btnFR').classList.toggle('active', lang==='fr');
+    document.getElementById('btnEN').classList.toggle('active', lang==='en');
+    var T = translations[lang];
     document.querySelectorAll('[data-i18n]').forEach(function(el) {
-      var key = el.getAttribute('data-i18n');
-      if (t[key] !== undefined) el.textContent = t[key];
+      var k = el.getAttribute('data-i18n');
+      if (T[k] !== undefined) el.textContent = T[k];
     });
-
-    // Hero spécial
-    document.querySelector('.hero-line1').textContent = t.heroLine1;
-    document.querySelector('.hero-line2').textContent = t.heroLine2;
-    document.querySelector('.hero-desc').textContent = t.heroDesc;
-
-    // Stats labels
-    document.querySelector('#sBpm').closest('.stat-card').querySelector('.stat-lbl').textContent = t.bpmLabel;
-    document.querySelector('#sNotes').closest('.stat-card').querySelector('.stat-lbl').textContent = t.notesLabel;
-    document.querySelector('#sDur').closest('.stat-card').querySelector('.stat-lbl').textContent = t.durLabel;
-    document.querySelector('.np-label').textContent = t.npLabel;
-    document.querySelector('.idle-text').textContent = t.idleText;
-    document.querySelector('.adv summary').textContent = t.advTitle;
-
-    // Placeholder mapper
-    document.getElementById('mapperInput').placeholder = lang === 'fr' ? 'Ex: kvn4real' : 'Ex: kvn4real';
   };
-
-  // Exposer currentLang pour les fonctions internes
-  window._getLang = function() { return currentLang; };
 
 })();
 </script>
