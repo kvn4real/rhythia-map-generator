@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -24,27 +25,27 @@ body{background:var(--bg);color:var(--text);font-family:var(--display);min-heigh
 
 /* ── HEADER ── */
 header{position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:1rem 3rem;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.95);
-  backdrop-filter:blur(12px)}
-.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:17px;font-weight:800;
-  letter-spacing:0.15em;color:var(--text);cursor:pointer;text-decoration:none}
-.logo-icon{color:var(--accent);font-size:20px}
-.logo-sub{font-size:9px;font-weight:600;letter-spacing:0.2em;color:var(--text3);
-  border:1px solid var(--border2);padding:2px 6px;border-radius:3px}
+display:flex;align-items:center;justify-content:space-between;
+padding:1rem 3rem;border-bottom:1px solid var(–border);background:rgba(10,10,15,0.95);
+backdrop-filter:blur(12px)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(–display);font-size:17px;font-weight:800;
+letter-spacing:0.15em;color:var(–text);cursor:pointer;text-decoration:none}
+.logo-icon{color:var(–accent);font-size:20px}
+.logo-sub{font-size:9px;font-weight:600;letter-spacing:0.2em;color:var(–text3);
+border:1px solid var(–border2);padding:2px 6px;border-radius:3px}
 nav{display:flex;align-items:center;gap:6px}
 .nav-btn{background:transparent;border:1px solid transparent;border-radius:6px;
-  color:var(--text3);font-family:var(--mono);font-size:11px;padding:5px 14px;
-  cursor:pointer;transition:all .15s;letter-spacing:0.08em;white-space:nowrap}
-.nav-btn:hover{color:var(--text);border-color:var(--border2)}
-.nav-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+color:var(–text3);font-family:var(–mono);font-size:11px;padding:5px 14px;
+cursor:pointer;transition:all .15s;letter-spacing:0.08em;white-space:nowrap}
+.nav-btn:hover{color:var(–text);border-color:var(–border2)}
+.nav-btn.active{background:var(–accent);color:#fff;border-color:var(–accent)}
 .header-right{display:flex;align-items:center;gap:8px}
 .lang-switcher{display:flex;gap:3px}
-.lang-btn{background:transparent;border:1px solid var(--border);border-radius:4px;
-  color:var(--text3);font-family:var(--mono);font-size:10px;padding:3px 8px;
-  cursor:pointer;transition:all .15s}
-.lang-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
-.lang-btn:hover:not(.active){border-color:var(--accent2);color:var(--text)}
+.lang-btn{background:transparent;border:1px solid var(–border);border-radius:4px;
+color:var(–text3);font-family:var(–mono);font-size:10px;padding:3px 8px;
+cursor:pointer;transition:all .15s}
+.lang-btn.active{background:var(–accent);border-color:var(–accent);color:#fff}
+.lang-btn:hover:not(.active){border-color:var(–accent2);color:var(–text)}
 
 /* ── PAGES ── */
 .page{display:none;min-height:100vh;padding-top:72px}
@@ -53,146 +54,166 @@ nav{display:flex;align-items:center;gap:6px}
 /* ── PAGE HOME ── */
 .home-wrap{max-width:1100px;margin:0 auto;padding:5rem 2rem 4rem;position:relative;z-index:1}
 .home-hero{text-align:center;margin-bottom:5rem}
-.home-hero h1{font-family:var(--display);font-weight:800;line-height:0.88;letter-spacing:-0.02em;margin-bottom:1.5rem}
-.home-line1{display:block;font-size:clamp(56px,9vw,110px);color:transparent;-webkit-text-stroke:1.5px var(--accent2)}
-.home-line2{display:block;font-size:clamp(56px,9vw,110px);color:var(--text)}
-.home-desc{font-family:var(--mono);font-size:14px;color:var(--text2);max-width:480px;margin:0 auto;line-height:1.8}
+.home-hero h1{font-family:var(–display);font-weight:800;line-height:0.88;letter-spacing:-0.02em;margin-bottom:1.5rem}
+.home-line1{display:block;font-size:clamp(56px,9vw,110px);color:transparent;-webkit-text-stroke:1.5px var(–accent2)}
+.home-line2{display:block;font-size:clamp(56px,9vw,110px);color:var(–text)}
+.home-desc{font-family:var(–mono);font-size:14px;color:var(–text2);max-width:480px;margin:0 auto;line-height:1.8}
 .home-cards{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;max-width:900px;margin:0 auto}
 @media(max-width:640px){.home-cards{grid-template-columns:1fr}}
-.home-card{background:var(--panel);border:1px solid var(--border);border-radius:16px;
-  padding:2.5rem 2rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
-.home-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;
-  background:radial-gradient(ellipse at 50% 0%,rgba(124,90,255,0.1) 0%,transparent 70%)}
-.home-card:hover{border-color:var(--accent2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(124,90,255,0.15)}
+.home-card{background:var(–panel);border:1px solid var(–border);border-radius:16px;
+padding:2.5rem 2rem;cursor:pointer;transition:all .25s;position:relative;overflow:hidden}
+.home-card::before{content:’’;position:absolute;inset:0;opacity:0;transition:opacity .25s;
+background:radial-gradient(ellipse at 50% 0%,rgba(124,90,255,0.1) 0%,transparent 70%)}
+.home-card:hover{border-color:var(–accent2);transform:translateY(-4px);box-shadow:0 16px 48px rgba(124,90,255,0.15)}
 .home-card:hover::before{opacity:1}
 .home-card.soon{cursor:default}
-.home-card.soon:hover{transform:none;box-shadow:none;border-color:var(--border)}
+.home-card.soon:hover{transform:none;box-shadow:none;border-color:var(–border)}
 .home-card.soon:hover::before{opacity:0}
 .card-icon{font-size:36px;margin-bottom:1.25rem}
 .card-title{font-size:20px;font-weight:800;letter-spacing:0.05em;margin-bottom:.5rem}
-.card-desc{font-family:var(--mono);font-size:12px;color:var(--text2);line-height:1.7}
+.card-desc{font-family:var(–mono);font-size:12px;color:var(–text2);line-height:1.7}
 .card-badge{display:inline-flex;align-items:center;gap:6px;margin-top:1.25rem;
-  background:rgba(124,90,255,0.15);border:1px solid var(--accent);
-  border-radius:20px;padding:4px 12px;font-family:var(--mono);font-size:10px;
-  font-weight:700;letter-spacing:0.15em;color:var(--accent2)}
-.card-badge-soon{background:rgba(90,84,117,0.2);border-color:var(--text3);color:var(--text3)}
-.card-arrow{font-size:20px;color:var(--accent);margin-top:1rem;display:block}
+background:rgba(124,90,255,0.15);border:1px solid var(–accent);
+border-radius:20px;padding:4px 12px;font-family:var(–mono);font-size:10px;
+font-weight:700;letter-spacing:0.15em;color:var(–accent2)}
+.card-badge-soon{background:rgba(90,84,117,0.2);border-color:var(–text3);color:var(–text3)}
+.card-arrow{font-size:20px;color:var(–accent);margin-top:1rem;display:block}
 .home-stats{display:flex;justify-content:center;gap:4rem;margin-top:4rem;
-  padding-top:3rem;border-top:1px solid var(--border)}
+padding-top:3rem;border-top:1px solid var(–border)}
 .hs-item{text-align:center}
-.hs-val{font-size:32px;font-weight:800;color:var(--green)}
-.hs-lbl{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:0.15em;margin-top:4px}
+.hs-val{font-size:32px;font-weight:800;color:var(–green)}
+.hs-lbl{font-family:var(–mono);font-size:10px;color:var(–text3);letter-spacing:0.15em;margin-top:4px}
 
 /* ── PAGE GENERATOR ── */
 .gen-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;position:relative;z-index:1}
 .page-header{margin-bottom:2rem}
 .page-title{font-size:clamp(28px,4vw,48px);font-weight:800;line-height:1}
-.page-title span{color:var(--accent2)}
-.page-sub{font-family:var(--mono);font-size:13px;color:var(--text2);margin-top:.5rem}
+.page-title span{color:var(–accent2)}
+.page-sub{font-family:var(–mono);font-size:13px;color:var(–text2);margin-top:.5rem}
 .layout{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 @media(max-width:768px){.layout{grid-template-columns:1fr}header{padding:.85rem 1.25rem}.home-wrap,.gen-wrap,.custom-wrap{padding-left:1.25rem;padding-right:1.25rem}}
-.panel{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:1.75rem}
+.panel{background:var(–panel);border:1px solid var(–border);border-radius:12px;padding:1.75rem}
 .step{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:600;
-  letter-spacing:0.2em;color:var(--text3);margin-bottom:1rem;font-family:var(--mono)}
-.step-n{background:var(--accent);color:#fff;font-family:var(--mono);font-size:10px;
-  padding:2px 7px;border-radius:2px;font-weight:700}
-.drop-zone{border:1.5px dashed var(--border2);border-radius:8px;background:var(--panel2);
-  min-height:130px;display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:border-color .2s,background .2s;user-select:none}
-.drop-zone:hover,.drop-zone.drag{border-color:var(--accent);background:rgba(124,90,255,0.06)}
+letter-spacing:0.2em;color:var(–text3);margin-bottom:1rem;font-family:var(–mono)}
+.step-n{background:var(–accent);color:#fff;font-family:var(–mono);font-size:10px;
+padding:2px 7px;border-radius:2px;font-weight:700}
+.drop-zone{border:1.5px dashed var(–border2);border-radius:8px;background:var(–panel2);
+min-height:130px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+transition:border-color .2s,background .2s;user-select:none}
+.drop-zone:hover,.drop-zone.drag{border-color:var(–accent);background:rgba(124,90,255,0.06)}
 .drop-inner,.drop-ready{text-align:center;padding:1.5rem;pointer-events:none}
-.drop-icon{color:var(--accent);margin-bottom:.75rem}
-.drop-text{font-size:14px;font-weight:600;color:var(--text2)}
-.drop-hint{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:4px}
-.file-icon{font-size:28px;color:var(--green);margin-bottom:.5rem}
-.file-name{font-size:13px;font-weight:600;color:var(--text);word-break:break-all;margin-top:4px}
-.file-size{font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:4px}
+.drop-icon{color:var(–accent);margin-bottom:.75rem}
+.drop-text{font-size:14px;font-weight:600;color:var(–text2)}
+.drop-hint{font-family:var(–mono);font-size:11px;color:var(–text3);margin-top:4px}
+.file-icon{font-size:28px;color:var(–green);margin-bottom:.5rem}
+.file-name{font-size:13px;font-weight:600;color:var(–text);word-break:break-all;margin-top:4px}
+.file-size{font-family:var(–mono);font-size:11px;color:var(–text3);margin-top:4px}
 .fields{display:flex;flex-direction:column;gap:.75rem;margin-top:.75rem}
 .fg{display:flex;flex-direction:column;gap:5px}
-label{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3);font-weight:700;display:block}
-input[type=text],input[type=number]{background:var(--panel2);border:1px solid var(--border);
-  border-radius:6px;padding:10px 12px;color:var(--text);font-family:var(--display);font-size:14px;
-  transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
-input[type=text]:focus,input[type=number]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-input::placeholder{color:var(--text3)}
-.adv{margin-top:1.25rem;border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem}
-.adv summary{font-family:var(--mono);font-size:11px;color:var(--text3);cursor:pointer;
-  letter-spacing:0.1em;user-select:none;list-style:none}
+label{font-family:var(–mono);font-size:10px;letter-spacing:0.15em;color:var(–text3);font-weight:700;display:block}
+input[type=text],input[type=number]{background:var(–panel2);border:1px solid var(–border);
+border-radius:6px;padding:10px 12px;color:var(–text);font-family:var(–display);font-size:14px;
+transition:border-color .2s,box-shadow .2s;width:100%;outline:none}
+input[type=text]:focus,input[type=number]:focus{border-color:var(–accent);box-shadow:0 0 0 3px var(–accent-glow)}
+input::placeholder{color:var(–text3)}
+.adv{margin-top:1.25rem;border:1px solid var(–border);border-radius:6px;padding:.75rem 1rem}
+.adv summary{font-family:var(–mono);font-size:11px;color:var(–text3);cursor:pointer;
+letter-spacing:0.1em;user-select:none;list-style:none}
 .adv summary::-webkit-details-marker{display:none}
 .adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
-.preview-area{background:var(--panel2);border:1px solid var(--border);border-radius:8px;
-  min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:1.5rem;margin-bottom:1rem;gap:1.25rem}
+.preview-area{background:var(–panel2);border:1px solid var(–border);border-radius:8px;
+min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+padding:1.5rem;margin-bottom:1rem;gap:1.25rem}
 .idle{text-align:center}
-.idle-icon{font-size:32px;color:var(--text3);margin-bottom:.5rem;opacity:.4}
-.idle-text{font-family:var(--mono);font-size:11px;color:var(--text3);letter-spacing:0.1em}
+.idle-icon{font-size:32px;color:var(–text3);margin-bottom:.5rem;opacity:.4}
+.idle-text{font-family:var(–mono);font-size:11px;color:var(–text3);letter-spacing:0.1em}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%}
-.stat-card{background:var(--panel);border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center}
-.stat-val{font-size:24px;font-weight:800;color:var(--green)}
-.stat-lbl{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);margin-top:3px}
+.stat-card{background:var(–panel);border:1px solid var(–border);border-radius:6px;padding:.75rem;text-align:center}
+.stat-val{font-size:24px;font-weight:800;color:var(–green)}
+.stat-lbl{font-family:var(–mono);font-size:9px;letter-spacing:0.15em;color:var(–text3);margin-top:3px}
 .note-preview{width:100%;text-align:center}
-.np-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);margin-bottom:.5rem}
-#noteCanvas{border:1px solid var(--border);border-radius:6px;max-width:100%;display:block;margin:0 auto}
+.np-label{font-family:var(–mono);font-size:9px;letter-spacing:0.2em;color:var(–text3);margin-bottom:.5rem}
+#noteCanvas{border:1px solid var(–border);border-radius:6px;max-width:100%;display:block;margin:0 auto}
 .progress-area{margin-bottom:1rem}
-.progress-label{font-family:var(--mono);font-size:11px;color:var(--text2);margin-bottom:.5rem;letter-spacing:0.05em}
-.progress-track{height:4px;background:var(--panel2);border-radius:2px;overflow:hidden}
-.progress-bar{height:100%;width:0;background:var(--accent);border-radius:2px;transition:width .35s ease;box-shadow:0 0 8px var(--accent-glow)}
+.progress-label{font-family:var(–mono);font-size:11px;color:var(–text2);margin-bottom:.5rem;letter-spacing:0.05em}
+.progress-track{height:4px;background:var(–panel2);border-radius:2px;overflow:hidden}
+.progress-bar{height:100%;width:0;background:var(–accent);border-radius:2px;transition:width .35s ease;box-shadow:0 0 8px var(–accent-glow)}
 .actions{display:flex;flex-direction:column;gap:.75rem}
 .btn-gen,.btn-dl,.btn-reset{width:100%;padding:.9rem 1.5rem;display:flex;align-items:center;
-  justify-content:space-between;border-radius:8px;font-family:var(--display);font-size:13px;
-  font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s}
-.btn-gen{background:var(--accent);color:#fff;border:none}
-.btn-gen:hover:not(:disabled){background:var(--accent2);transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+justify-content:space-between;border-radius:8px;font-family:var(–display);font-size:13px;
+font-weight:800;letter-spacing:0.12em;cursor:pointer;transition:all .2s}
+.btn-gen{background:var(–accent);color:#fff;border:none}
+.btn-gen:hover:not(:disabled){background:var(–accent2);transform:translateY(-1px);box-shadow:0 6px 24px var(–accent-glow)}
 .btn-gen:disabled{opacity:.35;cursor:not-allowed;transform:none}
-.btn-dl{background:transparent;color:var(--green);border:1.5px solid var(--green)}
-.btn-dl:hover{background:var(--green-glow);transform:translateY(-1px)}
-.btn-reset{background:transparent;color:var(--text3);border:1px solid var(--border)}
-.btn-reset:hover{border-color:var(--text3);color:var(--text);background:rgba(255,255,255,0.04)}
+.btn-dl{background:transparent;color:var(–green);border:1.5px solid var(–green)}
+.btn-dl:hover{background:var(–green-glow);transform:translateY(-1px)}
+.btn-reset{background:transparent;color:var(–text3);border:1px solid var(–border)}
+.btn-reset:hover{border-color:var(–text3);color:var(–text);background:rgba(255,255,255,0.04)}
 .btn-arrow{font-size:18px}
 .ds{margin-top:.75rem;background:rgba(29,233,155,0.08);border:1px solid rgba(29,233,155,0.25);
-  border-radius:6px;padding:.6rem 1rem;display:flex;align-items:center;gap:8px}
-.ds-icon{color:var(--green);font-size:12px}
-.ds-text{font-family:var(--mono);font-size:12px;color:var(--green)}
+border-radius:6px;padding:.6rem 1rem;display:flex;align-items:center;gap:8px}
+.ds-icon{color:var(–green);font-size:12px}
+.ds-text{font-family:var(–mono);font-size:12px;color:var(–green)}
 
 /* ── PAGE CUSTOMIZE ── */
 .custom-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 2rem 4rem;position:relative;z-index:1}
 .cs-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:2rem}
 @media(max-width:640px){.cs-grid{grid-template-columns:1fr}}
-.cs-card{background:var(--panel);border:1px solid var(--border);border-radius:12px;
-  padding:1.5rem;display:flex;align-items:flex-start;gap:1rem;position:relative;overflow:hidden}
-.cs-card::after{content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,0.04) 8px,rgba(0,0,0,0.04) 16px)}
+.cs-card{background:var(–panel);border:1px solid var(–border);border-radius:12px;
+padding:1.5rem;display:flex;align-items:flex-start;gap:1rem;position:relative;overflow:hidden}
+.cs-card::after{content:’’;position:absolute;inset:0;
+background:repeating-linear-gradient(45deg,transparent,transparent 8px,rgba(0,0,0,0.04) 8px,rgba(0,0,0,0.04) 16px)}
 .cs-icon{font-size:28px;flex-shrink:0;opacity:.6}
 .cs-body{flex:1}
-.cs-title{font-size:15px;font-weight:700;color:var(--text2);margin-bottom:4px}
-.cs-desc{font-family:var(--mono);font-size:11px;color:var(--text3);line-height:1.6}
+.cs-title{font-size:15px;font-weight:700;color:var(–text2);margin-bottom:4px}
+.cs-desc{font-family:var(–mono);font-size:11px;color:var(–text3);line-height:1.6}
 .cs-lock{font-size:16px;opacity:.3;flex-shrink:0}
-.soon-banner{background:rgba(124,90,255,0.08);border:1px solid var(--accent);
-  border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:2rem;
-  display:flex;align-items:center;gap:1rem}
+.soon-banner{background:rgba(124,90,255,0.08);border:1px solid var(–accent);
+border-radius:10px;padding:1.25rem 1.5rem;margin-bottom:2rem;
+display:flex;align-items:center;gap:1rem}
 .soon-banner-icon{font-size:24px}
-.soon-banner-text{font-family:var(--mono);font-size:12px;color:var(--accent2);line-height:1.7}
-.soon-banner-badge{margin-left:auto;background:var(--accent);color:#fff;
-  font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:0.15em;
-  padding:4px 12px;border-radius:20px;white-space:nowrap}
+.soon-banner-text{font-family:var(–mono);font-size:12px;color:var(–accent2);line-height:1.7}
+.soon-banner-badge{margin-left:auto;background:var(–accent);color:#fff;
+font-family:var(–mono);font-size:10px;font-weight:700;letter-spacing:0.15em;
+padding:4px 12px;border-radius:20px;white-space:nowrap}
 
 /* ── FOOTER ── */
 footer{position:relative;z-index:1;text-align:center;padding:2rem;
-  font-family:var(--mono);font-size:11px;color:var(--text3);
-  border-top:1px solid var(--border);letter-spacing:0.1em}
+font-family:var(–mono);font-size:11px;color:var(–text3);
+border-top:1px solid var(–border);letter-spacing:0.1em}
 .footer-sep{margin:0 .75rem}
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .pulsing{animation:pulse 1.2s ease-in-out infinite}
+
+/* DIFFICULTY SELECTOR */
+.diff-selector{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:.75rem}
+.diff-btn{background:var(–panel2);border:1.5px solid var(–border);border-radius:8px;
+padding:.65rem .5rem;cursor:pointer;transition:all .2s;text-align:center;font-family:var(–display)}
+.diff-btn:hover{border-color:var(–accent2)}
+.diff-letter{font-size:20px;font-weight:800;display:block;margin-bottom:2px}
+.diff-name{font-family:var(–mono);font-size:9px;letter-spacing:0.1em;color:var(–text3)}
+.diff-btn.active{border-color:var(–accent);background:rgba(124,90,255,0.12)}
+.diff-btn.active .diff-letter{color:var(–accent)}
+.diff-btn[data-diff=“E”].active{border-color:#1de99b;background:rgba(29,233,155,0.1)}
+.diff-btn[data-diff=“E”].active .diff-letter{color:#1de99b}
+.diff-btn[data-diff=“M”].active{border-color:#7c5aff;background:rgba(124,90,255,0.1)}
+.diff-btn[data-diff=“M”].active .diff-letter{color:#7c5aff}
+.diff-btn[data-diff=“H”].active{border-color:#f59e0b;background:rgba(245,158,11,0.1)}
+.diff-btn[data-diff=“H”].active .diff-letter{color:#f59e0b}
+.diff-btn[data-diff=“L”].active{border-color:#ef4444;background:rgba(239,68,68,0.1)}
+.diff-btn[data-diff=“L”].active .diff-letter{color:#ef4444}
 @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .page.active{animation:fadeIn .25s ease}
 </style>
+
 </head>
 <body>
 <div class="bg-grid"></div>
 <div class="bg-glow"></div>
 
 <!-- HEADER -->
+
 <header>
   <div class="logo" onclick="goTo('home')">
     <span class="logo-icon">◈</span>
@@ -213,6 +234,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
 </header>
 
 <!-- ══ PAGE HOME ══ -->
+
 <div class="page active" id="page-home">
   <div class="home-wrap">
     <div class="home-hero">
@@ -223,31 +245,35 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       <p class="home-desc" data-i18n="heroDesc">La plateforme pour créer et personnaliser tes maps Rhythia en quelques secondes grâce à l'IA.</p>
     </div>
 
-    <div class="home-cards">
-      <div class="home-card" onclick="goTo('generator')">
-        <div class="card-icon">🎵</div>
-        <div class="card-title" data-i18n="card1Title">GÉNÉRATEUR DE MAPS</div>
-        <div class="card-desc" data-i18n="card1Desc">Importe un MP3, l'IA analyse le rythme et génère automatiquement ta map avec synchronisation des paroles.</div>
-        <span class="card-badge" data-i18n="cardBadgeReady">✦ DISPONIBLE</span>
-        <span class="card-arrow">→</span>
-      </div>
-      <div class="home-card soon">
-        <div class="card-icon">🎨</div>
-        <div class="card-title" data-i18n="card2Title">PERSONNALISATION</div>
-        <div class="card-desc" data-i18n="card2Desc">Thème visuel, vitesse & difficulté, sons de frappe, statistiques et leaderboard. Tout pour rendre ton expérience unique.</div>
-        <span class="card-badge card-badge-soon" data-i18n="cardBadgeSoon">🔒 À VENIR</span>
-      </div>
-    </div>
+```
+<div class="home-cards">
+  <div class="home-card" onclick="goTo('generator')">
+    <div class="card-icon">🎵</div>
+    <div class="card-title" data-i18n="card1Title">GÉNÉRATEUR DE MAPS</div>
+    <div class="card-desc" data-i18n="card1Desc">Importe un MP3, l'IA analyse le rythme et génère automatiquement ta map avec synchronisation des paroles.</div>
+    <span class="card-badge" data-i18n="cardBadgeReady">✦ DISPONIBLE</span>
+    <span class="card-arrow">→</span>
+  </div>
+  <div class="home-card soon">
+    <div class="card-icon">🎨</div>
+    <div class="card-title" data-i18n="card2Title">PERSONNALISATION</div>
+    <div class="card-desc" data-i18n="card2Desc">Thème visuel, vitesse & difficulté, sons de frappe, statistiques et leaderboard. Tout pour rendre ton expérience unique.</div>
+    <span class="card-badge card-badge-soon" data-i18n="cardBadgeSoon">🔒 À VENIR</span>
+  </div>
+</div>
 
-    <div class="home-stats">
-      <div class="hs-item"><div class="hs-val">∞</div><div class="hs-lbl" data-i18n="statMaps">MAPS POSSIBLES</div></div>
-      <div class="hs-item"><div class="hs-val">3</div><div class="hs-lbl" data-i18n="statBands">BANDES AUDIO</div></div>
-      <div class="hs-item"><div class="hs-val">0s</div><div class="hs-lbl" data-i18n="statSetup">SETUP REQUIS</div></div>
-    </div>
+<div class="home-stats">
+  <div class="hs-item"><div class="hs-val">∞</div><div class="hs-lbl" data-i18n="statMaps">MAPS POSSIBLES</div></div>
+  <div class="hs-item"><div class="hs-val">3</div><div class="hs-lbl" data-i18n="statBands">BANDES AUDIO</div></div>
+  <div class="hs-item"><div class="hs-val">0s</div><div class="hs-lbl" data-i18n="statSetup">SETUP REQUIS</div></div>
+</div>
+```
+
   </div>
 </div>
 
 <!-- ══ PAGE GENERATOR ══ -->
+
 <div class="page" id="page-generator">
   <div class="gen-wrap">
     <div class="page-header">
@@ -255,83 +281,108 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       <div class="page-sub" data-i18n="genSub">Importe ton MP3 — l'IA analyse le rythme et génère ta map en quelques secondes.</div>
     </div>
 
-    <div class="layout">
-      <div class="panel">
-        <div class="step"><span class="step-n">01</span> <span data-i18n="step1">FICHIER AUDIO</span></div>
-        <div class="drop-zone" id="dropZone">
-          <div class="drop-inner" id="dropInner">
-            <div class="drop-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
-              </svg>
-            </div>
-            <div class="drop-text" data-i18n="dropText">Glisse ton MP3 ici</div>
-            <div class="drop-hint" data-i18n="dropHint">ou clique pour sélectionner</div>
-          </div>
-          <div class="drop-ready" id="dropReady" style="display:none">
-            <div class="file-icon">♪</div>
-            <div class="file-name" id="fileName"></div>
-            <div class="file-size" id="fileSize"></div>
-          </div>
+```
+<div class="layout">
+  <div class="panel">
+    <div class="step"><span class="step-n">01</span> <span data-i18n="step1">FICHIER AUDIO</span></div>
+    <div class="drop-zone" id="dropZone">
+      <div class="drop-inner" id="dropInner">
+        <div class="drop-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+          </svg>
         </div>
-
-        <div class="step" style="margin-top:2rem"><span class="step-n">02</span> <span data-i18n="step2">INFOS DE LA MAP</span></div>
-        <div class="fields">
-          <div class="fg"><label data-i18n="labelTitle">TITRE</label><input type="text" id="titleInput" placeholder="Ex: Ronnie Kray"></div>
-          <div class="fg"><label data-i18n="labelArtist">ARTISTE</label><input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola"></div>
-          <div class="fg"><label data-i18n="labelMapper">MAPPER</label><input type="text" id="mapperInput" placeholder="Ex: kvn4real"></div>
-        </div>
-        <details class="adv">
-          <summary data-i18n="advTitle">⚙ Paramètres avancés</summary>
-          <div class="adv-grid">
-            <div class="fg"><label>APPROACH DISTANCE</label><input type="number" id="approachDist" value="50" min="10" max="200"></div>
-            <div class="fg"><label>APPROACH TIME</label><input type="number" id="approachTime" value="1" min="0.1" max="5" step="0.1"></div>
-          </div>
-        </details>
+        <div class="drop-text" data-i18n="dropText">Glisse ton MP3 ici</div>
+        <div class="drop-hint" data-i18n="dropHint">ou clique pour sélectionner</div>
       </div>
+      <div class="drop-ready" id="dropReady" style="display:none">
+        <div class="file-icon">♪</div>
+        <div class="file-name" id="fileName"></div>
+        <div class="file-size" id="fileSize"></div>
+      </div>
+    </div>
 
-      <div class="panel">
-        <div class="preview-area" id="previewArea">
-          <div class="idle" id="previewIdle">
-            <div class="idle-icon">◈</div>
-            <div class="idle-text" data-i18n="idleText">En attente de génération...</div>
-          </div>
-          <div class="stats-grid" id="previewStats" style="display:none">
-            <div class="stat-card"><div class="stat-val" id="sBpm">—</div><div class="stat-lbl" data-i18n="bpmLabel">BPM ESTIMÉ</div></div>
-            <div class="stat-card"><div class="stat-val" id="sNotes">—</div><div class="stat-lbl" data-i18n="notesLabel">NOTES</div></div>
-            <div class="stat-card"><div class="stat-val" id="sDur">—</div><div class="stat-lbl" data-i18n="durLabel">DURÉE (s)</div></div>
-          </div>
-          <div class="note-preview" id="notePreview" style="display:none">
-            <div class="np-label" data-i18n="npLabel">APERÇU DES NOTES</div>
-            <canvas id="noteCanvas" width="300" height="160"></canvas>
-          </div>
-        </div>
-
-        <div id="progressArea" style="display:none;margin-bottom:1rem">
-          <div class="progress-label" id="progressLabel"></div>
-          <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-        </div>
-
-        <div class="actions">
-          <button class="btn-gen" id="genBtn" disabled>
-            <span data-i18n="btnGenerate">GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
+    <div class="step" style="margin-top:2rem"><span class="step-n">02</span> <span data-i18n="step2">INFOS DE LA MAP</span></div>
+    <div class="fields">
+      <div class="fg"><label data-i18n="labelTitle">TITRE</label><input type="text" id="titleInput" placeholder="Ex: Ronnie Kray"></div>
+      <div class="fg"><label data-i18n="labelArtist">ARTISTE</label><input type="text" id="artistInput" placeholder="Ex: Landy ft. Tiakola"></div>
+      <div class="fg"><label data-i18n="labelMapper">MAPPER</label><input type="text" id="mapperInput" placeholder="Ex: kvn4real"></div>
+      <div class="fg">
+        <label data-i18n="labelDiff">NIVEAU DE DIFFICULTÉ</label>
+        <div class="diff-selector">
+          <button class="diff-btn" data-diff="E" onclick="setDiff('E')">
+            <span class="diff-letter">E</span>
+            <span class="diff-name" data-i18n="diffE">EASY</span>
           </button>
-          <button class="btn-dl" id="dlBtn" style="display:none">
-            <span data-i18n="btnDownload">TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
+          <button class="diff-btn active" data-diff="M" onclick="setDiff('M')">
+            <span class="diff-letter">M</span>
+            <span class="diff-name" data-i18n="diffM">MEDIUM</span>
           </button>
-          <button class="btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">
-            <span data-i18n="btnReset">NOUVELLE MAP</span><span>↺</span>
+          <button class="diff-btn" data-diff="H" onclick="setDiff('H')">
+            <span class="diff-letter">H</span>
+            <span class="diff-name" data-i18n="diffH">HARD</span>
           </button>
-        </div>
-        <div class="ds" id="discordStatus" style="display:none">
-          <div class="ds-icon">◆</div><div class="ds-text" id="dsText"></div>
+          <button class="diff-btn" data-diff="L" onclick="setDiff('L')">
+            <span class="diff-letter">L</span>
+            <span class="diff-name" data-i18n="diffL">LUNATIC</span>
+          </button>
         </div>
       </div>
     </div>
+    <details class="adv">
+      <summary data-i18n="advTitle">⚙ Paramètres avancés</summary>
+      <div class="adv-grid">
+        <div class="fg"><label>APPROACH DISTANCE</label><input type="number" id="approachDist" value="50" min="10" max="200"></div>
+        <div class="fg"><label>APPROACH TIME</label><input type="number" id="approachTime" value="1" min="0.1" max="5" step="0.1"></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="panel">
+    <div class="preview-area" id="previewArea">
+      <div class="idle" id="previewIdle">
+        <div class="idle-icon">◈</div>
+        <div class="idle-text" data-i18n="idleText">En attente de génération...</div>
+      </div>
+      <div class="stats-grid" id="previewStats" style="display:none">
+        <div class="stat-card"><div class="stat-val" id="sBpm">—</div><div class="stat-lbl" data-i18n="bpmLabel">BPM ESTIMÉ</div></div>
+        <div class="stat-card"><div class="stat-val" id="sNotes">—</div><div class="stat-lbl" data-i18n="notesLabel">NOTES</div></div>
+        <div class="stat-card"><div class="stat-val" id="sDur">—</div><div class="stat-lbl" data-i18n="durLabel">DURÉE (s)</div></div>
+      </div>
+      <div class="note-preview" id="notePreview" style="display:none">
+        <div class="np-label" data-i18n="npLabel">APERÇU DES NOTES</div>
+        <canvas id="noteCanvas" width="300" height="160"></canvas>
+      </div>
+    </div>
+
+    <div id="progressArea" style="display:none;margin-bottom:1rem">
+      <div class="progress-label" id="progressLabel"></div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-gen" id="genBtn" disabled>
+        <span data-i18n="btnGenerate">GÉNÉRER LA MAP</span><span class="btn-arrow">→</span>
+      </button>
+      <button class="btn-dl" id="dlBtn" style="display:none">
+        <span data-i18n="btnDownload">TÉLÉCHARGER LE ZIP</span><span class="btn-arrow">↓</span>
+      </button>
+      <button class="btn-reset" id="resetBtn" style="display:none" onclick="resetAll()">
+        <span data-i18n="btnReset">NOUVELLE MAP</span><span>↺</span>
+      </button>
+    </div>
+    <div class="ds" id="discordStatus" style="display:none">
+      <div class="ds-icon">◆</div><div class="ds-text" id="dsText"></div>
+    </div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
 <!-- ══ PAGE CUSTOMIZE ══ -->
+
 <div class="page" id="page-customize">
   <div class="custom-wrap">
     <div class="page-header">
@@ -339,65 +390,149 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       <div class="page-sub" data-i18n="customSub">Personnalise ton expérience Rhythia à ta façon.</div>
     </div>
 
-    <div class="soon-banner">
-      <div class="soon-banner-icon">🚧</div>
-      <div class="soon-banner-text" data-i18n="soonBannerText">
-        Cette section est en cours de développement.<br>
-        Les fonctionnalités ci-dessous seront disponibles prochainement.
-      </div>
-      <div class="soon-banner-badge" data-i18n="soonBannerBadge">À VENIR</div>
-    </div>
+```
+<div class="soon-banner">
+  <div class="soon-banner-icon">🚧</div>
+  <div class="soon-banner-text" data-i18n="soonBannerText">
+    Cette section est en cours de développement.<br>
+    Les fonctionnalités ci-dessous seront disponibles prochainement.
+  </div>
+  <div class="soon-banner-badge" data-i18n="soonBannerBadge">À VENIR</div>
+</div>
 
-    <div class="cs-grid">
-      <div class="cs-card">
-        <div class="cs-icon">🎨</div>
-        <div class="cs-body">
-          <div class="cs-title" data-i18n="cs1Title">Thème visuel</div>
-          <div class="cs-desc" data-i18n="cs1Desc">Couleurs, effets de particules, fond du jeu</div>
-        </div>
-        <div class="cs-lock">🔒</div>
-      </div>
-      <div class="cs-card">
-        <div class="cs-icon">⚡</div>
-        <div class="cs-body">
-          <div class="cs-title" data-i18n="cs2Title">Vitesse & difficulté</div>
-          <div class="cs-desc" data-i18n="cs2Desc">Ajustement manuel du BPM et de la densité</div>
-        </div>
-        <div class="cs-lock">🔒</div>
-      </div>
-      <div class="cs-card">
-        <div class="cs-icon">🔊</div>
-        <div class="cs-body">
-          <div class="cs-title" data-i18n="cs3Title">Sons de jeu</div>
-          <div class="cs-desc" data-i18n="cs3Desc">Son de frappe, musique de fond personnalisée</div>
-        </div>
-        <div class="cs-lock">🔒</div>
-      </div>
-      <div class="cs-card">
-        <div class="cs-icon">📊</div>
-        <div class="cs-body">
-          <div class="cs-title" data-i18n="cs4Title">Statistiques</div>
-          <div class="cs-desc" data-i18n="cs4Desc">Historique des maps générées, leaderboard</div>
-        </div>
-        <div class="cs-lock">🔒</div>
-      </div>
+<div class="cs-grid">
+  <div class="cs-card">
+    <div class="cs-icon">🎨</div>
+    <div class="cs-body">
+      <div class="cs-title" data-i18n="cs1Title">Thème visuel</div>
+      <div class="cs-desc" data-i18n="cs1Desc">Couleurs, effets de particules, fond du jeu</div>
     </div>
+    <div class="cs-lock">🔒</div>
+  </div>
+  <div class="cs-card">
+    <div class="cs-icon">⚡</div>
+    <div class="cs-body">
+      <div class="cs-title" data-i18n="cs2Title">Vitesse & difficulté</div>
+      <div class="cs-desc" data-i18n="cs2Desc">Ajustement manuel du BPM et de la densité</div>
+    </div>
+    <div class="cs-lock">🔒</div>
+  </div>
+  <div class="cs-card">
+    <div class="cs-icon">🔊</div>
+    <div class="cs-body">
+      <div class="cs-title" data-i18n="cs3Title">Sons de jeu</div>
+      <div class="cs-desc" data-i18n="cs3Desc">Son de frappe, musique de fond personnalisée</div>
+    </div>
+    <div class="cs-lock">🔒</div>
+  </div>
+  <div class="cs-card">
+    <div class="cs-icon">📊</div>
+    <div class="cs-body">
+      <div class="cs-title" data-i18n="cs4Title">Statistiques</div>
+      <div class="cs-desc" data-i18n="cs4Desc">Historique des maps générées, leaderboard</div>
+    </div>
+    <div class="cs-lock">🔒</div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
 <footer>
   <span>RHYTHIA MAP GENERATOR</span>
   <span class="footer-sep">·</span>
-  <span data-i18n="footerPowered">Created with <3 by kvn4real</span>
+  <span data-i18n="footerPowered">Powered by Web Audio API</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
 <script>
 (function() {
-  var WEBHOOK = 'https://canary.discord.com/api/webhooks/1499475254664499321/usUHwMKeYZizw-xvyW3l6NuSO73vtIaknRbTB2bhPBqAAO8_jEtsEY9Y07CxmcBwxOBt';
+  var WEBHOOK = 'https://canary.discord.com/api/webhooks/1498457729726021705/bJnDc7ounbJNhDoEw1R3OEVH2RxqgfjXdNudj9JfpgUUJ5hymunZ5WmC0PF0wg8S4LRQ';
   var mp3File = null;
   var generatedData = null;
   var currentLang = 'fr';
+  var currentDiff = 'M';
+
+  window.setDiff = function(d) {
+    currentDiff = d;
+    document.querySelectorAll('.diff-btn').forEach(function(b) {
+      b.classList.toggle('active', b.getAttribute('data-diff') === d);
+    });
+  };
+
+  // Paramètres par niveau de difficulté
+  var DIFF_PARAMS = {
+    E: {
+      minGap: 0.22,        // 220ms — beaucoup d'espace
+      globalThr: 2.2,      // seuil très haut = peu d'onsets
+      intenseThr: 1.8,
+      bassThr: 2.8,
+      voiceThr: 2.5,
+      voiceGap: 3,         // multiplicateur du minGap pour la voix
+      bassGap: 0.3,
+      burstChance: 0,      // aucun burst
+      tripleChance: 0,
+      burstInterval: 0.2,
+      cornerChance: 0,     // aucun coin
+      cornerThreshold: 2,  // jamais atteint
+      patternChange: 0.98, // patterns très stables
+      allowedX: [-1,0,1],  // toutes positions
+      forceSimple: true,   // positions simples favorisées
+    },
+    M: {
+      minGap: 0.14,
+      globalThr: 1.5,
+      intenseThr: 1.25,
+      bassThr: 2.2,
+      voiceThr: 2.0,
+      voiceGap: 2,
+      bassGap: 0.2,
+      burstChance: 0.18,
+      tripleChance: 0.05,
+      burstInterval: 0.16,
+      cornerChance: 0.3,
+      cornerThreshold: 0.9,
+      patternChange: 0.95,
+      allowedX: [-1,0,1],
+      forceSimple: false,
+    },
+    H: {
+      minGap: 0.09,
+      globalThr: 1.2,
+      intenseThr: 1.15,
+      bassThr: 1.8,
+      voiceThr: 1.6,
+      voiceGap: 1,
+      bassGap: 0.12,
+      burstChance: 0.45,
+      tripleChance: 0.35,
+      burstInterval: 0.10,
+      cornerChance: 0.55,
+      cornerThreshold: 0.7,
+      patternChange: 0.88,
+      allowedX: [-1,0,1],
+      forceSimple: false,
+    },
+    L: {
+      minGap: 0.055,
+      globalThr: 1.0,
+      intenseThr: 1.0,
+      bassThr: 1.4,
+      voiceThr: 1.3,
+      voiceGap: 1,
+      bassGap: 0.07,
+      burstChance: 0.75,
+      tripleChance: 0.70,
+      burstInterval: 0.07,
+      cornerChance: 0.8,
+      cornerThreshold: 0.55,
+      patternChange: 0.78,
+      allowedX: [-1,0,1],
+      forceSimple: false,
+    }
+  };
 
   // ── NAVIGATION ──
   window.goTo = function(page) {
@@ -491,7 +626,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
     try { buf = await ctx.decodeAudioData(ab); } catch(e) { await ctx.close(); return err(T.errDecode); }
 
     setProgress(35, T.prog3); await tick();
-    var notes = detectBeats(buf);
+    var notes = detectBeats(buf, DIFF_PARAMS[currentDiff]);
 
     setProgress(65, T.prog4); await tick();
     var title  = document.getElementById('titleInput').value.trim();
@@ -500,7 +635,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
     var aDist  = parseFloat(document.getElementById('approachDist').value)||50;
     var aTime  = parseFloat(document.getElementById('approachTime').value)||1;
 
-    var official = {_approachDistance:aDist,_approachTime:aTime,_name:"BEATHAVEN Auto-Generated",_notes:notes};
+    var diffNames = {E:"Easy",M:"Medium",H:"Hard",L:"Lunatic"};
+    var official = {_approachDistance:aDist,_approachTime:aTime,_name:"BEATHAVEN Auto-Generated — "+diffNames[currentDiff],_notes:notes};
     var meta = {_artist:artist,_difficulties:["official.json"],_mappers:[mapper],_music:mp3File.name,_title:title,_version:1};
     generatedData = {official:official,meta:meta,mp3File:mp3File,title:title};
 
@@ -552,7 +688,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
     genBtn.disabled = true;
   };
 
-  function detectBeats(buf) {
+  function detectBeats(buf, P) {
+    if (!P) P = DIFF_PARAMS['M'];
     var sr = buf.sampleRate;
     // FFT size = 2048 = ~46ms à 44100Hz, bon compromis temps/fréquence
     var fftSize = 2048;
@@ -662,7 +799,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       return v > smoothVoiceLong[i] * 1.4;
     });
 
-    var minGap = Math.floor(0.14 / (hop / sr)); // 140ms min — difficulté normale
+    var minGap = Math.floor(P.minGap / (hop / sr));
 
     // --- Onsets globaux ---
     var onsets = [];
@@ -672,8 +809,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       var sl = energies.slice(Math.max(0, i-2), i+3);
       if (e !== Math.max.apply(null, sl)) continue;
       if (i - last < minGap) continue;
-      var isIntense = smoothShort[i] > smoothLong[i] * 1.5;
-      var thr = isIntense ? 1.6 : 2.0;
+      var isIntense = smoothShort[i] > smoothLong[i] * P.intenseThr;
+      var thr = isIntense ? P.globalThr * 0.8 : P.globalThr;
       if (e > smoothLong[i] * thr) {
         onsets.push({ idx: i, energy: e, intense: isIntense, isVoice: voiceActive[i] });
         last = i;
@@ -687,8 +824,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       var e = bassEnergies[i];
       var sl = bassEnergies.slice(Math.max(0, i-2), i+3);
       if (e !== Math.max.apply(null, sl)) continue;
-      if (i - lastBass < Math.floor(0.2 / (hop/sr))) continue;
-      if (e > smoothBass[i] * 2.2) {
+      if (i - lastBass < Math.floor(P.bassGap / (hop/sr))) continue;
+      if (e > smoothBass[i] * P.bassThr) {
         bassOnsets.push({ idx: i, energy: e, intense: false, isVoice: false });
         lastBass = i;
       }
@@ -702,8 +839,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       var e = voiceEnergies[i];
       var sl = voiceEnergies.slice(Math.max(0, i-2), i+3);
       if (e !== Math.max.apply(null, sl)) continue;
-      if (i - lastVoice < minGap * 2) continue;
-      if (e > smoothVoice[i] * 2.0) {
+      if (i - lastVoice < minGap * P.voiceGap) continue;
+      if (e > smoothVoice[i] * P.voiceThr) {
         voiceOnsets.push({ idx: i, energy: e, intense: true, isVoice: true });
         lastVoice = i;
       }
@@ -723,10 +860,10 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
 
     // --- Ajouter des doubles/triples sur les moments intenses ---
     var withBursts = [];
-    var burstInterval = Math.floor(0.16 / (hop / sr)); // 160ms entre notes burst
+    var burstInterval = Math.floor(P.burstInterval / (hop / sr));
     for (var i = 0; i < merged.length; i++) {
       withBursts.push(merged[i]);
-      if (merged[i].intense && Math.random() > 0.82) {
+      if (merged[i].intense && Math.random() < P.burstChance) {
         // Double note
         var nextIdx = merged[i].idx + burstInterval;
         var nextTime = (nextIdx * hop) / sr;
@@ -734,7 +871,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
         if (nextTime < nextMergedTime - 0.04) {
           withBursts.push({ idx: nextIdx, energy: merged[i].energy * 0.8, intense: false, burst: true });
           // Triple note
-          if (Math.random() > 0.95) {
+          if (Math.random() < P.tripleChance) {
             var tripleIdx = nextIdx + burstInterval;
             var tripleTime = (tripleIdx * hop) / sr;
             if (tripleTime < nextMergedTime - 0.04) {
@@ -787,7 +924,11 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
         patternIdx++;
       }
 
-      if (currentPattern) {
+      if (P.forceSimple && Math.random() > 0.25) {
+        // Easy : positions simples seulement
+        var sp = simplePositions[Math.floor(Math.random() * simplePositions.length)];
+        x = sp.x; y = sp.y;
+      } else if (currentPattern) {
         var pos = currentPattern[posInPattern % currentPattern.length];
         x = pos.x; y = pos.y;
         posInPattern++;
@@ -798,7 +939,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       }
 
       // Sur notes très intenses : forcer coins/extrêmes
-      if (energyRatio > 0.9 && Math.random() > 0.7) {
+      if (energyRatio > P.cornerThreshold && Math.random() < P.cornerChance) {
         var corners = [{x:-1,y:-1},{x:-1,y:1},{x:1,y:-1},{x:1,y:1}];
         var c = corners[Math.floor(Math.random() * 4)];
         x = c.x; y = c.y;
@@ -1032,6 +1173,7 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
         {name:'🗺️ Mapper',value:mapper,inline:true},
         {name:'\u200b',value:'\u200b',inline:true},
         {name:'🎯 Notes',value:String(noteCount),inline:true},
+        {name:'⚔️ Difficulté',value:{E:'Easy 🟢',M:'Medium 🟣',H:'Hard 🟠',L:'Lunatic 🔴'}[currentDiff]||'Medium',inline:true},
         {name:'🥁 BPM',value:String(bpm),inline:true},
         {name:'⏱️ Durée',value:dur+'s',inline:true},
         {name:'📦 Télécharger',value:'Le ZIP est joint ci-dessous ↓',inline:false}
@@ -1094,6 +1236,8 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
       cs2Title:'Vitesse & difficulté', cs2Desc:'Ajustement manuel du BPM et de la densité',
       cs3Title:'Sons de jeu', cs3Desc:'Son de frappe, musique de fond personnalisée',
       cs4Title:'Statistiques', cs4Desc:'Historique des maps générées, leaderboard',
+      labelDiff:'NIVEAU DE DIFFICULTÉ', diffE:'EASY', diffM:'MEDIUM', diffH:'HARD', diffL:'LUNATIC',
+      labelDiff:'DIFFICULTY', diffE:'EASY', diffM:'MEDIUM', diffH:'HARD', diffL:'LUNATIC',
       footerPowered:'Powered by Web Audio API',
       alertMp3:'Sélectionne un fichier MP3.', errRead:'Impossible de lire le fichier.', errDecode:'Fichier MP3 invalide.',
       discordOk:'◆ Map + ZIP envoyés sur Discord !', discordFail:'◆ Discord : webhook injoignable',
@@ -1147,5 +1291,6 @@ footer{position:relative;z-index:1;text-align:center;padding:2rem;
 
 })();
 </script>
+
 </body>
 </html>
