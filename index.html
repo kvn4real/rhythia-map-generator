@@ -79,7 +79,7 @@ header::after{
 }
 
 .logo{display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none}
-.logo img{width:26px;height:26px;object-fit:contain;filter:invert(0) brightness(1);opacity:.9}
+.logo img{width:26px;height:26px;object-fit:contain;filter:invert(1) brightness(1);opacity:.9}
 .logo-name{font-family:var(--orb);font-size:16px;font-weight:900;letter-spacing:0.22em;color:var(--w);text-shadow:0 0 20px rgba(255,255,255,0.3)}
 .logo-sep{color:var(--text3);margin:0 2px}
 .logo-tag{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:var(--text3)}
@@ -309,6 +309,182 @@ input::placeholder{color:var(--text3)}
 .cs-desc{font-family:var(--mono);font-size:10px;color:var(--text3);line-height:1.6}
 .cs-lock{font-size:13px;opacity:.2;flex-shrink:0}
 
+/* ══════════════════════
+   CUSTOMIZE
+══════════════════════ */
+.custom-wrap{max-width:1080px;margin:0 auto;padding:2.5rem 2rem 6rem;position:relative;z-index:1}
+
+/* Tabs */
+.cs-tabs{display:flex;gap:0;margin-bottom:2rem;border-bottom:1px solid var(--border)}
+.cs-tab{background:transparent;border:none;font-family:var(--mono);font-size:11px;letter-spacing:0.12em;color:var(--text3);padding:.75rem 1.25rem;cursor:pointer;transition:all .2s;position:relative;white-space:nowrap}
+.cs-tab::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:var(--w);transform:scaleX(0);transition:transform .2s}
+.cs-tab:hover{color:var(--text2)}
+.cs-tab.active{color:var(--w)}
+.cs-tab.active::after{transform:scaleX(1)}
+
+/* Tab panels */
+.cs-panel{display:none}
+.cs-panel.active{display:block;animation:pageIn .25s ease}
+
+/* Section block */
+.cs-section{margin-bottom:2rem}
+.cs-section-title{font-family:var(--mono);font-size:9px;letter-spacing:0.25em;color:var(--text3);margin-bottom:.75rem;display:flex;align-items:center;gap:10px}
+.cs-section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* Setting row */
+.cs-row{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:.875rem 1rem;background:var(--panel);border:1px solid var(--border);margin-bottom:.5rem;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px)}
+.cs-row-info{flex:1;min-width:0}
+.cs-row-label{font-family:var(--orb);font-size:13px;letter-spacing:0.08em;color:var(--text);margin-bottom:3px}
+.cs-row-desc{font-family:var(--mono);font-size:10px;color:var(--text3)}
+.cs-row-ctrl{flex-shrink:0}
+
+/* Toggle */
+.toggle{position:relative;width:44px;height:24px;cursor:pointer;display:inline-block}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:rgba(255,255,255,0.06);border:1px solid var(--border2);transition:all .2s}
+.toggle-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;background:var(--text3);transition:all .2s;pointer-events:none}
+.toggle input:checked+.toggle-track{background:rgba(255,255,255,0.12);border-color:var(--border3)}
+.toggle input:checked~.toggle-thumb{left:23px;background:var(--w);box-shadow:0 0 10px rgba(255,255,255,0.35)}
+
+/* Slider */
+.cs-slider-wrap{display:flex;align-items:center;gap:10px}
+.cs-slider-val{font-family:var(--mono);font-size:11px;color:var(--w);min-width:40px;text-align:right}
+input[type=range]{-webkit-appearance:none;appearance:none;width:130px;height:2px;background:var(--border2);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;background:var(--w);cursor:pointer;box-shadow:0 0 8px rgba(255,255,255,0.35);clip-path:polygon(3px 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%,0 3px)}
+input[type=range]::-moz-range-thumb{width:14px;height:14px;background:var(--w);cursor:pointer;border:none}
+
+/* Sound selector */
+.sound-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.sound-btn{background:transparent;border:1px solid var(--border);padding:.7rem .5rem;cursor:pointer;transition:all .2s;text-align:center;clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:var(--text3)}
+.sound-btn:hover{border-color:var(--border2);color:var(--text2)}
+.sound-btn.active{border-color:var(--border3);background:rgba(255,255,255,0.05);color:var(--w);box-shadow:0 0 12px rgba(255,255,255,0.05)}
+.sound-icon{font-size:18px;display:block;margin-bottom:5px}
+
+/* Theme grid */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.theme-btn{background:transparent;border:1px solid var(--border);padding:.875rem .75rem;cursor:pointer;transition:all .2s;text-align:center;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);position:relative}
+.theme-btn:hover{border-color:var(--border2)}
+.theme-btn.active{border-color:var(--border3);background:rgba(255,255,255,0.04)}
+.theme-preview{width:100%;height:30px;margin-bottom:.5rem;border:1px solid rgba(255,255,255,0.08)}
+.theme-name{font-family:var(--mono);font-size:9px;letter-spacing:0.12em;color:var(--text2)}
+.theme-check{position:absolute;top:5px;right:6px;font-size:9px;color:var(--w);opacity:0;font-family:var(--mono)}
+.theme-btn.active .theme-check{opacity:1}
+
+/* Stats history */
+.stats-header{display:grid;grid-template-columns:1fr 90px 65px 65px 70px;gap:6px;padding:.5rem .75rem;font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);border-bottom:1px solid var(--border)}
+.stat-row{display:grid;grid-template-columns:1fr 90px 65px 65px 70px;gap:6px;padding:.65rem .75rem;font-family:var(--mono);font-size:11px;color:var(--text2);border-bottom:1px solid var(--border);transition:background .15s}
+.stat-row:hover{background:var(--panel)}
+.stat-row .sr-title{color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.diff-tag{padding:1px 6px;font-size:9px;letter-spacing:0.1em;border:1px solid rgba(255,255,255,0.2);color:var(--text2)}
+.diff-tag.L{border-color:var(--w);color:var(--w);background:rgba(255,255,255,0.06)}
+.stats-empty{text-align:center;padding:3rem 1rem;font-family:var(--mono);font-size:11px;color:var(--text3)}
+.stats-empty-icon{font-size:30px;opacity:.2;display:block;margin-bottom:.75rem}
+.stats-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.5rem}
+.stat-sum-card{background:var(--panel);border:1px solid var(--border);padding:.875rem;text-align:center;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.stat-sum-val{font-family:var(--orb);font-size:22px;font-weight:700;color:var(--w);text-shadow:0 0 14px rgba(255,255,255,0.25)}
+.stat-sum-lbl{font-family:var(--mono);font-size:8px;letter-spacing:0.15em;color:var(--text3);margin-top:3px}
+
+/* Save bar */
+.cs-save-bar{display:flex;justify-content:flex-end;gap:.75rem;margin-top:2rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.btn-save{background:var(--w);border:none;color:#000;font-family:var(--orb);font-size:13px;letter-spacing:0.15em;padding:.7rem 1.75rem;cursor:pointer;transition:all .2s;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);box-shadow:0 0 24px rgba(255,255,255,0.1)}
+.btn-save:hover{background:#e8e8e8;box-shadow:0 0 40px rgba(255,255,255,0.18);transform:translateY(-1px)}
+.btn-reset-prefs{background:transparent;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;padding:.7rem 1.25rem;cursor:pointer;transition:all .2s;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.btn-reset-prefs:hover{border-color:var(--border2);color:var(--text2)}
+.btn-clear-hist{background:transparent;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);font-size:10px;letter-spacing:0.1em;padding:4px 12px;cursor:pointer;transition:all .2s;margin-top:.75rem}
+.btn-clear-hist:hover{border-color:var(--border2);color:var(--text2)}
+.save-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(10,10,10,0.95);border:1px solid var(--border2);backdrop-filter:blur(12px);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--text);padding:.65rem 1.5rem;opacity:0;transition:all .3s;pointer-events:none;z-index:9999}
+.save-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+
+/* ══════════════════════
+   SKINS PAGE
+══════════════════════ */
+.skins-wrap{max-width:1080px;margin:0 auto;padding:2.5rem 2rem 6rem;position:relative;z-index:1}
+
+/* Top bar */
+.skins-topbar{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.skins-filters{display:flex;gap:4px}
+.filter-btn{background:transparent;border:1px solid var(--border);font-family:var(--mono);font-size:10px;letter-spacing:0.1em;color:var(--text3);padding:5px 14px;cursor:pointer;transition:all .2s;clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px)}
+.filter-btn:hover{border-color:var(--border2);color:var(--text2)}
+.filter-btn.active{border-color:var(--border3);background:rgba(255,255,255,0.06);color:var(--w)}
+.btn-publish{background:var(--w);border:none;color:#000;font-family:var(--orb);font-size:13px;letter-spacing:0.12em;padding:.65rem 1.5rem;cursor:pointer;transition:all .2s;clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);box-shadow:0 0 20px rgba(255,255,255,0.1);white-space:nowrap}
+.btn-publish:hover{background:#e8e8e8;box-shadow:0 0 36px rgba(255,255,255,0.18);transform:translateY(-1px)}
+
+/* Skin grid */
+.skins-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+@media(max-width:900px){.skins-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.skins-grid{grid-template-columns:1fr}}
+
+.skin-card{background:var(--panel);border:1px solid var(--border);transition:all .3s;position:relative;overflow:hidden;clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px)}
+.skin-card-corner{position:absolute;top:0;left:0;width:12px;height:12px;background:var(--border2);clip-path:polygon(0 0,100% 0,0 100%);transition:background .3s}
+.skin-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,0.6)}
+.skin-card:hover .skin-card-corner{background:var(--w)}
+
+.skin-preview{width:100%;height:80px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.skin-preview-bar{position:absolute;bottom:0;left:0;right:0;height:3px}
+.skin-badge{position:absolute;top:8px;right:8px;font-family:var(--mono);font-size:8px;letter-spacing:0.15em;padding:2px 7px;border:1px solid rgba(255,255,255,0.2);background:rgba(0,0,0,0.6);color:var(--text2)}
+.skin-badge.official{border-color:var(--w);color:var(--w)}
+
+.skin-body{padding:.875rem 1rem}
+.skin-name{font-family:var(--orb);font-size:14px;letter-spacing:0.1em;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skin-author{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:.6rem}
+.skin-desc{font-family:var(--mono);font-size:10px;color:var(--text2);line-height:1.6;margin-bottom:.875rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+.skin-footer{display:flex;align-items:center;justify-content:space-between;gap:.5rem}
+.skin-meta{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:9px;color:var(--text3)}
+.skin-dl-count::before{content:'↓ '}
+.skin-date-str{opacity:.6}
+.skin-actions{display:flex;gap:5px}
+.btn-skin-dl,.btn-skin-import{font-family:var(--mono);font-size:9px;letter-spacing:0.1em;padding:4px 10px;cursor:pointer;transition:all .2s;border:1px solid var(--border2);background:transparent;color:var(--text2)}
+.btn-skin-dl:hover{border-color:var(--border3);color:var(--w);background:rgba(255,255,255,0.04)}
+.btn-skin-import{background:rgba(255,255,255,0.06);border-color:var(--border3);color:var(--w)}
+.btn-skin-import:hover{background:rgba(255,255,255,0.12);box-shadow:0 0 12px rgba(255,255,255,0.08)}
+.skin-own-actions{display:flex;gap:5px}
+.btn-skin-del{font-family:var(--mono);font-size:9px;padding:4px 8px;cursor:pointer;transition:all .2s;border:1px solid rgba(255,255,255,0.1);background:transparent;color:var(--text3)}
+.btn-skin-del:hover{border-color:rgba(255,80,80,.5);color:rgba(255,80,80,.8)}
+
+/* Empty state */
+.skins-empty{text-align:center;padding:5rem 2rem;font-family:var(--mono);font-size:11px;color:var(--text3)}
+.skins-empty-icon{font-size:36px;opacity:.15;display:block;margin-bottom:1rem}
+
+/* Publish modal */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#0d0d0d;border:1px solid var(--border2);width:min(520px,92vw);max-height:88vh;overflow-y:auto;padding:2rem;position:relative;clip-path:polygon(16px 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%,0 16px);animation:pageIn .25s ease}
+.modal-corner{position:absolute;top:0;left:0;width:16px;height:16px;background:var(--border3);clip-path:polygon(0 0,100% 0,0 100%)}
+.modal-title{font-family:var(--orb);font-size:20px;letter-spacing:0.1em;color:var(--w);margin-bottom:.4rem}
+.modal-sub{font-family:var(--mono);font-size:11px;color:var(--text3);margin-bottom:1.75rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:transparent;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);font-size:11px;padding:3px 10px;cursor:pointer;transition:all .2s}
+.modal-close:hover{border-color:var(--border2);color:var(--text2)}
+.modal-field{display:flex;flex-direction:column;gap:5px;margin-bottom:1rem}
+.modal-field label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;color:var(--text3);display:flex;align-items:center;gap:5px}
+.modal-field label::before{content:'//';color:rgba(255,255,255,0.2)}
+.modal-field input,.modal-field textarea,.modal-field select{background:rgba(255,255,255,0.03);border:1px solid var(--border);padding:9px 12px;color:var(--text);font-family:var(--mono);font-size:12px;width:100%;outline:none;transition:all .2s;resize:none}
+.modal-field input:focus,.modal-field textarea:focus,.modal-field select:focus{border-color:var(--border3);box-shadow:0 0 0 1px rgba(255,255,255,0.06)}
+.modal-field select option{background:#111}
+.modal-field textarea{min-height:72px}
+.modal-drop{border:1px dashed rgba(255,255,255,0.18);background:transparent;padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:.5rem}
+.modal-drop:hover,.modal-drop.drag{border-color:rgba(255,255,255,0.45);background:rgba(255,255,255,0.02)}
+.modal-drop-text{font-family:var(--mono);font-size:11px;color:var(--text3)}
+.modal-drop-hint{font-family:var(--mono);font-size:10px;color:var(--text3);opacity:.5;margin-top:3px}
+.modal-drop-ready{font-family:var(--mono);font-size:11px;color:var(--text2)}
+.modal-preview{margin-bottom:1rem}
+.modal-preview-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;color:var(--text3);margin-bottom:.4rem}
+.modal-preview-bar{width:100%;height:24px;border:1px solid var(--border);margin-bottom:.4rem}
+.color-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.color-field{display:flex;flex-direction:column;gap:4px}
+.color-field label{font-family:var(--mono);font-size:9px;color:var(--text3)}
+.color-field input[type=color]{width:100%;height:32px;background:transparent;border:1px solid var(--border);cursor:pointer;padding:2px}
+.modal-footer{display:flex;justify-content:flex-end;gap:.75rem;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.btn-modal-cancel{background:transparent;border:1px solid var(--border);color:var(--text3);font-family:var(--mono);font-size:11px;padding:.65rem 1.25rem;cursor:pointer;transition:all .2s}
+.btn-modal-cancel:hover{border-color:var(--border2);color:var(--text2)}
+.btn-modal-submit{background:var(--w);border:none;color:#000;font-family:var(--orb);font-size:13px;letter-spacing:0.12em;padding:.65rem 1.5rem;cursor:pointer;transition:all .2s;clip-path:polygon(6px 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%,0 6px)}
+.btn-modal-submit:hover{background:#e8e8e8;transform:translateY(-1px)}
+
+/* Import toast */
+.import-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(10,10,10,0.95);border:1px solid var(--border2);font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--text);padding:.65rem 1.5rem;opacity:0;transition:all .3s;pointer-events:none;z-index:9999}
+.import-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 /* FOOTER */
 footer{position:relative;z-index:1;text-align:center;padding:2.5rem 2rem;font-family:var(--mono);font-size:10px;color:var(--text3);border-top:1px solid var(--border);letter-spacing:0.12em}
 footer::before{content:'';display:block;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent);margin-bottom:2.5rem}
@@ -344,6 +520,7 @@ footer::before{content:'';display:block;height:1px;background:linear-gradient(90
     <button class="nav-btn active" id="nav-home"      onclick="goTo('home')">ACCUEIL</button>
     <button class="nav-btn"        id="nav-generator" onclick="goTo('generator')">GÉNÉRATEUR</button>
     <button class="nav-btn"        id="nav-customize" onclick="goTo('customize')">PERSONNALISATION</button>
+    <button class="nav-btn"        id="nav-skins"     onclick="goTo('skins')">SKINS</button>
   </nav>
   <div class="header-right">
     <a class="discord-link" href="https://discord.gg/9zhEj2S4mx" target="_blank" rel="noopener">⬡ DISCORD</a>
@@ -382,11 +559,11 @@ footer::before{content:'';display:block;height:1px;background:linear-gradient(90
         <div class="card-desc" data-i18n="card1Desc">Importe un MP3, l'algorithme analyse basses, mid et voix pour générer ta map avec synchronisation précise.</div>
         <div class="card-cta">ACCÉDER →</div>
       </div>
-      <div class="home-card soon">
+      <div class="home-card" onclick="goTo('customize')">
         <div class="card-corner-tl"></div>
         <div class="card-corner-br"></div>
         <div class="card-shine"></div>
-        <div class="card-status off"><span class="card-status-dot"></span>À VENIR</div>
+        <div class="card-status on"><span class="card-status-dot"></span>DISPONIBLE</div>
         <div class="card-icon-wrap">🎨</div>
         <div class="card-title" data-i18n="card2Title">PERSONNALISATION</div>
         <div class="card-desc" data-i18n="card2Desc">Thème visuel, vitesse & difficulté, sons de frappe, statistiques et leaderboard. Tout pour rendre ton expérience unique.</div>
@@ -500,21 +677,441 @@ footer::before{content:'';display:block;height:1px;background:linear-gradient(90
   <div class="custom-wrap">
     <div class="page-header">
       <div class="page-title">PERSON<span class="dim">NALISATION</span></div>
-      <div class="page-sub" data-i18n="customSub">Personnalise ton expérience Rhythia à ta façon.</div>
+      <div class="page-sub">Configure le générateur à ton goût — tout est sauvegardé automatiquement.</div>
     </div>
-    <div class="soon-banner">
-      <div class="soon-banner-icon">🚧</div>
-      <div class="soon-banner-text" data-i18n="soonBannerText">Cette section est en cours de développement. Les fonctionnalités ci-dessous seront disponibles prochainement.</div>
-      <div class="soon-badge" data-i18n="soonBannerBadge">À VENIR</div>
+
+    <!-- Tabs -->
+    <div class="cs-tabs">
+      <button class="cs-tab active" onclick="switchTab('theme')">🎨 THÈME</button>
+      <button class="cs-tab" onclick="switchTab('speed')">⚡ VITESSE</button>
+      <button class="cs-tab" onclick="switchTab('sound')">🔊 SONS</button>
+      <button class="cs-tab" onclick="switchTab('stats')">📊 STATS</button>
     </div>
-    <div class="cs-grid">
-      <div class="cs-card"><div class="cs-icon">🎨</div><div class="cs-body"><div class="cs-title" data-i18n="cs1Title">Thème visuel</div><div class="cs-desc" data-i18n="cs1Desc">Couleurs, effets de particules, fond du jeu</div></div><div class="cs-lock">🔒</div></div>
-      <div class="cs-card"><div class="cs-icon">⚡</div><div class="cs-body"><div class="cs-title" data-i18n="cs2Title">Vitesse & difficulté</div><div class="cs-desc" data-i18n="cs2Desc">Ajustement manuel du BPM et de la densité</div></div><div class="cs-lock">🔒</div></div>
-      <div class="cs-card"><div class="cs-icon">🔊</div><div class="cs-body"><div class="cs-title" data-i18n="cs3Title">Sons de jeu</div><div class="cs-desc" data-i18n="cs3Desc">Son de frappe, musique de fond personnalisée</div></div><div class="cs-lock">🔒</div></div>
-      <div class="cs-card"><div class="cs-icon">📊</div><div class="cs-body"><div class="cs-title" data-i18n="cs4Title">Statistiques</div><div class="cs-desc" data-i18n="cs4Desc">Historique des maps générées, leaderboard</div></div><div class="cs-lock">🔒</div></div>
+
+    <!-- TAB: THÈME -->
+    <div class="cs-panel active" id="tab-theme">
+      <div class="cs-section">
+        <div class="cs-section-title">APPARENCE</div>
+
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Scanlines</div>
+            <div class="cs-row-desc">Effet écran CRT sur toute l'interface</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-scanlines" checked>
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Grille de fond</div>
+            <div class="cs-row-desc">Grille de points visible en arrière-plan</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-grid" checked>
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Halos ambiants</div>
+            <div class="cs-row-desc">Lumières de fond (glow) sur la page</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-glow" checked>
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Effet glitch</div>
+            <div class="cs-row-desc">Animation glitch sur le titre principal</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-glitch" checked>
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Coins HUD</div>
+            <div class="cs-row-desc">Décoration HUD futuriste aux coins de l'écran</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-hud" checked>
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <div class="cs-section-title">INTENSITÉ</div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Luminosité de l'interface</div>
+            <div class="cs-row-desc">Ajuste la clarté globale des éléments</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-brightness" min="60" max="140" value="100">
+              <span class="cs-slider-val" id="val-brightness">100%</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Intensité des glows</div>
+            <div class="cs-row-desc">Force des effets lumineux et ombres</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-glow-intensity" min="0" max="200" value="100">
+              <span class="cs-slider-val" id="val-glow-intensity">100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <div class="cs-section-title">COULEUR DES NOTES (aperçu)</div>
+        <div class="theme-grid">
+          <button class="theme-btn active" data-theme="bw" onclick="selectTheme(this)">
+            <div class="theme-check">✓</div>
+            <div class="theme-preview" style="background:linear-gradient(90deg,#fff 0%,#888 50%,#333 100%)"></div>
+            <div class="theme-name">NOIR & BLANC</div>
+          </button>
+          <button class="theme-btn" data-theme="fire" onclick="selectTheme(this)">
+            <div class="theme-check">✓</div>
+            <div class="theme-preview" style="background:linear-gradient(90deg,#ff4500,#ff8c00,#ffd700)"></div>
+            <div class="theme-name">FIRE</div>
+          </button>
+          <button class="theme-btn" data-theme="ice" onclick="selectTheme(this)">
+            <div class="theme-check">✓</div>
+            <div class="theme-preview" style="background:linear-gradient(90deg,#00c8ff,#8ab4f8,#b8d4ff)"></div>
+            <div class="theme-name">ICE</div>
+          </button>
+          <button class="theme-btn" data-theme="matrix" onclick="selectTheme(this)">
+            <div class="theme-check">✓</div>
+            <div class="theme-preview" style="background:linear-gradient(90deg,#00ff41,#00cc33,#004d00)"></div>
+            <div class="theme-name">MATRIX</div>
+          </button>
+          <button class="theme-btn" data-theme="neon" onclick="selectTheme(this)">
+            <div class="theme-check">✓</div>
+            <div class="theme-preview" style="background:linear-gradient(90deg,#bf00ff,#ff0080,#ff6600)"></div>
+            <div class="theme-name">NEON</div>
+          </button>
+          <button class="theme-btn" data-theme="gold" onclick="selectTheme(this)">
+            <div class="theme-check">✓</div>
+            <div class="theme-preview" style="background:linear-gradient(90deg,#ffd700,#b8860b,#fffacd)"></div>
+            <div class="theme-name">GOLD</div>
+          </button>
+        </div>
+      </div>
+
+      <div class="cs-save-bar">
+        <button class="btn-reset-prefs" onclick="resetPrefs()">RÉINITIALISER</button>
+        <button class="btn-save" onclick="savePrefs()">SAUVEGARDER →</button>
+      </div>
+    </div>
+
+    <!-- TAB: VITESSE -->
+    <div class="cs-panel" id="tab-speed">
+      <div class="cs-section">
+        <div class="cs-section-title">OVERRIDE BPM</div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Forcer le BPM</div>
+            <div class="cs-row-desc">Ignore la détection automatique et utilise une valeur fixe</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-bpm-override">
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+        <div class="cs-row" id="row-bpm-val">
+          <div class="cs-row-info">
+            <div class="cs-row-label">BPM personnalisé</div>
+            <div class="cs-row-desc">Valeur utilisée quand le forçage est activé</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-bpm-val" min="60" max="240" value="128">
+              <span class="cs-slider-val" id="val-bpm">128</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <div class="cs-section-title">DENSITÉ DES NOTES</div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Multiplicateur de densité</div>
+            <div class="cs-row-desc">Multiplie le nombre de notes générées (affecte tous les niveaux)</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-density" min="50" max="200" value="100" step="10">
+              <span class="cs-slider-val" id="val-density">×1.0</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Seuil de détection globale</div>
+            <div class="cs-row-desc">Plus bas = plus de notes détectées</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-threshold" min="50" max="150" value="100">
+              <span class="cs-slider-val" id="val-threshold">100%</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Chance de bursts</div>
+            <div class="cs-row-desc">Probabilité de notes en rafale sur les pics intenses</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-burst" min="0" max="200" value="100">
+              <span class="cs-slider-val" id="val-burst">100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <div class="cs-section-title">APPROCHE</div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Approach Distance</div>
+            <div class="cs-row-desc">Distance d'apparition des notes (défaut : 50)</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-approach-dist" min="10" max="200" value="50">
+              <span class="cs-slider-val" id="val-adist">50</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Approach Time</div>
+            <div class="cs-row-desc">Temps d'approche en secondes (défaut : 1.0)</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-approach-time" min="1" max="50" value="10">
+              <span class="cs-slider-val" id="val-atime">1.0s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-save-bar">
+        <button class="btn-reset-prefs" onclick="resetPrefs()">RÉINITIALISER</button>
+        <button class="btn-save" onclick="savePrefs()">SAUVEGARDER →</button>
+      </div>
+    </div>
+
+    <!-- TAB: SONS -->
+    <div class="cs-panel" id="tab-sound">
+      <div class="cs-section">
+        <div class="cs-section-title">SON DE FRAPPE</div>
+        <div class="sound-grid" id="soundGrid">
+          <button class="sound-btn active" data-sound="click" onclick="selectSound(this)">
+            <span class="sound-icon">🔵</span>CLICK
+          </button>
+          <button class="sound-btn" data-sound="beep" onclick="selectSound(this)">
+            <span class="sound-icon">🟡</span>BEEP
+          </button>
+          <button class="sound-btn" data-sound="snap" onclick="selectSound(this)">
+            <span class="sound-icon">⚡</span>SNAP
+          </button>
+          <button class="sound-btn" data-sound="deep" onclick="selectSound(this)">
+            <span class="sound-icon">🔴</span>DEEP
+          </button>
+          <button class="sound-btn" data-sound="soft" onclick="selectSound(this)">
+            <span class="sound-icon">🟢</span>SOFT
+          </button>
+          <button class="sound-btn" data-sound="none" onclick="selectSound(this)">
+            <span class="sound-icon">🔇</span>AUCUN
+          </button>
+        </div>
+        <div style="margin-top:.75rem">
+          <button class="btn-clear-hist" onclick="previewSound()">▶ TESTER LE SON</button>
+        </div>
+      </div>
+
+      <div class="cs-section">
+        <div class="cs-section-title">VOLUME</div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Volume du son de frappe</div>
+            <div class="cs-row-desc">Intensité du son joué à chaque note</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <div class="cs-slider-wrap">
+              <input type="range" id="pref-hit-vol" min="0" max="100" value="70">
+              <span class="cs-slider-val" id="val-hit-vol">70%</span>
+            </div>
+          </div>
+        </div>
+        <div class="cs-row">
+          <div class="cs-row-info">
+            <div class="cs-row-label">Son à la génération</div>
+            <div class="cs-row-desc">Jouer un son quand la map est prête</div>
+          </div>
+          <div class="cs-row-ctrl">
+            <label class="toggle">
+              <input type="checkbox" id="pref-gen-sound" checked>
+              <div class="toggle-track"></div>
+              <div class="toggle-thumb"></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cs-save-bar">
+        <button class="btn-reset-prefs" onclick="resetPrefs()">RÉINITIALISER</button>
+        <button class="btn-save" onclick="savePrefs()">SAUVEGARDER →</button>
+      </div>
+    </div>
+
+    <!-- TAB: STATS -->
+    <div class="cs-panel" id="tab-stats">
+      <div class="cs-section">
+        <div class="cs-section-title">RÉSUMÉ</div>
+        <div class="stats-summary">
+          <div class="stat-sum-card"><div class="stat-sum-val" id="sum-total">0</div><div class="stat-sum-lbl">MAPS GÉNÉRÉES</div></div>
+          <div class="stat-sum-card"><div class="stat-sum-val" id="sum-notes">0</div><div class="stat-sum-lbl">NOTES TOTAL</div></div>
+          <div class="stat-sum-card"><div class="stat-sum-val" id="sum-dur">0s</div><div class="stat-sum-lbl">DURÉE TOTALE</div></div>
+          <div class="stat-sum-card"><div class="stat-sum-val" id="sum-bpm">—</div><div class="stat-sum-lbl">BPM MOYEN</div></div>
+        </div>
+      </div>
+      <div class="cs-section">
+        <div class="cs-section-title">HISTORIQUE</div>
+        <div id="historyContainer"></div>
+        <button class="btn-clear-hist" id="btnClearHist" onclick="clearHistory()" style="display:none">🗑 EFFACER L'HISTORIQUE</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- PAGE SKINS -->
+<div class="page" id="page-skins">
+  <div class="skins-wrap">
+    <div class="page-header">
+      <div class="page-title">SKIN<span class="dim">S</span></div>
+      <div class="page-sub">Partage et télécharge des skins visuels créés par la communauté.</div>
+    </div>
+
+    <div class="skins-topbar">
+      <div class="skins-filters">
+        <button class="filter-btn active" data-filter="all"       onclick="filterSkins(this)">TOUS</button>
+        <button class="filter-btn"        data-filter="official"  onclick="filterSkins(this)">OFFICIELS</button>
+        <button class="filter-btn"        data-filter="community" onclick="filterSkins(this)">COMMUNAUTÉ</button>
+        <button class="filter-btn"        data-filter="mine"      onclick="filterSkins(this)">MES SKINS</button>
+      </div>
+      <button class="btn-publish" onclick="openPublishModal()">+ PUBLIER UN SKIN</button>
+    </div>
+
+    <div class="skins-grid" id="skinsGrid"></div>
+  </div>
+</div>
+
+<!-- PUBLISH MODAL -->
+<div class="modal-overlay" id="publishModal">
+  <div class="modal">
+    <div class="modal-corner"></div>
+    <button class="modal-close" onclick="closePublishModal()">✕ FERMER</button>
+    <div class="modal-title">PUBLIER UN SKIN</div>
+    <div class="modal-sub">Partage ton skin visuel avec la communauté Rhythia.</div>
+
+    <div class="modal-field">
+      <label>NOM DU SKIN</label>
+      <input type="text" id="pub-name" placeholder="Ex: Midnight Void" maxlength="40">
+    </div>
+    <div class="modal-field">
+      <label>TON PSEUDO</label>
+      <input type="text" id="pub-author" placeholder="Ex: kvn4real" maxlength="24">
+    </div>
+    <div class="modal-field">
+      <label>DESCRIPTION</label>
+      <textarea id="pub-desc" placeholder="Décris ton skin en quelques mots..." maxlength="200"></textarea>
+    </div>
+    <div class="modal-field">
+      <label>CATÉGORIE</label>
+      <select id="pub-cat">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="neon">Neon</option>
+        <option value="nature">Nature</option>
+        <option value="retro">Retro</option>
+        <option value="other">Autre</option>
+      </select>
+    </div>
+
+    <div class="modal-field">
+      <label>FICHIER SKIN (.zip, .json — format Rhythia)</label>
+      <div class="modal-drop" id="skinDropZone">
+        <div id="skinDropInner">
+          <div class="modal-drop-text">Glisse ton fichier skin ici</div>
+          <div class="modal-drop-hint">ou clique pour sélectionner</div>
+        </div>
+        <div id="skinDropReady" style="display:none" class="modal-drop-ready"></div>
+      </div>
+    </div>
+
+    <div class="modal-preview">
+      <div class="modal-preview-label">APERÇU COULEURS (optionnel)</div>
+      <div class="color-row">
+        <div class="color-field"><label>COULEUR 1</label><input type="color" id="pub-c1" value="#ffffff"></div>
+        <div class="color-field"><label>COULEUR 2</label><input type="color" id="pub-c2" value="#888888"></div>
+        <div class="color-field"><label>COULEUR 3</label><input type="color" id="pub-c3" value="#333333"></div>
+      </div>
+      <div style="margin-top:.5rem">
+        <div class="modal-preview-label">PREVIEW</div>
+        <div class="modal-preview-bar" id="pubPreviewBar" style="background:linear-gradient(90deg,#ffffff,#888888,#333333)"></div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-modal-cancel" onclick="closePublishModal()">ANNULER</button>
+      <button class="btn-modal-submit" onclick="submitSkin()">PUBLIER →</button>
     </div>
   </div>
 </div>
+
+<div class="import-toast" id="importToast"></div>
+
+<div class="save-toast" id="saveToast">✓ Préférences sauvegardées</div>
 
 <footer>
   <div>
@@ -571,7 +1168,8 @@ async function generate(){
   setProgress(35,T.prog3);await tick();var notes=detectBeats(buf,DIFF_PARAMS[currentDiff]);
   setProgress(65,T.prog4);await tick();
   var title=document.getElementById('titleInput').value.trim(),artist=document.getElementById('artistInput').value.trim(),mapper=document.getElementById('mapperInput').value.trim();
-  var aDist=parseFloat(document.getElementById('approachDist').value)||50,aTime=parseFloat(document.getElementById('approachTime').value)||1;
+  var aDist=window._getApproachDist?window._getApproachDist():parseFloat(document.getElementById('approachDist').value)||50;
+  var aTime=window._getApproachTime?window._getApproachTime():parseFloat(document.getElementById('approachTime').value)||1;
   var diffNames={E:"Easy",M:"Medium",H:"Hard",L:"Lunatic"};
   var official={_approachDistance:aDist,_approachTime:aTime,_name:"BEATHAVEN Auto-Generated — "+diffNames[currentDiff],_notes:notes};
   var meta={_artist:artist,_difficulties:["official.json"],_mappers:[mapper],_music:mp3File.name,_title:title,_version:1};
@@ -618,11 +1216,12 @@ function drawCanvas(notes,duration){
   ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
   [W/3,2*W/3].forEach(function(x){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();});
   [H/3,2*H/3].forEach(function(y){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();});
+  var _tc=window._getNoteThemeColors?window._getNoteThemeColors():[255,255,255,180,180,180,100,100,100];
   sub.forEach(function(n,i){
     var px2=(n._time/dur)*(W-12)+6,py2=H/2-n._y*(H/3),a=.25+.75*(i/sub.length);
-    var brightness=n._x===-1?255:n._x===1?180:100;
-    ctx.shadowBlur=5;ctx.shadowColor='rgba(255,255,255,.6)';
-    ctx.fillStyle='rgba('+brightness+','+brightness+','+brightness+','+a+')';
+    var c=n._x===-1?[_tc[0],_tc[1],_tc[2]]:n._x===1?[_tc[3],_tc[4],_tc[5]]:[_tc[6],_tc[7],_tc[8]];
+    ctx.shadowBlur=5;ctx.shadowColor='rgba('+c[0]+','+c[1]+','+c[2]+',.7)';
+    ctx.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';
     ctx.beginPath();ctx.arc(px2,py2,2.5,0,Math.PI*2);ctx.fill();
   });ctx.shadowBlur=0;
 }
@@ -645,6 +1244,582 @@ var translations={
 window.setLang=function(lang){currentLang=lang;document.getElementById('btnFR').classList.toggle('active',lang==='fr');document.getElementById('btnEN').classList.toggle('active',lang==='en');var T=translations[lang];document.querySelectorAll('[data-i18n]').forEach(function(el){var k=el.getAttribute('data-i18n');if(T[k]!==undefined)el.textContent=T[k];});document.getElementById('titleInput').placeholder=lang==='fr'?'Ex: Ronnie Kray':'Ex: Song title';document.getElementById('artistInput').placeholder=lang==='fr'?'Ex: Landy ft. Tiakola':'Ex: Artist name';document.getElementById('mapperInput').placeholder=lang==='fr'?'Ex: kvn4real':'Ex: your_username';document.documentElement.lang=lang;};
 
 setLang('fr');
+
+// ═══════════════════════════════════════
+// SKINS
+// ── Pour activer/désactiver la page Skins publiquement,
+//    change SKINS_ENABLED à true (public) ou false (WIP).
+// ═══════════════════════════════════════
+var SKINS_ENABLED = false; // 🔧 PASSER À true POUR OUVRIR AU PUBLIC
+
+var OFFICIAL_SKINS = [
+  {id:'off-1',name:'Midnight Void',author:'Rhythia Team',desc:'Le thème sombre officiel. Noir profond, notes blanches pures.',cat:'dark',color1:'#ffffff',color2:'#aaaaaa',color3:'#444444',badge:'official',dl:1240,date:'2024-11-01',file:null},
+  {id:'off-2',name:'Ghost Protocol',author:'Rhythia Team',desc:'Gris fantôme, ambiance brumeuse pour une immersion totale.',cat:'dark',color1:'#cccccc',color2:'#888888',color3:'#222222',badge:'official',dl:890,date:'2024-12-01',file:null},
+  {id:'off-3',name:'Polar White',author:'Rhythia Team',desc:'Fond blanc, notes noires — pour les sessions diurnes.',cat:'light',color1:'#000000',color2:'#333333',color3:'#888888',badge:'official',dl:620,date:'2025-01-15',file:null},
+];
+
+var currentFilter = 'all';
+var publishSkinFile = null;
+
+function getCommunitySkins() {
+  try { return JSON.parse(localStorage.getItem('rhythia_skins') || '[]'); } catch(e) { return []; }
+}
+
+function saveCommunitySkins(skins) {
+  try { localStorage.setItem('rhythia_skins', JSON.stringify(skins)); } catch(e) {}
+}
+
+function getAllSkins() {
+  return OFFICIAL_SKINS.concat(getCommunitySkins());
+}
+
+function getMyId() {
+  var id = localStorage.getItem('rhythia_my_id');
+  if (!id) { id = 'u_' + Math.random().toString(36).slice(2,10); localStorage.setItem('rhythia_my_id', id); }
+  return id;
+}
+
+function renderSkins() {
+  var grid = document.getElementById('skinsGrid');
+  if (!grid) return;
+  var all = getAllSkins();
+  var myId = getMyId();
+
+  var filtered = all.filter(function(s) {
+    if (currentFilter === 'official') return s.badge === 'official';
+    if (currentFilter === 'community') return s.badge !== 'official';
+    if (currentFilter === 'mine') return s.ownerId === myId;
+    return true;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="skins-empty" style="grid-column:1/-1"><span class="skins-empty-icon">◈</span>'+(currentFilter==='mine'?'Tu n\'as encore rien publié.<br>Clique sur <strong>+ PUBLIER UN SKIN</strong> pour commencer !':'Aucun skin trouvé.')+'</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(function(s) {
+    var grad = 'linear-gradient(90deg,'+s.color1+','+s.color2+','+s.color3+')';
+    var isOfficial = s.badge === 'official';
+    var isMine = s.ownerId === myId;
+    var dlFmt = s.dl >= 1000 ? (s.dl/1000).toFixed(1)+'k' : s.dl;
+    var dateStr = s.date ? s.date.slice(0,7) : '';
+    return '<div class="skin-card">'
+      +'<div class="skin-card-corner"></div>'
+      +'<div class="skin-preview" style="background:#0a0a0a">'
+      +'<div class="skin-preview-bar" style="background:'+grad+'"></div>'
+      +(isOfficial ? '<span class="skin-badge official">OFFICIEL</span>' : '<span class="skin-badge">'+escHtml(s.cat||'COMMUNITY')+'</span>')
+      +'</div>'
+      +'<div class="skin-body">'
+      +'<div class="skin-name">'+escHtml(s.name)+'</div>'
+      +'<div class="skin-author">par '+escHtml(s.author)+'</div>'
+      +'<div class="skin-desc">'+escHtml(s.desc)+'</div>'
+      +'<div class="skin-footer">'
+      +'<div class="skin-meta">'
+      +'<span class="skin-dl-count">'+dlFmt+'</span>'
+      +'<span class="skin-date-str">'+dateStr+'</span>'
+      +'</div>'
+      +'<div class="skin-actions">'
+      +(isMine ? '<button class="btn-skin-del" onclick="deleteSkin(\''+s.id+'\')">✕</button>' : '')
+      +(s.file ? '<button class="btn-skin-dl" onclick="downloadSkin(\''+s.id+'\')">↓ ZIP</button>' : '<button class="btn-skin-dl" style="opacity:.3;cursor:default">↓ N/A</button>')
+      +'<button class="btn-skin-import" onclick="importSkin(\''+s.id+'\')">↗ IMPORT</button>'
+      +'</div>'
+      +'</div>'
+      +'</div>'
+      +'</div>';
+  }).join('');
+}
+
+window.filterSkins = function(btn) {
+  currentFilter = btn.getAttribute('data-filter');
+  document.querySelectorAll('.filter-btn').forEach(function(b){ b.classList.toggle('active', b === btn); });
+  renderSkins();
+};
+
+window.openPublishModal = function() {
+  document.getElementById('publishModal').classList.add('open');
+};
+window.closePublishModal = function() {
+  document.getElementById('publishModal').classList.remove('open');
+};
+
+// Skin file drop zone in modal
+(function() {
+  var dz = document.getElementById('skinDropZone');
+  if (!dz) return;
+  var fi = document.createElement('input');
+  fi.type='file'; fi.accept='.zip,.json'; fi.style.cssText='position:absolute;left:-9999px';
+  document.body.appendChild(fi);
+  fi.addEventListener('change', function(){ if(fi.files[0]) setSkinFile(fi.files[0]); });
+  dz.addEventListener('click', function(){ fi.value=''; fi.click(); });
+  dz.addEventListener('dragover', function(e){ e.preventDefault(); dz.classList.add('drag'); });
+  dz.addEventListener('dragleave', function(){ dz.classList.remove('drag'); });
+  dz.addEventListener('drop', function(e){ e.preventDefault(); dz.classList.remove('drag'); var f=e.dataTransfer&&e.dataTransfer.files[0]; if(f)setSkinFile(f); });
+
+  // Color preview live
+  ['pub-c1','pub-c2','pub-c3'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.addEventListener('input', updatePubPreview);
+  });
+})();
+
+function setSkinFile(f) {
+  publishSkinFile = f;
+  document.getElementById('skinDropInner').style.display = 'none';
+  document.getElementById('skinDropReady').style.display = 'block';
+  document.getElementById('skinDropReady').textContent = '✓ ' + f.name + ' (' + (f.size < 1048576 ? (f.size/1024).toFixed(1)+' KB' : (f.size/1048576).toFixed(2)+' MB') + ')';
+}
+
+function updatePubPreview() {
+  var c1 = document.getElementById('pub-c1').value;
+  var c2 = document.getElementById('pub-c2').value;
+  var c3 = document.getElementById('pub-c3').value;
+  var bar = document.getElementById('pubPreviewBar');
+  if (bar) bar.style.background = 'linear-gradient(90deg,'+c1+','+c2+','+c3+')';
+}
+
+window.submitSkin = function() {
+  var name   = document.getElementById('pub-name').value.trim();
+  var author = document.getElementById('pub-author').value.trim();
+  var desc   = document.getElementById('pub-desc').value.trim();
+  var cat    = document.getElementById('pub-cat').value;
+  var c1     = document.getElementById('pub-c1').value;
+  var c2     = document.getElementById('pub-c2').value;
+  var c3     = document.getElementById('pub-c3').value;
+
+  if (!name || !author) { alert('Remplis au moins le nom et ton pseudo.'); return; }
+
+  var skins = getCommunitySkins();
+  var newSkin = {
+    id: 'c_' + Date.now(),
+    ownerId: getMyId(),
+    name: name, author: author, desc: desc, cat: cat,
+    color1: c1, color2: c2, color3: c3,
+    badge: 'community',
+    dl: 0,
+    date: new Date().toISOString().slice(0,10),
+    file: publishSkinFile ? publishSkinFile.name : null,
+    fileData: null
+  };
+
+  // Store file as base64 if provided and small enough
+  if (publishSkinFile && publishSkinFile.size < 500*1024) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      newSkin.fileData = e.target.result;
+      skins.unshift(newSkin);
+      saveCommunitySkins(skins);
+      closePublishModal();
+      showImportToast('✓ Skin "' + name + '" publié !');
+      renderSkins();
+    };
+    reader.readAsDataURL(publishSkinFile);
+  } else {
+    skins.unshift(newSkin);
+    saveCommunitySkins(skins);
+    closePublishModal();
+    showImportToast('✓ Skin "' + name + '" publié !');
+    renderSkins();
+  }
+
+  // Reset form
+  document.getElementById('pub-name').value = '';
+  document.getElementById('pub-author').value = '';
+  document.getElementById('pub-desc').value = '';
+  document.getElementById('skinDropInner').style.display = 'block';
+  document.getElementById('skinDropReady').style.display = 'none';
+  publishSkinFile = null;
+};
+
+window.downloadSkin = function(id) {
+  var all = getAllSkins();
+  var skin = all.find(function(s){ return s.id === id; });
+  if (!skin) return;
+  // Increment dl count
+  var comm = getCommunitySkins();
+  var idx = comm.findIndex(function(s){ return s.id === id; });
+  if (idx >= 0) { comm[idx].dl = (comm[idx].dl||0)+1; saveCommunitySkins(comm); renderSkins(); }
+  // Download fileData if available
+  if (skin.fileData) {
+    var a = document.createElement('a');
+    a.href = skin.fileData;
+    a.download = skin.name.replace(/\s+/g,'_') + '_skin';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  } else {
+    showImportToast('⚠ Pas de fichier disponible pour ce skin.');
+  }
+};
+
+window.importSkin = function(id) {
+  var all = getAllSkins();
+  var skin = all.find(function(s){ return s.id === id; });
+  if (!skin) return;
+  // Apply colors as note theme
+  if (window.NOTE_THEMES && skin.color1) {
+    function hexToRgb(hex) {
+      var r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+      return [r,g,b];
+    }
+    var c1 = hexToRgb(skin.color1), c2 = hexToRgb(skin.color2||'#888888'), c3 = hexToRgb(skin.color3||'#333333');
+    window.NOTE_THEMES._imported = c1.concat(c2).concat(c3);
+    if (window.prefs) { window.prefs.noteTheme = '_imported'; }
+  }
+  showImportToast('✓ Skin "' + skin.name + '" importé — couleurs appliquées au générateur !');
+  // Increment dl
+  var comm = getCommunitySkins();
+  var idx = comm.findIndex(function(s){ return s.id === id; });
+  if (idx >= 0) { comm[idx].dl = (comm[idx].dl||0)+1; saveCommunitySkins(comm); renderSkins(); }
+};
+
+window.deleteSkin = function(id) {
+  if (!confirm('Supprimer ce skin ?')) return;
+  var comm = getCommunitySkins();
+  saveCommunitySkins(comm.filter(function(s){ return s.id !== id; }));
+  renderSkins();
+};
+
+function showImportToast(msg) {
+  var t = document.getElementById('importToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+
+// Patch goTo to render skins on tab switch
+var _origGoTo = window.goTo;
+window.goTo = function(page) {
+  // Bloque la navigation vers skins si désactivé
+  if (page === 'skins' && !SKINS_ENABLED) { _origGoTo('home'); return; }
+  _origGoTo(page);
+  if (page === 'skins') renderSkins();
+};
+
+// Init — applique l'état SKINS_ENABLED
+(function() {
+  var navBtn = document.getElementById('nav-skins');
+  var page   = document.getElementById('page-skins');
+  if (!SKINS_ENABLED) {
+    // Cache le bouton de nav
+    if (navBtn) navBtn.style.display = 'none';
+    // Si on arrive sur la page skins (ex: rechargement), on redirige vers home
+    if (page && page.classList.contains('active')) goTo('home');
+  } else {
+    if (navBtn) navBtn.style.display = '';
+  }
+  renderSkins();
+})();
+
+
+// ═══════════════════════════════════════
+// PERSONNALISATION
+// ═══════════════════════════════════════
+
+// Default prefs
+var DEFAULT_PREFS = {
+  scanlines: true, grid: true, glow: true, glitch: true, hud: true,
+  brightness: 100, glowIntensity: 100,
+  noteTheme: 'bw',
+  bpmOverride: false, bpmVal: 128,
+  density: 100, threshold: 100, burst: 100,
+  approachDist: 50, approachTime: 10,
+  hitSound: 'click', hitVol: 70, genSound: true
+};
+
+var prefs = Object.assign({}, DEFAULT_PREFS);
+
+// Note theme colors
+var NOTE_THEMES = {
+  bw:     [255,255,255,180,180,180,100,100,100],
+  fire:   [255,69,0,  255,140,0,  255,215,0],
+  ice:    [0,200,255, 138,180,248,184,212,255],
+  matrix: [0,255,65,  0,200,50,   0,100,30],
+  neon:   [191,0,255, 255,0,128,  255,100,0],
+  gold:   [255,215,0, 184,134,11, 255,250,205]
+};
+
+function loadPrefs() {
+  try {
+    var saved = localStorage.getItem('rhythia_prefs');
+    if (saved) prefs = Object.assign({}, DEFAULT_PREFS, JSON.parse(saved));
+  } catch(e) {}
+  applyPrefs();
+  syncUI();
+}
+
+function savePrefs() {
+  readUI();
+  try { localStorage.setItem('rhythia_prefs', JSON.stringify(prefs)); } catch(e) {}
+  applyPrefs();
+  var toast = document.getElementById('saveToast');
+  toast.classList.add('show');
+  setTimeout(function(){ toast.classList.remove('show'); }, 2000);
+}
+
+function resetPrefs() {
+  prefs = Object.assign({}, DEFAULT_PREFS);
+  syncUI();
+  savePrefs();
+}
+
+function readUI() {
+  prefs.scanlines = document.getElementById('pref-scanlines').checked;
+  prefs.grid = document.getElementById('pref-grid').checked;
+  prefs.glow = document.getElementById('pref-glow').checked;
+  prefs.glitch = document.getElementById('pref-glitch').checked;
+  prefs.hud = document.getElementById('pref-hud').checked;
+  prefs.brightness = parseInt(document.getElementById('pref-brightness').value);
+  prefs.glowIntensity = parseInt(document.getElementById('pref-glow-intensity').value);
+  prefs.bpmOverride = document.getElementById('pref-bpm-override').checked;
+  prefs.bpmVal = parseInt(document.getElementById('pref-bpm-val').value);
+  prefs.density = parseInt(document.getElementById('pref-density').value);
+  prefs.threshold = parseInt(document.getElementById('pref-threshold').value);
+  prefs.burst = parseInt(document.getElementById('pref-burst').value);
+  prefs.approachDist = parseInt(document.getElementById('pref-approach-dist').value);
+  prefs.approachTime = parseInt(document.getElementById('pref-approach-time').value);
+  prefs.hitVol = parseInt(document.getElementById('pref-hit-vol').value);
+  prefs.genSound = document.getElementById('pref-gen-sound').checked;
+}
+
+function syncUI() {
+  document.getElementById('pref-scanlines').checked = prefs.scanlines;
+  document.getElementById('pref-grid').checked = prefs.grid;
+  document.getElementById('pref-glow').checked = prefs.glow;
+  document.getElementById('pref-glitch').checked = prefs.glitch;
+  document.getElementById('pref-hud').checked = prefs.hud;
+  document.getElementById('pref-brightness').value = prefs.brightness;
+  document.getElementById('val-brightness').textContent = prefs.brightness + '%';
+  document.getElementById('pref-glow-intensity').value = prefs.glowIntensity;
+  document.getElementById('val-glow-intensity').textContent = prefs.glowIntensity + '%';
+  document.getElementById('pref-bpm-override').checked = prefs.bpmOverride;
+  document.getElementById('pref-bpm-val').value = prefs.bpmVal;
+  document.getElementById('val-bpm').textContent = prefs.bpmVal;
+  document.getElementById('pref-density').value = prefs.density;
+  document.getElementById('val-density').textContent = '×' + (prefs.density/100).toFixed(1);
+  document.getElementById('pref-threshold').value = prefs.threshold;
+  document.getElementById('val-threshold').textContent = prefs.threshold + '%';
+  document.getElementById('pref-burst').value = prefs.burst;
+  document.getElementById('val-burst').textContent = prefs.burst + '%';
+  document.getElementById('pref-approach-dist').value = prefs.approachDist;
+  document.getElementById('val-adist').textContent = prefs.approachDist;
+  document.getElementById('pref-approach-time').value = prefs.approachTime;
+  document.getElementById('val-atime').textContent = (prefs.approachTime/10).toFixed(1) + 's';
+  document.getElementById('pref-hit-vol').value = prefs.hitVol;
+  document.getElementById('val-hit-vol').textContent = prefs.hitVol + '%';
+  document.getElementById('pref-gen-sound').checked = prefs.genSound;
+  // Theme buttons
+  document.querySelectorAll('.theme-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-theme') === prefs.noteTheme);
+  });
+  // Sound buttons
+  document.querySelectorAll('.sound-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-sound') === prefs.hitSound);
+  });
+}
+
+function applyPrefs() {
+  // Scanlines
+  document.body.style.setProperty('--scanlines-opacity', prefs.scanlines ? '1' : '0');
+  var scanStyle = document.getElementById('dynamic-scanlines');
+  if (!scanStyle) { scanStyle = document.createElement('style'); scanStyle.id='dynamic-scanlines'; document.head.appendChild(scanStyle); }
+  scanStyle.textContent = prefs.scanlines ? '' : 'body::before{display:none!important}';
+
+  // Grid
+  var gridEl = document.querySelector('.bg-grid');
+  if (gridEl) gridEl.style.display = prefs.grid ? '' : 'none';
+
+  // Glow
+  var glowEls = document.querySelectorAll('.glow-top,.glow-bl');
+  glowEls.forEach(function(el){
+    el.style.opacity = prefs.glow ? String(prefs.glowIntensity/100) : '0';
+  });
+
+  // Glitch
+  var glitchStyle = document.getElementById('dynamic-glitch');
+  if (!glitchStyle) { glitchStyle = document.createElement('style'); glitchStyle.id='dynamic-glitch'; document.head.appendChild(glitchStyle); }
+  glitchStyle.textContent = prefs.glitch ? '' : '.hero-line2{animation:none!important}';
+
+  // HUD corners
+  document.querySelectorAll('.hud-corner').forEach(function(el){
+    el.style.display = prefs.hud ? '' : 'none';
+  });
+
+  // Brightness
+  document.documentElement.style.filter = prefs.brightness !== 100 ? 'brightness(' + (prefs.brightness/100) + ')' : '';
+
+  // Sync approach inputs in generator
+  var adEl = document.getElementById('approachDist');
+  var atEl = document.getElementById('approachTime');
+  if (adEl) adEl.value = prefs.approachDist;
+  if (atEl) atEl.value = (prefs.approachTime/10).toFixed(1);
+}
+
+window.switchTab = function(tab) {
+  document.querySelectorAll('.cs-tab').forEach(function(b,i){
+    b.classList.toggle('active', ['theme','speed','sound','stats'][i] === tab);
+  });
+  document.querySelectorAll('.cs-panel').forEach(function(p){
+    p.classList.toggle('active', p.id === 'tab-' + tab);
+  });
+  if (tab === 'stats') renderHistory();
+};
+
+window.selectTheme = function(btn) {
+  prefs.noteTheme = btn.getAttribute('data-theme');
+  document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+};
+
+window.selectSound = function(btn) {
+  prefs.hitSound = btn.getAttribute('data-sound');
+  document.querySelectorAll('.sound-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+};
+
+// Live slider labels
+function bindSlider(id, valId, fmt) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', function(){ document.getElementById(valId).textContent = fmt(this.value); });
+}
+bindSlider('pref-brightness','val-brightness', function(v){return v+'%'});
+bindSlider('pref-glow-intensity','val-glow-intensity', function(v){return v+'%'});
+bindSlider('pref-bpm-val','val-bpm', function(v){return v});
+bindSlider('pref-density','val-density', function(v){return '×'+(v/100).toFixed(1)});
+bindSlider('pref-threshold','val-threshold', function(v){return v+'%'});
+bindSlider('pref-burst','val-burst', function(v){return v+'%'});
+bindSlider('pref-approach-dist','val-adist', function(v){return v});
+bindSlider('pref-approach-time','val-atime', function(v){return (v/10).toFixed(1)+'s'});
+bindSlider('pref-hit-vol','val-hit-vol', function(v){return v+'%'});
+
+// Sound engine (Web Audio API)
+var audioCtxSound = null;
+function getSoundCtx() {
+  if (!audioCtxSound) audioCtxSound = new (window.AudioContext||window.webkitAudioContext)();
+  return audioCtxSound;
+}
+
+var SOUND_DEFS = {
+  click: function(ctx,vol){ var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=800;o.type='square';g.gain.setValueAtTime(vol*.3,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.05);o.start();o.stop(ctx.currentTime+0.05); },
+  beep:  function(ctx,vol){ var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=1200;o.type='sine';g.gain.setValueAtTime(vol*.4,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.08);o.start();o.stop(ctx.currentTime+0.08); },
+  snap:  function(ctx,vol){ var buf=ctx.createBuffer(1,ctx.sampleRate*.03,ctx.sampleRate);var d=buf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);var s=ctx.createBufferSource(),g=ctx.createGain();s.buffer=buf;s.connect(g);g.connect(ctx.destination);g.gain.value=vol*1.5;s.start(); },
+  deep:  function(ctx,vol){ var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=80;o.type='sine';g.gain.setValueAtTime(vol*.8,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.15);o.start();o.stop(ctx.currentTime+0.15); },
+  soft:  function(ctx,vol){ var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=440;o.type='sine';g.gain.setValueAtTime(vol*.2,ctx.currentTime);g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.12);o.start();o.stop(ctx.currentTime+0.12); },
+  none:  function(){}
+};
+
+function playHitSound() {
+  if (prefs.hitSound === 'none') return;
+  try { var ctx=getSoundCtx(),fn=SOUND_DEFS[prefs.hitSound];if(fn)fn(ctx,prefs.hitVol/100); } catch(e){}
+}
+
+function playSuccessSound() {
+  if (!prefs.genSound) return;
+  try {
+    var ctx=getSoundCtx();
+    [440,554,659,880].forEach(function(freq,i){
+      var o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=freq;o.type='sine';
+      var t=ctx.currentTime+i*.1;
+      g.gain.setValueAtTime(0.15,t);g.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+      o.start(t);o.stop(t+0.2);
+    });
+  } catch(e){}
+}
+
+window.previewSound = function(){ playHitSound(); };
+
+// ─── HISTORY ───
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('rhythia_history')||'[]'); } catch(e){ return []; }
+}
+function addToHistory(entry) {
+  var hist = getHistory();
+  hist.unshift(entry);
+  if (hist.length > 50) hist = hist.slice(0,50);
+  try { localStorage.setItem('rhythia_history', JSON.stringify(hist)); } catch(e){}
+}
+window.clearHistory = function() {
+  if (!confirm('Effacer tout l\'historique ?')) return;
+  localStorage.removeItem('rhythia_history');
+  renderHistory();
+};
+
+function renderHistory() {
+  var hist = getHistory();
+  var container = document.getElementById('historyContainer');
+  var btnClear = document.getElementById('btnClearHist');
+  if (!container) return;
+
+  // Summary
+  var totalNotes = hist.reduce(function(a,h){return a+(h.notes||0);},0);
+  var totalDur = hist.reduce(function(a,h){return a+(h.dur||0);},0);
+  var avgBpm = hist.length ? Math.round(hist.reduce(function(a,h){return a+(h.bpm||0);},0)/hist.length) : 0;
+  document.getElementById('sum-total').textContent = hist.length;
+  document.getElementById('sum-notes').textContent = totalNotes > 999 ? (totalNotes/1000).toFixed(1)+'k' : totalNotes;
+  document.getElementById('sum-dur').textContent = totalDur > 3600 ? (totalDur/3600).toFixed(1)+'h' : totalDur+'s';
+  document.getElementById('sum-bpm').textContent = hist.length ? avgBpm : '—';
+
+  if (!hist.length) {
+    container.innerHTML = '<div class="stats-empty"><span class="stats-empty-icon">◈</span>Aucune map générée pour l\'instant.<br>Lance le générateur pour voir ton historique ici.</div>';
+    if (btnClear) btnClear.style.display='none';
+    return;
+  }
+  if (btnClear) btnClear.style.display='';
+
+  var rows = hist.map(function(h) {
+    return '<div class="stat-row">'
+      +'<div class="sr-title">'+escHtml(h.title||'—')+'</div>'
+      +'<div>'+escHtml(h.artist||'—')+'</div>'
+      +'<div><span class="diff-tag '+(h.diff||'M')+'">'+(h.diff||'M')+'</span></div>'
+      +'<div>'+(h.notes||0)+'</div>'
+      +'<div>'+(h.bpm||0)+' bpm</div>'
+      +'</div>';
+  }).join('');
+
+  container.innerHTML = '<div class="stats-header"><div>TITRE</div><div>ARTISTE</div><div>DIFF</div><div>NOTES</div><div>BPM</div></div>' + rows;
+}
+
+function escHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ─── APPLY PREFS TO GENERATOR ───
+// Override the approachDist/Time inputs on generate
+var _origGenerate = null; // will be handled inline
+
+// Patch detectBeats to apply density & threshold multipliers
+function applyPrefsToDiffParams(P) {
+  var d = Object.assign({}, P);
+  var densityMul = prefs.density / 100;
+  var thrMul = prefs.threshold / 100;
+  var burstMul = prefs.burst / 100;
+  // Lower globalThr = more notes; density multiplier inverts threshold
+  d.globalThr = P.globalThr / densityMul;
+  d.bassThr = P.bassThr / densityMul;
+  d.voiceThr = P.voiceThr / densityMul;
+  // Apply threshold multiplier
+  d.globalThr *= thrMul;
+  d.bassThr *= thrMul;
+  d.voiceThr *= thrMul;
+  // Burst
+  d.burstChance = Math.min(1, P.burstChance * burstMul);
+  d.tripleChance = Math.min(1, P.tripleChance * burstMul);
+  return d;
+}
+
+// Expose to generator
+window._getEffectiveDiffParams = function(baseParams) {
+  return applyPrefsToDiffParams(baseParams);
+};
+
+window._getApproachDist = function() { return prefs.approachDist; };
+window._getApproachTime = function() { return prefs.approachTime / 10; };
+
+// Draw canvas with note theme
+window._getNoteThemeColors = function() { return NOTE_THEMES[prefs.noteTheme] || NOTE_THEMES.bw; };
+
+window.savePrefs = savePrefs;
+window.resetPrefs = resetPrefs;
+
+loadPrefs();
+
 })();
 </script>
 </body>
