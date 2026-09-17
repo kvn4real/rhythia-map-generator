@@ -1320,44 +1320,94 @@ footer{
   }
 
   async function sendDiscord(title,artist,mapper,noteCount,bpm,dur,zipBlob,zipName) {
-    // On envoie d'abord le fichier, Discord renvoie l'URL du fichier attaché
-    // qu'on peut ensuite référencer dans l'embed comme lien de téléchargement
-    var embed = {embeds:[{
-      title: title,
-      color: 0x7c5aff,
-      description: '> Nouvelle map générée sur **Rhythia Map Generator**',
-      fields:[
-        {name:'Artiste',  value: artist,           inline: true},
-        {name:'Mapper',  value: mapper,           inline: true},
-        {name:'\u200b',     value: '\u200b',         inline: true},
-        {name:'Notes',   value: String(noteCount), inline: true},
-        {name:'BPM',     value: String(bpm),       inline: true},
-        {name:'Durée',   value: dur + 's',         inline: true},
-        {name:'Télécharger', value: 'Le ZIP est joint ci-dessous', inline: false}
-      ],
-      footer: {text: 'Rhythia Map Generator • ' + new Date().toLocaleDateString('fr-FR')},
-      timestamp: new Date().toISOString()
-    }]};
+    var diffLabels = {E:'Easy',M:'Medium',H:'Hard',L:'Lunatic'};
+    var diffLabel  = diffLabels[currentDiff] || 'Medium';
+
+    // Discord Components V2 (flag 32 = IS_COMPONENTS_V2)
+    var body = {
+      flags: 32,
+      components: [
+        {
+          type: 10,
+          content: '## ' + title
+        },
+        {
+          type: 14,
+          divider: true,
+          spacing: 1
+        },
+        {
+          type: 17,
+          accent_color: 0xffffff,
+          components: [
+            {
+              type: 10,
+              content: '**Informations de la map**'
+            },
+            {
+              type: 10,
+              content: [
+                '**Artiste** — ' + artist,
+                '**Mapper** — ' + mapper,
+                '**Difficulté** — ' + diffLabel,
+                '**Notes** — ' + noteCount,
+                '**BPM estimé** — ' + bpm,
+                '**Durée** — ' + dur + 's'
+              ].join('\n')
+            },
+            {
+              type: 14,
+              divider: true,
+              spacing: 1
+            },
+            {
+              type: 10,
+              content: 'Le fichier ZIP de la map est joint ci-dessous.'
+            },
+            {
+              type: 1,
+              components: [
+                {
+                  type: 2,
+                  style: 5,
+                  label: 'Ouvrir Rhythia Map Generator',
+                  url: 'https://rhythia-map-generator.vercel.app'
+                }
+              ]
+            }
+          ]
+        },
+        {
+          type: 14,
+          divider: false,
+          spacing: 1
+        },
+        {
+          type: 10,
+          content: '-# Rhythia Map Generator • ' + new Date().toLocaleDateString('fr-FR')
+        }
+      ]
+    };
 
     var form = new FormData();
-    form.append('payload_json', JSON.stringify(embed));
+    form.append('payload_json', JSON.stringify(body));
     form.append('files[0]', zipBlob, zipName);
 
+    var ds = document.getElementById('discordStatus');
+    var dt = document.getElementById('dsText');
     try {
-      var res = await fetch(WEBHOOK, {method:'POST', body: form});
-      var ds = document.getElementById('discordStatus');
-      var dt = document.getElementById('dsText');
+      var res = await fetch(WEBHOOK, {method:'POST', body:form});
       ds.style.display = 'flex';
       if (!res.ok) {
-        dt.textContent = '◆ Discord : erreur ' + res.status;
-        ds.style.borderColor='rgba(255,255,255,0.2)';ds.style.background='rgba(255,255,255,0.05)';dt.style.color='#888';
+        dt.textContent = 'Erreur Discord : ' + res.status;
+        ds.style.borderColor = 'rgba(255,255,255,.1)';
+        dt.style.color = 'var(--w3)';
       } else {
-        dt.textContent = translations[currentLang].discordOk;
+        dt.textContent = 'Map + ZIP envoyés sur Discord';
       }
     } catch(e) {
-      var ds = document.getElementById('discordStatus');
-      document.getElementById('dsText').textContent = '◆ Discord : webhook injoignable';
       ds.style.display = 'flex';
+      dt.textContent = 'Discord : webhook injoignable';
     }
   }
 
@@ -1554,10 +1604,10 @@ footer{
   // ── i18n ──
   var translations = {
     fr: {
-      navHome:'ACCUEIL', navGen:'GÉNÉRATEUR', navCustom:'PERSONNALISATION',
+      navHome:'ACCUEIL', navGen:'GÉNÉRATEUR', navCustom:'PERSONNALISATION RHYTHIA',
       heroLine1:'RHYTHIA', heroLine2:'MAP GEN',
       heroDesc:"La plateforme pour créer et personnaliser tes maps Rhythia en quelques secondes grâce à l'IA.",
-      card1Title:'GÉNÉRATEUR DE MAPS', card2Title:'PERSONNALISATION',
+      card1Title:'GÉNÉRATEUR DE MAPS', card2Title:'PERSONNALISATION RHYTHIA',
       card1Desc:"Importe un MP3, l'IA analyse le rythme et génère automatiquement ta map avec synchronisation des paroles.",
       card2Desc:'Thème visuel, vitesse & difficulté, sons de frappe, statistiques et leaderboard.',
       cardBadgeReady:'Disponible', cardBadgeSoon:'À venir',
@@ -1590,7 +1640,7 @@ footer{
       navHome:'HOME', navGen:'GENERATOR', navCustom:'CUSTOMIZE',
       heroLine1:'RHYTHIA', heroLine2:'MAP GEN',
       heroDesc:'The platform to create and customize your Rhythia maps in seconds with AI.',
-      card1Title:'MAP GENERATOR', card2Title:'CUSTOMIZATION',
+      card1Title:'MAP GENERATOR', card2Title:'RHYTHIA CUSTOMIZATION',
       card1Desc:'Import an MP3, AI analyzes the rhythm and automatically generates your map with lyrics sync.',
       card2Desc:'Visual theme, speed & difficulty, hit sounds, statistics and leaderboard.',
       cardBadgeReady:'Available', cardBadgeSoon:'Coming soon',
