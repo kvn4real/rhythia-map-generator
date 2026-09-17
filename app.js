@@ -8,19 +8,16 @@ window.addEventListener('DOMContentLoaded', function () {
   var fileInput = document.getElementById('fileInput');
   var genBtn = document.getElementById('genBtn');
 
-  // Clic sur la zone → ouvre le sélecteur
   dropZone.addEventListener('click', function (e) {
     fileInput.click();
   });
 
-  // Changement de fichier via le sélecteur
   fileInput.addEventListener('change', function () {
     if (fileInput.files && fileInput.files.length > 0) {
       setFile(fileInput.files[0]);
     }
   });
 
-  // Drag & drop
   dropZone.addEventListener('dragover', function (e) {
     e.preventDefault();
     e.stopPropagation();
@@ -42,7 +39,6 @@ window.addEventListener('DOMContentLoaded', function () {
     }
   });
 
-  // Inputs texte
   ['titleInput', 'artistInput', 'mapperInput'].forEach(function (id) {
     document.getElementById(id).addEventListener('input', checkReady);
   });
@@ -95,9 +91,9 @@ function tick() {
 }
 
 function showError(msg) {
-  document.getElementById('progressLabel').textContent = '✖ ' + msg;
+  document.getElementById('progressLabel').textContent = 'Erreur : ' + msg;
   document.getElementById('progressLabel').classList.remove('pulsing');
-  document.getElementById('progressBar').style.background = '#e24b4a';
+  document.getElementById('progressBar').style.background = '#555';
   document.getElementById('genBtn').disabled = false;
 }
 
@@ -132,7 +128,7 @@ async function generate() {
   try {
     audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
   } catch (e) {
-    showError('Erreur de décodage. Fichier MP3 invalide ?');
+    showError('Fichier MP3 invalide.');
     await audioCtx.close();
     return;
   }
@@ -145,60 +141,69 @@ async function generate() {
   setProgress(65, 'Génération des notes...');
   await tick();
 
-  var title = document.getElementById('titleInput').value.trim();
-  var artist = document.getElementById('artistInput').value.trim();
-  var mapper = document.getElementById('mapperInput').value.trim();
+  var title       = document.getElementById('titleInput').value.trim();
+  var artist      = document.getElementById('artistInput').value.trim();
+  var mapper      = document.getElementById('mapperInput').value.trim();
   var approachDist = parseFloat(document.getElementById('approachDist').value) || 50;
   var approachTime = parseFloat(document.getElementById('approachTime').value) || 1;
 
   var official = {
     _approachDistance: approachDist,
     _approachTime: approachTime,
-    _name: "BEATHAVEN Auto-Generated",
+    _name: 'BEATHAVEN Auto-Generated',
     _notes: notes
   };
 
   var meta = {
     _artist: artist,
-    _difficulties: ["official.json"],
+    _difficulties: ['official.json'],
     _mappers: [mapper],
     _music: mp3File.name,
     _title: title,
     _version: 1
   };
 
-  generatedData = { official: official, meta: meta, mp3File: mp3File, title: title, artist: artist, mapper: mapper };
+  generatedData = { official, meta, mp3File, title, artist, mapper };
 
   setProgress(80, 'Rendu de l\'aperçu...');
   await tick();
 
   var bpm = estimateBpm(notes);
-  document.getElementById('sBpm').textContent = Math.round(bpm);
+  document.getElementById('sBpm').textContent   = Math.round(bpm);
   document.getElementById('sNotes').textContent = notes.length;
-  document.getElementById('sDur').textContent = Math.round(audioBuffer.duration);
+  document.getElementById('sDur').textContent   = Math.round(audioBuffer.duration);
 
   document.getElementById('previewStats').style.display = 'grid';
   drawNotePreview(notes, audioBuffer.duration);
   document.getElementById('notePreview').style.display = 'block';
 
-  setProgress(90, 'Envoi sur Discord...');
+  setProgress(90, 'Génération ZIP + envoi Discord...');
   await tick();
 
-  await sendToDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(audioBuffer.duration));
+  // Générer le ZIP avant l'envoi Discord
+  var zip = new JSZip();
+  zip.file('official.json', JSON.stringify(official, null, 2));
+  zip.file('meta.json',     JSON.stringify(meta,     null, 2));
+  zip.file(mp3File.name,    mp3File);
+  var zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
+  var zipName = (title || 'map').replace(/\s+/g, '_') + '_rhythia.zip';
+
+  await sendToDiscord(title, artist, mapper, notes.length, Math.round(bpm), Math.round(audioBuffer.duration), zipBlob, zipName);
 
   setProgress(100, 'Map générée avec succès !');
   progressLabel.classList.remove('pulsing');
 
   document.getElementById('dlBtn').style.display = 'flex';
+  document.getElementById('resetBtn').style.display = 'flex';
   genBtn.disabled = false;
 
   await audioCtx.close();
 }
 
 function detectBeats(audioBuffer) {
-  var data = audioBuffer.getChannelData(0);
+  var data       = audioBuffer.getChannelData(0);
   var sampleRate = audioBuffer.sampleRate;
-  var hopSize = Math.floor(sampleRate * 0.02);
+  var hopSize    = Math.floor(sampleRate * 0.02);
   var windowSize = Math.floor(sampleRate * 0.04);
 
   var energies = [];
@@ -209,35 +214,23 @@ function detectBeats(audioBuffer) {
   }
 
   var smoothed = energies.map(function (v, i) {
-    var w = 8;
-    var start = Math.max(0, i - w);
-    var end = Math.min(energies.length - 1, i + w);
-    var s = 0;
+    var w = 8, start = Math.max(0, i - w), end = Math.min(energies.length - 1, i + w), s = 0;
     for (var k = start; k <= end; k++) s += energies[k];
     return s / (end - start + 1);
   });
 
-  var onsets = [];
-  var minGap = Math.floor(0.12 / (hopSize / sampleRate));
-  var lastOnset = -minGap;
-
+  var onsets = [], minGap = Math.floor(0.12 / (hopSize / sampleRate)), lastOnset = -minGap;
   for (var i = 3; i < energies.length - 3; i++) {
-    var slice = energies.slice(Math.max(0, i - 3), i + 4);
+    var slice    = energies.slice(Math.max(0, i - 3), i + 4);
     var localMax = Math.max.apply(null, slice);
     if (energies[i] !== localMax) continue;
     if (i - lastOnset < minGap) continue;
-    var threshold = smoothed[i] * 1.5;
-    if (energies[i] > threshold) {
-      onsets.push(i);
-      lastOnset = i;
-    }
+    if (energies[i] > smoothed[i] * 1.5) { onsets.push(i); lastOnset = i; }
   }
 
-  var vals = [-1, 0, 1];
-  var prevX = null, prevY = null;
+  var vals = [-1, 0, 1], prevX = null, prevY = null;
   return onsets.map(function (idx) {
-    var t = parseFloat(((idx * hopSize) / sampleRate).toFixed(3));
-    var x, y;
+    var t = parseFloat(((idx * hopSize) / sampleRate).toFixed(3)), x, y;
     do { x = vals[Math.floor(Math.random() * 3)]; } while (x === prevX && Math.random() > 0.3);
     do { y = vals[Math.floor(Math.random() * 3)]; } while (y === prevY && Math.random() > 0.3);
     prevX = x; prevY = y;
@@ -253,100 +246,144 @@ function estimateBpm(notes) {
     if (d > 0.1 && d < 2) intervals.push(d);
   }
   if (!intervals.length) return 120;
-  var avg = intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length;
-  return 60 / avg;
+  return 60 / (intervals.reduce(function (a, b) { return a + b; }, 0) / intervals.length);
 }
 
 function drawNotePreview(notes, duration) {
   var canvas = document.getElementById('noteCanvas');
-  var ctx = canvas.getContext('2d');
+  var ctx    = canvas.getContext('2d');
   var W = canvas.width, H = canvas.height;
   ctx.clearRect(0, 0, W, H);
 
-  var maxNotes = 120;
-  var subset = notes.slice(0, maxNotes);
+  var subset   = notes.slice(0, 120);
   var lastNote = subset[subset.length - 1];
-  var dur = lastNote ? Math.min(duration, lastNote._time + 1) : duration;
+  var dur      = lastNote ? Math.min(duration, lastNote._time + 1) : duration;
 
-  ctx.strokeStyle = 'rgba(124,90,255,0.15)';
-  ctx.lineWidth = 1;
-  [W / 3, 2 * W / 3].forEach(function (x) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-  });
-  [H / 3, 2 * H / 3].forEach(function (y) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-  });
+  ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+  ctx.lineWidth   = 1;
+  [W / 3, 2 * W / 3].forEach(function (x) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); });
+  [H / 3, 2 * H / 3].forEach(function (y) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); });
 
   subset.forEach(function (note, i) {
     var px = (note._time / dur) * (W - 12) + 6;
     var py = H / 2 - note._y * (H / 3);
-    var alpha = 0.4 + 0.6 * (i / subset.length);
-    if (note._x === -1) ctx.fillStyle = 'rgba(124,90,255,' + alpha + ')';
-    else if (note._x === 1) ctx.fillStyle = 'rgba(29,233,155,' + alpha + ')';
-    else ctx.fillStyle = 'rgba(164,127,255,' + alpha + ')';
+    var a  = 0.25 + 0.75 * (i / subset.length);
+    var c  = note._x === -1 ? [255, 255, 255] : note._x === 1 ? [180, 180, 180] : [100, 100, 100];
+    ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')';
     ctx.beginPath();
-    ctx.arc(px, py, 3, 0, Math.PI * 2);
+    ctx.arc(px, py, 2.5, 0, Math.PI * 2);
     ctx.fill();
   });
 }
 
-async function sendToDiscord(title, artist, mapper, noteCount, bpm, duration) {
-  var embed = {
-    embeds: [{
-      title: '🎵 Nouvelle map générée : ' + title,
-      color: 0x7c5aff,
-      fields: [
-        { name: '🎤 Artiste', value: artist, inline: true },
-        { name: '🗺️ Mapper', value: mapper, inline: true },
-        { name: '\u200b', value: '\u200b', inline: true },
-        { name: '🎯 Notes', value: String(noteCount), inline: true },
-        { name: '🥁 BPM estimé', value: String(bpm), inline: true },
-        { name: '⏱️ Durée', value: duration + 's', inline: true }
-      ],
-      footer: { text: 'Rhythia Map Generator' },
-      timestamp: new Date().toISOString()
-    }]
+// ── DISCORD WEBHOOK — Components V2 ─────────────────────────────────────────
+async function sendToDiscord(title, artist, mapper, noteCount, bpm, duration, zipBlob, zipName) {
+  var diffLabels = { E: 'Easy', M: 'Medium', H: 'Hard', L: 'Lunatic' };
+  // currentDiff est défini dans index.html ; on le lit si disponible
+  var diff = (typeof currentDiff !== 'undefined' && diffLabels[currentDiff]) ? diffLabels[currentDiff] : 'Medium';
+  var date = new Date().toLocaleDateString('fr-FR');
+
+  // Discord Components V2 — flag 32 = IS_COMPONENTS_V2
+  var payload = {
+    flags: 32,
+    components: [
+      {
+        type: 10,
+        content: '## ' + title
+      },
+      {
+        type: 14,
+        divider: true,
+        spacing: 1
+      },
+      {
+        type: 17,
+        accent_color: 0xffffff,
+        components: [
+          {
+            type: 10,
+            content: '**Informations de la map**'
+          },
+          {
+            type: 10,
+            content: [
+              '**Artiste** — ' + artist,
+              '**Mapper** — ' + mapper,
+              '**Difficulté** — ' + diff,
+              '**Notes** — ' + noteCount,
+              '**BPM estimé** — ' + bpm,
+              '**Durée** — ' + duration + 's'
+            ].join('\n')
+          },
+          {
+            type: 14,
+            divider: true,
+            spacing: 1
+          },
+          {
+            type: 10,
+            content: 'Le fichier ZIP de la map est joint ci-dessous.'
+          },
+          {
+            type: 1,
+            components: [
+              {
+                type: 2,
+                style: 5,
+                label: 'Ouvrir Rhythia Map Generator',
+                url: 'https://rhythia-map-generator.vercel.app'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        type: 14,
+        divider: false,
+        spacing: 1
+      },
+      {
+        type: 10,
+        content: '-# Charta • ' + date
+      }
+    ]
   };
 
+  var form = new FormData();
+  form.append('payload_json', JSON.stringify(payload));
+  form.append('files[0]', zipBlob, zipName);
+
+  var ds = document.getElementById('discordStatus');
+  var dt = document.getElementById('dsText');
+
   try {
-    var res = await fetch(DISCORD_WEBHOOK, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(embed)
-    });
-
-    var dsStatus = document.getElementById('discordStatus');
-    var dsText = document.getElementById('dsText');
-
+    var res = await fetch(DISCORD_WEBHOOK, { method: 'POST', body: form });
+    ds.style.display = 'flex';
     if (res.ok) {
-      dsText.textContent = '◆ Map envoyée sur Discord !';
-      dsStatus.style.display = 'flex';
+      dt.textContent = 'Map + ZIP envoyés sur Discord';
     } else {
-      dsText.textContent = '◆ Discord : erreur ' + res.status;
-      dsStatus.style.display = 'flex';
-      dsStatus.style.borderColor = 'rgba(226,75,74,0.3)';
-      dsStatus.style.background = 'rgba(226,75,74,0.08)';
-      dsText.style.color = '#e24b4a';
+      dt.textContent = 'Erreur Discord : ' + res.status;
+      dt.style.color = 'var(--w3)';
     }
   } catch (e) {
-    var dsStatus = document.getElementById('discordStatus');
-    document.getElementById('dsText').textContent = '◆ Discord : impossible de joindre le webhook';
-    dsStatus.style.display = 'flex';
+    ds.style.display = 'flex';
+    dt.textContent = 'Discord : webhook injoignable';
   }
 }
 
+// ── TÉLÉCHARGEMENT ZIP ───────────────────────────────────────────────────────
 async function downloadZip() {
   if (!generatedData) return;
 
   var zip = new JSZip();
   zip.file('official.json', JSON.stringify(generatedData.official, null, 2));
-  zip.file('meta.json', JSON.stringify(generatedData.meta, null, 2));
+  zip.file('meta.json',     JSON.stringify(generatedData.meta,     null, 2));
   zip.file(generatedData.mp3File.name, generatedData.mp3File);
 
   var blob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE' });
-  var url = URL.createObjectURL(blob);
-  var a = document.createElement('a');
-  a.href = url;
+  var url  = URL.createObjectURL(blob);
+  var a    = document.createElement('a');
+  a.href     = url;
   a.download = (generatedData.title || 'map').replace(/\s+/g, '_') + '_rhythia.zip';
   document.body.appendChild(a);
   a.click();
